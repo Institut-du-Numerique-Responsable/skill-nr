@@ -27,6 +27,13 @@ Applique ces règles à tout code serveur que tu écris ou modifies. Référence
 - Pas de tâche planifiée à haute fréquence pour vérifier un état : préfère un déclenchement événementiel.
 - Pour les usages d'IA : n'appelle un modèle que si un traitement déterministe ne suffit pas, choisis le modèle le plus petit adapté à la tâche, mets en cache les réponses répétitives.
 
+## Spécifique JavaScript/TypeScript côté serveur (Node.js)
+
+- Streame les gros volumes (`stream`, `pipeline`) au lieu de charger fichiers ou réponses entiers en mémoire.
+- Ne bloque jamais l'event loop : pas de traitement CPU lourd en ligne (déporte en `worker_threads`), pas d'API synchrone (`fs.readFileSync`…) sur un chemin de requête.
+- Réutilise les connexions HTTP sortantes (agent keep-alive) et les pools de connexions base de données.
+- Sobriété des dépendances : préfère les API natives (`fetch`, `Intl`, `crypto`) aux librairies équivalentes ; surveille le poids ajouté à `node_modules` et au bundle.
+
 ## Ressources et infrastructure
 
 - Dimensionne les ressources au besoin réel : pas de sur-provisionnement par défaut, prévois l'extinction ou la mise à l'échelle à zéro des environnements hors production.

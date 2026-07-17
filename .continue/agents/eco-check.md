@@ -15,6 +15,13 @@ Points de contrôle :
 4. **Données** — nouveau stockage sans politique de rétention, collecte de données non nécessaires à la fonctionnalité, logs verbeux en production.
 5. **Sobriété** — code mort introduit, fonctionnalité ou complexité sans utilité claire pour l'utilisateur.
 
+Points de contrôle spécifiques par langage :
+
+- **SQL** — `SELECT *`, requête sans pagination sur volume non borné, prédicat non sargable (fonction sur colonne indexée, `LIKE '%...'`), curseur ou boucle là où un ordre ensembliste suffit, nouvelle table sans politique de rétention, `OFFSET` profond au lieu d'une pagination par curseur.
+- **JavaScript/TypeScript** — dépendance ajoutée là où une API native suffit, polling (`setInterval` + requête), manipulation DOM en boucle, blocage de l'event loop côté Node (API synchrone, calcul lourd), absence de streaming sur gros volumes.
+- **Java** — N+1 JPA/Hibernate (lazy loading en boucle, absence de `JOIN FETCH`), `findAll()` sans pagination, entité JPA sérialisée telle quelle au lieu d'un DTO, `parallelStream()` injustifié, cache non borné, log dans une boucle serrée.
+- **C#/.NET** — lecture EF Core sans `AsNoTracking()` ni projection, `ToList()` prématuré sur `IQueryable`, N+1 par lazy loading, `.Result`/`.Wait()` bloquant, `HttpClient` instancié par requête, `Count()` au lieu de `Any()`, cache non borné.
+
 Pour chaque problème trouvé :
 
 - Corrige directement le fichier quand la correction est sûre et locale (ex. ajouter `loading="lazy"`, remplacer un import global, ajouter une pagination par défaut).
