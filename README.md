@@ -68,6 +68,9 @@ volontairement non sobre, puis `cn review --review-agents .continue/agents/eco-c
 ## Référentiels utilisés
 
 - **RGESN v2** (ARCEP/ARCOM/ADEME, 2024) — Référentiel général d'écoconception de services numériques, 78 critères en 9 thématiques.
-- **GR491** (INR) — Guide de référence de conception responsable de services numériques.
+- **GR491** (INR) — 8 familles, 61 recommandations, 516 critères ; extraction des recommandations avec identifiants dans `referentiels/gr491.md`.
+- **Opquast** — checklist « Assurance qualité numérique » (CC BY-SA) ; les 35 règles taguées écoconception (phases conception/développement/éditorial) sont extraites dans `referentiels/opquast-ecoconception.md` et portées par la règle `.continue/rules/qualite-web-opquast.md`.
 - **RGAA 4** — Référentiel général d'amélioration de l'accessibilité.
 - **RGPD** — minimisation des données (art. 5).
+
+Les règles `.continue/rules/` citent les identifiants (GR491_xxx, Opquast n°xxx) pour tracer chaque consigne vers sa source.

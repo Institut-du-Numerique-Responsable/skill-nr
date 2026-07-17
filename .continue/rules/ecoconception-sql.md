@@ -6,7 +6,7 @@ globs: "**/*.sql"
 
 # Règles d'écoconception — SQL
 
-Applique ces règles à tout SQL que tu écris ou modifies (requêtes, procédures stockées, migrations). Références : RGESN v2 (Backend, Architecture) et GR491.
+Applique ces règles à tout SQL que tu écris ou modifies (requêtes, procédures stockées, migrations). Références : RGESN v2 (Backend, Architecture) et GR491 (GR491_Backend_1, GR491_Architecture_3/5 — voir `referentiels/gr491.md`).
 
 ## Lectures sobres
 

@@ -6,7 +6,7 @@ globs: "**/*.{js,ts,py,java,go,rb,php,sql,kt,cs}"
 
 # Règles d'écoconception — Backend, API et données
 
-Applique ces règles à tout code serveur que tu écris ou modifies. Références : RGESN v2 (thématiques Architecture, Backend, Hébergement, Algorithmie) et GR491.
+Applique ces règles à tout code serveur que tu écris ou modifies. Références : RGESN v2 (thématiques Architecture, Backend, Hébergement, Algorithmie) et GR491 (GR491_Backend_1/3/4, GR491_Architecture_3/5 — voir `referentiels/gr491.md`).
 
 ## API et transferts
 

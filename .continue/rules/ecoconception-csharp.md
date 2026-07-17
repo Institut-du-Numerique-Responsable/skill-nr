@@ -6,7 +6,7 @@ globs: "**/*.cs"
 
 # Règles d'écoconception — C# / .NET
 
-Applique ces règles à tout code C# que tu écris ou modifies. Références : RGESN v2 (Backend, Algorithmie) et GR491.
+Applique ces règles à tout code C# que tu écris ou modifies. Références : RGESN v2 (Backend, Algorithmie) et GR491 (GR491_Backend_2/3/4 — voir `referentiels/gr491.md`).
 
 ## Accès aux données (Entity Framework Core / ADO.NET)
 

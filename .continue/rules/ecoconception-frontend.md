@@ -6,7 +6,7 @@ globs: "**/*.{html,css,scss,js,jsx,ts,tsx,vue,svelte}"
 
 # Règles d'écoconception — Frontend
 
-Applique ces règles à tout code frontend que tu écris ou modifies. Références : RGESN v2 (thématiques UX/UI, Contenus, Frontend) et GR491.
+Applique ces règles à tout code frontend que tu écris ou modifies. Références : RGESN v2 (thématiques UX/UI, Contenus, Frontend) et GR491 (GR491_Frontend_4/5/9/10, GR491_Contenus_2/3, GR491_UXUI_5/8 — voir `referentiels/gr491.md`).
 
 ## Poids et requêtes
 
