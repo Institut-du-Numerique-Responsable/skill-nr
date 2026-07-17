@@ -7,7 +7,8 @@ Skills Continue (continue.dev) pour l'écoconception / numérique responsable. T
 - `.continue/rules/numerique-responsable.md` — transverse (alwaysApply) : RGAA, RGPD, durabilité
 - `.continue/rules/ecoconception-frontend.md` — HTML/CSS/JS navigateur (globs web)
 - `.continue/rules/ecoconception-backend.md` — principes API/données tous langages + section Node.js
-- `.continue/rules/ecoconception-{sql,java,csharp}.md` — anti-patterns par langage (globs *.sql / *.java / *.cs)
+- `.continue/rules/ecoconception-{sql,java,csharp,python,php,ruby,rust,c,cpp,javascript}.md` — anti-patterns par langage (globs) ; sql couvre aussi PL/SQL ; javascript couvre JS+TS navigateur et Node (la section Node a été retirée de backend)
+- `LICENSE.md` (CC BY-SA 4.0, attributions Opquast/GR491) + `CONTRIBUTING.md` — préparation publication GitHub
 - `.continue/rules/qualite-web-opquast.md` — 35 règles Opquast écoconception (globs web)
 - `.continue/agents/eco-check.md` — agent revue écoconception (cn review) ; frontmatter name obligatoire
 - `.continue/agents/accessibilite-check.md` — agent revue RGAA

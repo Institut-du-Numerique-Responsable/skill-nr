@@ -1,0 +1,29 @@
+---
+name: Écoconception PHP
+description: Règles d'écoconception pour le code PHP — ORM sobre, générateurs, OPcache, connexions réutilisées
+globs: "**/*.php"
+---
+
+# Règles d'écoconception — PHP
+
+Applique ces règles à tout code PHP que tu écris ou modifies. Références : RGESN v2 (Backend, Algorithmie) et GR491 (GR491_Backend_2/3/4 — voir `referentiels/gr491.md`).
+
+## Accès aux données (Doctrine / Eloquent / PDO)
+
+- Traque le N+1 : `with()` (Eloquent) ou jointures/`fetch join` (Doctrine) sur les associations parcourues, jamais de lazy loading en boucle.
+- Projette les colonnes utiles (`select([...])`, DQL partiel) plutôt que des entités complètes hydratées.
+- Gros volumes par lots : `chunk()`/`cursor()` (Eloquent), `iterate()`/`toIterable()` (Doctrine), jamais de `->get()`/`findAll()` sur une table non bornée ; pagine toute liste exposée.
+- Écritures en masse : `insert()` multi-lignes, `upsert()`, pas de `save()` en boucle ; `exists()` plutôt que `count() > 0`.
+
+## Mémoire et flux
+
+- Générateurs (`yield`) pour produire et consommer de grandes séquences sans tableau intermédiaire.
+- Fichiers lus en flux (`fopen` + lecture par blocs), jamais `file_get_contents` sur un gros fichier ; `fputcsv`/streams pour les exports.
+- Recherche d'appartenance par clés de tableau (`isset($index[$k])`), pas `in_array` répété sur un grand tableau.
+
+## Exécution et infrastructure
+
+- OPcache activé en production ; autoload optimisé (`composer dump-autoload -o`) ; pas de dépendance Composer ajoutée quand une fonction native suffit.
+- Réutilise les connexions : client HTTP partagé (Guzzle injecté), connexions PDO persistantes ou pool selon la plateforme.
+- Tout cache est borné et expirant (APCu, Redis avec TTL) — jamais de cache fichier qui grossit sans purge.
+- Logging sobre en production : pas de log dans les boucles, niveaux INFO et au-dessus.

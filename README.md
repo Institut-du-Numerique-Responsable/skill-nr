@@ -1,6 +1,14 @@
-# BPCE — Skills Numérique Responsable pour Continue
+# Règles Numérique Responsable pour Continue
 
-Développement de règles et d'agents [Continue](https://continue.dev) pour améliorer la mise en œuvre des règles d'écoconception (RGESN, GR491) et de numérique responsable (RGAA, RGPD) dans les projets de développement.
+Règles et agents [Continue](https://continue.dev) pour appliquer l'écoconception (RGESN, GR491, Opquast) et le numérique responsable (RGAA, RGPD) directement dans le flux de développement assisté par IA.
+
+**Langages couverts** : SQL/PL-SQL, HTML, CSS, JavaScript, TypeScript, Java, C#, Python, PHP, Ruby, Rust, C, C++ — chaque règle ne s'active que sur les fichiers de son langage (`globs`).
+
+**Deux mécanismes complémentaires** :
+- les **règles** (`.continue/rules/`) orientent le code que l'IA génère — prévention ;
+- les **agents** (`.continue/agents/`) relisent les diffs sous l'angle écoconception et accessibilité — contrôle.
+
+Licence : CC BY-SA 4.0 (voir [LICENSE.md](LICENSE.md)) · Contributions : [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ## Documentation
 

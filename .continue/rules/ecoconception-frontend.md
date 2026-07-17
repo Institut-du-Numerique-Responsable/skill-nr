@@ -21,10 +21,20 @@ Applique ces règles à tout code frontend que tu écris ou modifies. Référenc
 - Jamais de vidéo en lecture automatique. Toujours une affiche (`poster`) et un chargement à la demande.
 - Préfère SVG ou CSS aux images matricielles pour les icônes et décorations.
 
-## Polices et CSS
+## HTML et DOM
+
+- HTML sémantique et minimal : pas de `div` d'enrobage sans rôle, vise un DOM peu profond (au-delà de ~1 500 nœuds ou 32 niveaux, restructure).
+- De vrais éléments natifs (`button`, `a`, `details`, `dialog`, `select`) plutôt que des reconstructions en `div` + JS : moins de code, accessible d'office (Opquast n°245 pour les tableaux).
+- Les `iframe` et widgets tiers (cartes, vidéos, réseaux sociaux) se chargent à la demande (façade cliquable), jamais au chargement initial.
+- Renseigne `width`/`height` sur images et médias pour éviter les recalculs de mise en page (layout shifts).
+
+## CSS et polices
 
 - Maximum 2 familles de polices, formats WOFF2 uniquement, `font-display: swap`, sous-ensembles de caractères (subsetting) quand c'est possible. Préfère les polices système.
+- CSS livré minimal : pas de framework CSS entier pour quelques composants (purge/extraction du CSS réellement utilisé), pas de `@import` en cascade dans les feuilles.
+- Anime uniquement `transform` et `opacity` (composées par le GPU), jamais des propriétés de layout (`top`, `width`…) ; `will-change` avec parcimonie.
 - Évite les animations continues (GIF animés, boucles CSS infinies) ; respecte `prefers-reduced-motion`.
+- Prévois des styles d'impression sobres (Opquast n°195-196 : contenu imprimable sans blocs de navigation).
 
 ## Rendu et exécution
 
