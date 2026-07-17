@@ -20,6 +20,8 @@ Skills Continue (continue.dev) pour l'écoconception / numérique responsable. T
 - `docs/guide-developpeur.md`, `docs/guide-deploiement.md`, `docs/developper-un-skill.md`
 - `continue/` — clone amont (gitignoré), utile pour la doc : `continue/docs/`
 
+- `adaptations/{claude-code,gemini-cli,opencode,mistral-vibe}/` — GÉNÉRÉS par `scripts/generer-adaptations.py` depuis .continue/ (ne jamais éditer à la main)
+
 ## Points durs (ne pas redécouvrir)
 
 - CLI `cn` v1.5.47 : pas de `cn login`/Hub ; la commande de revue est `cn review --review-agents <fichier>` ; applique les fixes au working tree ; rapport visible seulement en TTY
