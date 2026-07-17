@@ -16,26 +16,48 @@ Développement de règles et d'agents [Continue](https://continue.dev) pour amé
 - CLI Continue : `npm install -g @continuedev/cli` (installée : commande `cn`)
 - Optionnel : extension Continue pour VS Code ou JetBrains (marketplace), qui lit les mêmes fichiers `.continue/`
 
+## Configuration du modèle (sans API payante)
+
+La CLI publiée (testée en v1.5.47) ne propose plus `cn login` vers le Hub, contrairement à sa doc.
+Elle est configurée ici sur un modèle **local via Ollama** (gratuit, aucune donnée ne sort du poste)
+dans `~/.continue/config.yaml` :
+
+```yaml
+name: BPCE local (Ollama)
+version: 0.0.1
+schema: v1
+models:
+  - name: Qwen3 Coder (local)
+    provider: ollama
+    model: qwen3-coder:latest
+    roles: [chat, edit, apply]
+```
+
+L'extension IDE (VS Code/JetBrains), elle, garde la connexion Hub et son offre gratuite,
+et lit le même `.continue/rules/`.
+
 ## Utilisation
 
 ### 1. Chat / génération de code avec les règles actives
 
 ```bash
 cn        # session interactive dans ce répertoire ; les règles .continue/rules/ sont chargées
-cn login  # authentification (une seule fois) pour accéder aux modèles via le Hub Continue
 ```
 
-Il est aussi possible de configurer ses propres clés de modèles dans `~/.continue/config.yaml` (voir la doc `continue/docs/`).
+### 2. Revue d'un diff (écoconception / accessibilité)
 
-### 2. Vérification d'un diff (revue écoconception / accessibilité)
-
-Dans un projet git contenant des changements :
+Dans un projet git contenant des changements non commités (testé et validé le 17/07/2026
+avec qwen3-coder local — la commande est `cn review`, pas `cn check` comme l'indique
+l'ancienne doc) :
 
 ```bash
-cn check --agent .continue/agents/eco-check.md
-cn check --agent .continue/agents/accessibilite-check.md
-cn check --fix    # applique directement les corrections proposées
+cn review --review-agents .continue/agents/eco-check.md
+cn review --review-agents .continue/agents/accessibilite-check.md --verbose
+cn review --fix    # applique directement les corrections proposées
 ```
+
+Pour rejouer le test de référence : `git checkout test-eco -- exemples/` ramène une page
+volontairement non sobre, puis `cn review --review-agents .continue/agents/eco-check.md --verbose`.
 
 ### 3. Développer un nouveau skill
 
@@ -46,6 +68,9 @@ cn check --fix    # applique directement les corrections proposées
 ## Référentiels utilisés
 
 - **RGESN v2** (ARCEP/ARCOM/ADEME, 2024) — Référentiel général d'écoconception de services numériques, 78 critères en 9 thématiques.
-- **GR491** (INR) — Guide de référence de conception responsable de services numériques.
+- **GR491** (INR) — 8 familles, 61 recommandations, 516 critères ; extraction des recommandations avec identifiants dans `referentiels/gr491.md`.
+- **Opquast** — checklist « Assurance qualité numérique » (CC BY-SA) ; les 35 règles taguées écoconception (phases conception/développement/éditorial) sont extraites dans `referentiels/opquast-ecoconception.md` et portées par la règle `.continue/rules/qualite-web-opquast.md`.
 - **RGAA 4** — Référentiel général d'amélioration de l'accessibilité.
 - **RGPD** — minimisation des données (art. 5).
+
+Les règles `.continue/rules/` citent les identifiants (GR491_xxx, Opquast n°xxx) pour tracer chaque consigne vers sa source.

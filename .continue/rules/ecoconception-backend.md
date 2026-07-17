@@ -6,7 +6,7 @@ globs: "**/*.{js,ts,py,java,go,rb,php,sql,kt,cs}"
 
 # Règles d'écoconception — Backend, API et données
 
-Applique ces règles à tout code serveur que tu écris ou modifies. Références : RGESN v2 (thématiques Architecture, Backend, Hébergement, Algorithmie) et GR491.
+Applique ces règles à tout code serveur que tu écris ou modifies. Références : RGESN v2 (thématiques Architecture, Backend, Hébergement, Algorithmie) et GR491 (GR491_Backend_1/3/4, GR491_Architecture_3/5 — voir `referentiels/gr491.md`).
 
 ## API et transferts
 
@@ -26,6 +26,13 @@ Applique ces règles à tout code serveur que tu écris ou modifies. Référence
 - Les traitements par lots (batch) doivent être planifiés en heures creuses quand c'est possible et être idempotents pour éviter les ré-exécutions complètes.
 - Pas de tâche planifiée à haute fréquence pour vérifier un état : préfère un déclenchement événementiel.
 - Pour les usages d'IA : n'appelle un modèle que si un traitement déterministe ne suffit pas, choisis le modèle le plus petit adapté à la tâche, mets en cache les réponses répétitives.
+
+## Spécifique JavaScript/TypeScript côté serveur (Node.js)
+
+- Streame les gros volumes (`stream`, `pipeline`) au lieu de charger fichiers ou réponses entiers en mémoire.
+- Ne bloque jamais l'event loop : pas de traitement CPU lourd en ligne (déporte en `worker_threads`), pas d'API synchrone (`fs.readFileSync`…) sur un chemin de requête.
+- Réutilise les connexions HTTP sortantes (agent keep-alive) et les pools de connexions base de données.
+- Sobriété des dépendances : préfère les API natives (`fetch`, `Intl`, `crypto`) aux librairies équivalentes ; surveille le poids ajouté à `node_modules` et au bundle.
 
 ## Ressources et infrastructure
 
