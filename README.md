@@ -2,13 +2,22 @@
 
 Développement de règles et d'agents [Continue](https://continue.dev) pour améliorer la mise en œuvre des règles d'écoconception (RGESN, GR491) et de numérique responsable (RGAA, RGPD) dans les projets de développement.
 
+## Documentation
+
+- [Guide développeur](docs/guide-developpeur.md) — installer, utiliser au quotidien, lancer une revue, dépanner.
+- [Guide de déploiement](docs/guide-deploiement.md) — diffuser les skills aux équipes (git, Hub, CI), choix des modèles, licences.
+- [Développer un skill](docs/developper-un-skill.md) — écrire une règle ou un agent, les tester, pièges connus.
+
 ## Contenu du dépôt
 
 | Chemin | Rôle |
 | --- | --- |
-| `.continue/rules/` | Règles injectées dans le contexte de l'IA (extension IDE et CLI). Elles orientent le code généré : sobriété, accessibilité, protection des données. |
-| `.continue/agents/` | Agents de vérification exécutés par `cn check` sur un diff : écoconception et accessibilité. |
+| `.continue/rules/` | Règles injectées dans le contexte de l'IA (extension IDE et CLI). Elles orientent le code généré : sobriété, accessibilité, protection des données. Ciblées par langage (SQL, JavaScript, Java, C#) via `globs`. |
+| `.continue/agents/` | Agents de revue de diff exécutés par `cn review` : écoconception et accessibilité. |
+| `referentiels/` | Extractions sourcées des référentiels (GR491, Opquast) avec identifiants cités par les règles. |
+| `docs/` | Guides développeur, déploiement et contribution. |
 | `continue/` | Clone des sources de Continue (référence et documentation, non versionné ici — voir `.gitignore`). |
+| branche `test-eco` | Fichiers pièges (`exemples/`) pour valider les agents après chaque évolution des règles. |
 
 ## Prérequis
 
