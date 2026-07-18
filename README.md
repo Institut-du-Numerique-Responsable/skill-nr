@@ -8,7 +8,7 @@ Règles et agents [Continue](https://continue.dev) pour appliquer l'écoconcepti
 - les **règles** (`.continue/rules/`) orientent le code que l'IA génère — prévention ;
 - les **agents** (`.continue/agents/`) relisent les diffs sous l'angle écoconception et accessibilité — contrôle.
 
-**Autres assistants** : les règles sont aussi déclinées (générées depuis la même source) pour **Claude Code**, **Gemini CLI**, **OpenCode** et **Mistral Vibe** — voir [adaptations/](adaptations/README.md).
+**Autres assistants** : les règles sont aussi déclinées (générées depuis la même source) pour **Claude Code**, **Gemini CLI**, **OpenCode**, **Mistral Vibe**, **OpenAI Codex** (via `AGENTS.md`) et **ChatGPT** (GPT personnalisé : instructions + fichiers de connaissances) — voir [adaptations/](adaptations/README.md).
 
 Licence : CC BY-SA 4.0 (voir [LICENSE.md](LICENSE.md)) · Contributions : [CONTRIBUTING.md](CONTRIBUTING.md)
 

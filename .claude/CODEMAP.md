@@ -20,7 +20,7 @@ Skills Continue (continue.dev) pour l'écoconception / numérique responsable. T
 - `docs/guide-developpeur.md`, `docs/guide-deploiement.md`, `docs/developper-un-skill.md`
 - `continue/` — clone amont (gitignoré), utile pour la doc : `continue/docs/`
 
-- `adaptations/{claude-code,gemini-cli,opencode,mistral-vibe}/` — GÉNÉRÉS par `scripts/generer-adaptations.py` depuis .continue/ (ne jamais éditer à la main)
+- `adaptations/{claude-code,gemini-cli,opencode,mistral-vibe,chatgpt}/` — GÉNÉRÉS par `scripts/generer-adaptations.py` depuis .continue/ (ne jamais éditer à la main)
 
 ## Points durs (ne pas redécouvrir)
 

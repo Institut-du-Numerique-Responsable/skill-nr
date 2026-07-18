@@ -181,6 +181,57 @@ def generer():
     (mv / ".vibe" / "prompts" / "eco-check.md").write_text(AVERTISSEMENT + eco + "\n", encoding="utf-8")
     (mv / ".vibe" / "prompts" / "accessibilite-check.md").write_text(AVERTISSEMENT + a11y + "\n", encoding="utf-8")
 
+    # ---- ChatGPT : GPT personnalisé (instructions condensées + connaissances) ----
+    cg = OUT / "chatgpt"
+    (cg / "connaissances").mkdir(parents=True, exist_ok=True)
+
+    index_langages = "\n".join(
+        f"- `{lire_regle(slug)[0] or 'tous les fichiers'}` → section « {slug} »"
+        for slug in ORDRE
+    )
+    instructions = f"""Tu es un assistant de développement spécialisé en écoconception et
+numérique responsable (référentiels français : RGESN v2, GR491/INR, Opquast, RGAA 4, RGPD).
+
+Pour TOUT code que tu écris, modifies ou relis, applique les règles du fichier de
+connaissances `regles-nr-completes.md` : repère le langage du fichier concerné et
+applique la section correspondante. Cite le critère source (RGESN x.x, GR491_xxx,
+Opquast n°xxx) quand tu appliques une règle.
+
+Index des sections par type de fichier :
+{index_langages}
+
+Principes toujours actifs, quel que soit le langage :
+- Sobriété des dépendances : API natives d'abord ; toute librairie ajoutée se justifie.
+- Données : ne renvoyer/collecter/stocker que le nécessaire ; pagination systématique
+  des collections ; politique de rétention pour tout nouveau stockage ; jamais de secret
+  en dur.
+- Requêtes : pas de N+1, pas de SELECT *, projections ciblées, index vérifiés.
+- Flux : streaming pour les gros volumes, jamais de chargement entier en mémoire.
+- Exécution : pas de polling ni d'attente active ; caches bornés et expirants ;
+  pas de traitement quadratique sur des collections non bornées.
+- Web : HTML sémantique et accessible (RGAA), images lazy + formats modernes, médias
+  déclenchés par l'utilisateur, compression et cache HTTP.
+- Logs sobres en production ; pas de log en boucle serrée.
+- Sobriété fonctionnelle : signale toute fonctionnalité ou complexité superflue et
+  propose une alternative plus simple.
+
+Pour une revue de diff : applique la méthode du fichier de connaissances
+`revue-ecoconception.md` (et `revue-accessibilite.md` pour l'interface) au diff fourni,
+et rends un verdict par point de contrôle avec le critère cité.
+"""
+    (cg / "instructions-gpt.md").write_text(instructions, encoding="utf-8")
+    assert len(instructions) < 8000, "Instructions GPT > 8000 caractères"
+
+    (cg / "connaissances" / "regles-nr-completes.md").write_text(
+        AVERTISSEMENT + PREAMBULE + regles + "\n", encoding="utf-8"
+    )
+    (cg / "connaissances" / "revue-ecoconception.md").write_text(AVERTISSEMENT + eco + "\n", encoding="utf-8")
+    (cg / "connaissances" / "revue-accessibilite.md").write_text(AVERTISSEMENT + a11y + "\n", encoding="utf-8")
+    for ref in ("gr491.md", "opquast-ecoconception.md"):
+        (cg / "connaissances" / ref).write_text(
+            (RACINE / "referentiels" / ref).read_text(encoding="utf-8"), encoding="utf-8"
+        )
+
     for f in sorted(OUT.rglob("*")):
         if f.is_file():
             print(f"  {f.relative_to(RACINE)}  ({f.stat().st_size} o)")

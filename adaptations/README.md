@@ -19,9 +19,26 @@ Copiez le contenu du sous-dossier correspondant à la racine de votre projet :
 | **Gemini CLI** | `gemini-cli/GEMINI.md` + `gemini-cli/.gemini/commands/` | `/eco-check` et `/accessibilite-check` (le diff est injecté automatiquement) |
 | **OpenCode** | `opencode/AGENTS.md` + `opencode/.opencode/agent/` | mentionner l'agent `eco-check` (mode subagent) |
 | **Mistral Vibe** | `mistral-vibe/AGENTS.md` + `mistral-vibe/.vibe/` | `vibe --agent eco-check` (ajustez `active_model` dans les `.toml`) |
+| **ChatGPT** | voir ci-dessous (GPT personnalisé) | demander une revue du diff collé, méthode `revue-ecoconception.md` |
 
 `AGENTS.md` étant un standard partagé, la version OpenCode/Mistral Vibe est aussi lisible
-par les autres outils qui l'adoptent.
+par les autres outils qui l'adoptent — y compris **OpenAI Codex** (CLI/IDE), qui lit
+`AGENTS.md` nativement : pour Codex, copiez simplement `opencode/AGENTS.md` à la racine.
+
+## Cas particulier ChatGPT (GPT personnalisé)
+
+Les instructions d'un GPT sont limitées à ~8 000 caractères : impossible d'y mettre les
+règles complètes. Le dossier `chatgpt/` fournit donc deux étages :
+
+1. **`instructions-gpt.md`** (~2,5 Ko) — à coller dans les *Instructions* du GPT
+   (ChatGPT → Explorer les GPT → Créer) ou d'un *Projet* : principes toujours actifs +
+   index des sections par langage.
+2. **`connaissances/`** — les 5 fichiers à téléverser dans *Connaissances* (Knowledge)
+   du GPT : règles complètes, méthodes de revue écoconception et accessibilité,
+   extraction GR491 et Opquast. Le GPT y pioche la section du langage concerné.
+
+Partagez ensuite le GPT à l'organisation (lien interne). Nécessite ChatGPT Plus/Team/
+Enterprise pour la création.
 
 ## Différence avec la version Continue
 
