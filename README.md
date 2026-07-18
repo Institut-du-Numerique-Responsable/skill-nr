@@ -22,9 +22,11 @@ Licence : CC BY-SA 4.0 (voir [LICENSE.md](LICENSE.md)) · Contributions : [CONTR
 
 | Chemin | Rôle |
 | --- | --- |
-| `.continue/rules/` | Règles injectées dans le contexte de l'IA (extension IDE et CLI). Elles orientent le code généré : sobriété, accessibilité, protection des données. Ciblées par langage (SQL, JavaScript, Java, C#) via `globs`. |
+| `.continue/rules/` | Règles injectées dans le contexte de l'IA (extension IDE et CLI). Elles orientent le code généré : sobriété, accessibilité, protection des données. Ciblées par langage via `globs`. |
 | `.continue/agents/` | Agents de revue de diff exécutés par `cn review` : écoconception et accessibilité. |
 | `referentiels/` | Extractions sourcées des référentiels (GR491, Opquast) avec identifiants cités par les règles. |
+| `adaptations/` | Déclinaisons générées pour Claude Code, Gemini CLI, OpenCode, Mistral Vibe, Codex et ChatGPT. |
+| `scripts/` | `generer-adaptations.py` : régénère `adaptations/` depuis `.continue/` (source unique). |
 | `docs/` | Guides développeur, déploiement et contribution. |
 | `continue/` | Clone des sources de Continue (référence et documentation, non versionné ici — voir `.gitignore`). |
 | branche `test-eco` | Fichiers pièges (`exemples/`) pour valider les agents après chaque évolution des règles. |
@@ -81,8 +83,9 @@ volontairement non sobre, puis `cn review --review-agents .continue/agents/eco-c
 ### 3. Développer un nouveau skill
 
 1. Créer un fichier markdown dans `.continue/rules/` (règle de contexte, avec frontmatter `globs` pour cibler des types de fichiers) ou `.continue/agents/` (agent de vérification).
-2. Tester sur un diff réel avec `cn check --agent <fichier>`.
-3. Itérer sur la formulation : critères concrets, seuils mesurables, référence au critère RGESN/RGAA.
+2. Tester sur un diff réel avec `cn review --review-agents <fichier>` (voir la procédure complète dans [CONTRIBUTING.md](CONTRIBUTING.md)).
+3. Relancer `python3 scripts/generer-adaptations.py` pour synchroniser les adaptations.
+4. Itérer sur la formulation : critères concrets, seuils mesurables, référence au critère RGESN/RGAA.
 
 ## Référentiels utilisés
 
