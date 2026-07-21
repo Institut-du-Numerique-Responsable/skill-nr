@@ -182,6 +182,27 @@ def generer():
     (mv / ".vibe" / "prompts" / "eco-check.md").write_text(AVERTISSEMENT + eco + "\n", encoding="utf-8")
     (mv / ".vibe" / "prompts" / "accessibilite-check.md").write_text(AVERTISSEMENT + a11y + "\n", encoding="utf-8")
 
+    # ---- Kimi CLI : AGENTS.md + agents YAML + prompts ----
+    ki = OUT / "kimi-cli"
+    (ki / ".kimi" / "agents").mkdir(parents=True, exist_ok=True)
+    (ki / "AGENTS.md").write_text(AVERTISSEMENT + PREAMBULE + regles + "\n", encoding="utf-8")
+
+    def agent_kimi_yaml(nom: str) -> str:
+        return (
+            "# Généré par scripts/generer-adaptations.py — ne pas éditer à la main.\n"
+            "version: 1\n"
+            "agent:\n"
+            '  extend: "default"\n'
+            f"  system_prompt_path: ./{nom}.md\n"
+        )
+
+    (ki / ".kimi" / "agents" / "eco-check.yaml").write_text(agent_kimi_yaml("eco-check"), encoding="utf-8")
+    (ki / ".kimi" / "agents" / "accessibilite-check.yaml").write_text(
+        agent_kimi_yaml("accessibilite-check"), encoding="utf-8"
+    )
+    (ki / ".kimi" / "agents" / "eco-check.md").write_text(AVERTISSEMENT + eco + "\n", encoding="utf-8")
+    (ki / ".kimi" / "agents" / "accessibilite-check.md").write_text(AVERTISSEMENT + a11y + "\n", encoding="utf-8")
+
     # ---- ChatGPT : GPT personnalisé (instructions condensées + connaissances) ----
     cg = OUT / "chatgpt"
     (cg / "connaissances").mkdir(parents=True, exist_ok=True)

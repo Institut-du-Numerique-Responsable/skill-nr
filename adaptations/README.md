@@ -19,11 +19,27 @@ Copiez le contenu du sous-dossier correspondant à la racine de votre projet :
 | **Gemini CLI** | `gemini-cli/GEMINI.md` + `gemini-cli/.gemini/commands/` | `/eco-check` et `/accessibilite-check` (le diff est injecté automatiquement) |
 | **OpenCode** | `opencode/AGENTS.md` + `opencode/.opencode/agent/` | mentionner l'agent `eco-check` (mode subagent) |
 | **Mistral Vibe** | `mistral-vibe/AGENTS.md` + `mistral-vibe/.vibe/` | `vibe --agent eco-check` (ajustez `active_model` dans les `.toml`) |
+| **Kimi CLI** (Moonshot AI) | `kimi-cli/AGENTS.md` + `kimi-cli/.kimi/agents/` | `kimi --agent-file .kimi/agents/eco-check.yaml` |
 | **ChatGPT** | voir ci-dessous (GPT personnalisé) | demander une revue du diff collé, méthode `revue-ecoconception.md` |
 
-`AGENTS.md` étant un standard partagé, la version OpenCode/Mistral Vibe est aussi lisible
-par les autres outils qui l'adoptent — y compris **OpenAI Codex** (CLI/IDE), qui lit
-`AGENTS.md` nativement : pour Codex, copiez simplement `opencode/AGENTS.md` à la racine.
+`AGENTS.md` étant un standard partagé, la version OpenCode/Mistral Vibe/Kimi CLI est
+aussi lisible par les autres outils qui l'adoptent — y compris **OpenAI Codex** (CLI/IDE)
+et **ZCode** (harnais officiel de Z.ai pour GLM), qui lisent tous les deux `AGENTS.md`
+nativement : copiez simplement `opencode/AGENTS.md` à la racine pour l'un ou l'autre.
+
+## Cas non retenus : DeepSeek, GLM via un autre harnais
+
+**GLM** (Z.ai) se branche le plus souvent comme *provider* dans un outil déjà couvert
+ici (Claude Code, OpenCode, Cline…) : dans ce cas, aucune action nécessaire, les
+fichiers existants s'appliquent tels quels. Seul le harnais officiel ZCode (ci-dessus)
+justifiait une mention séparée, et il lit déjà notre `AGENTS.md`.
+
+**DeepSeek** n'a pas de harnais officiel unique avec un format de règles stabilisé —
+le paysage 2026 se partage entre un terminal propriétaire, un TUI communautaire non
+officiel et un usage en tant que modèle dans des outils déjà couverts (Claude Code,
+OpenCode, Cline via un endpoint compatible OpenAI). Dans ce dernier cas, nos fichiers
+existants s'appliquent aussi. Une déclinaison dédiée n'est pas retenue tant qu'aucun
+format ne se stabilise.
 
 ## Cas particulier ChatGPT (GPT personnalisé)
 

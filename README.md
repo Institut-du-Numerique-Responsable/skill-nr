@@ -7,7 +7,7 @@ quel qu'il soit.
 
 [![Licence](https://img.shields.io/badge/licence-CC%20BY--SA%204.0-2ea44f)](LICENSE.md)
 [![Langages couverts](https://img.shields.io/badge/langages-13-1b7a4a)](#langages-couverts)
-[![Assistants pris en charge](https://img.shields.io/badge/assistants%20IA-7-1b7a4a)](#assistants-pris-en-charge)
+[![Assistants pris en charge](https://img.shields.io/badge/assistants%20IA-8-1b7a4a)](#assistants-pris-en-charge)
 [![RGESN](https://img.shields.io/badge/RGESN-v2%20(78%20crit%C3%A8res)-0b6e4f)](https://ecoresponsable.numerique.gouv.fr/publications/referentiel-general-ecoconception/)
 [![GR491](https://img.shields.io/badge/GR491-61%20recommandations-0b6e4f)](https://gr491.isit-europe.org/)
 [![Opquast](https://img.shields.io/badge/Opquast-CC%20BY--SA-0b6e4f)](https://checklists.opquast.com/fr/qualite-numerique/)
@@ -22,7 +22,7 @@ Ce dépôt traduit quatre référentiels français de sobriété numérique — 
 IA de code : pas de PDF à lire, l'assistant applique la règle pendant qu'il écrit,
 et une revue de diff automatisée vérifie ce qui a été produit.
 
-Écrites une seule fois, ces règles sont **déclinées automatiquement pour 7 assistants** :
+Écrites une seule fois, ces règles sont **déclinées automatiquement pour 8 assistants** :
 il n'y a pas de version « officielle » et des adaptations bancales — chaque outil reçoit
 le format qu'il attend nativement, généré depuis une source commune.
 
@@ -36,6 +36,7 @@ le format qu'il attend nativement, généré depuis une source commune.
 | [OpenCode](https://opencode.ai) | `AGENTS.md` + `.opencode/agent/` | [adaptations/opencode](adaptations/opencode) |
 | [Mistral Vibe](https://docs.mistral.ai/vibe) | `AGENTS.md` + `.vibe/agents/` | [adaptations/mistral-vibe](adaptations/mistral-vibe) |
 | [OpenAI Codex](https://developers.openai.com/codex) | `AGENTS.md` (standard partagé) | [adaptations/opencode](adaptations/opencode) |
+| [Kimi CLI](https://github.com/MoonshotAI/kimi-cli) (Moonshot AI) | `AGENTS.md` + `.kimi/agents/` | [adaptations/kimi-cli](adaptations/kimi-cli) |
 | [ChatGPT](https://chatgpt.com) (GPT personnalisé) | instructions condensées + fichiers de connaissances | [adaptations/chatgpt](adaptations/chatgpt) |
 
 Tout le détail d'installation par outil est dans [adaptations/README.md](adaptations/README.md).
@@ -97,7 +98,7 @@ revue de diff, voir le [guide développeur](docs/guide-developpeur.md).
 | `.continue/rules/` | Règles source, ciblées par langage via `globs`. |
 | `.continue/agents/` | Agents de revue de diff (`eco-check`, `accessibilite-check`). |
 | `referentiels/` | Extractions sourcées (GR491, Opquast) avec identifiants cités par les règles. |
-| `adaptations/` | Déclinaisons générées pour les 6 autres assistants. |
+| `adaptations/` | Déclinaisons générées pour les 7 autres assistants. |
 | `scripts/generer-adaptations.py` | Régénère `adaptations/` depuis `.continue/` (source unique). |
 | `docs/` | Guides développeur, déploiement et contribution. |
 | branche `test-eco` | Fichiers pièges par langage pour valider les agents après chaque évolution des règles. |

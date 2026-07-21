@@ -21,7 +21,8 @@ Skills Continue (continue.dev) pour l'écoconception / numérique responsable. T
 - `docs/guide-developpeur.md`, `docs/guide-deploiement.md`, `docs/developper-un-skill.md`
 - `continue/` — clone amont (gitignoré), utile pour la doc : `continue/docs/`
 
-- `adaptations/{claude-code,gemini-cli,opencode,mistral-vibe,chatgpt}/` — GÉNÉRÉS par `scripts/generer-adaptations.py` depuis .continue/ (ne jamais éditer à la main)
+- `adaptations/{claude-code,gemini-cli,opencode,mistral-vibe,kimi-cli,chatgpt}/` — GÉNÉRÉS par `scripts/generer-adaptations.py` depuis .continue/ (ne jamais éditer à la main). Codex et ZCode (GLM) réutilisent tels quels le AGENTS.md d'opencode/kimi-cli (standard partagé) — pas de dossier dédié. DeepSeek non retenu (pas de harnais/format stabilisé, cf. adaptations/README.md).
+- `docs/index.html` (+ robots.txt, sitemap.xml) — page vitrine GitHub Pages, thème repris de green-claude (bleu #0a7190/#5ecbe0), déployée sur docs/ de main
 
 ## Points durs (ne pas redécouvrir)
 
