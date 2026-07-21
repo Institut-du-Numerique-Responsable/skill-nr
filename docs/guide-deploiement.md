@@ -1,7 +1,11 @@
 # Guide de déploiement — diffuser les skills aux équipes
 
 Ce guide s'adresse à l'équipe qui pilote la démarche numérique responsable.
-Trois canaux complémentaires, à activer dans cet ordre.
+Trois canaux complémentaires, à activer dans cet ordre. Il détaille le cas Continue
+(source de référence du dépôt) ; si votre équipe est sur un autre assistant, le
+canal 1 (dépôts de projet) et le canal 3 (CI) s'appliquent à l'identique en pointant
+sur le dossier de [adaptations/](../adaptations/README.md) correspondant plutôt que
+sur `.continue/`.
 
 ## 1. Par les dépôts de projet (démarrage — zéro friction)
 

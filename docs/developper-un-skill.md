@@ -76,6 +76,20 @@ Vérifiez : les écarts attendus sont-ils détectés ? corrigés correctement ? 
 source est-il cité ? Si vous ajoutez une consigne à une règle, ajoutez le piège
 correspondant dans `exemples/` sur `test-eco`.
 
+## Propager le changement aux 7 autres assistants
+
+`.continue/rules/` et `.continue/agents/` sont la source unique : toute modification
+doit être répercutée dans `adaptations/` (Claude Code, Gemini CLI, OpenCode, Mistral
+Vibe, Kimi CLI, Codex, ChatGPT) avant de commiter.
+
+```bash
+python3 scripts/generer-adaptations.py
+```
+
+N'éditez jamais un fichier sous `adaptations/` directement — il serait écrasé au
+prochain lancement du script et divergerait silencieusement de la source à la
+prochaine génération faite par quelqu'un d'autre.
+
 ## Pièges connus (appris en testant)
 
 - Frontmatter `name:` obligatoire dans les agents, sinon erreur fatale.

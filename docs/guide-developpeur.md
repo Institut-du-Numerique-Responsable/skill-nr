@@ -1,7 +1,13 @@
 # Guide développeur — Assistant IA & écoconception
 
-Ce guide s'adresse aux développeurs (SQL, JavaScript, Java, C#) qui utilisent
-[Continue](https://continue.dev) avec les skills numérique responsable de ce dépôt.
+Ce guide s'adresse aux développeurs qui utilisent [Continue](https://continue.dev)
+avec les règles numérique responsable de ce dépôt — Continue est la source de
+référence (règles ciblées par langage via `globs`, agents exécutés par `cn review`).
+**Si vous utilisez un autre assistant** (Claude Code, Gemini CLI, OpenCode, Mistral
+Vibe, Codex, Kimi CLI, ChatGPT), les mêmes règles sont déclinées dans leur format
+natif : voir [adaptations/README.md](../adaptations/README.md) pour l'installation
+et l'usage propres à votre outil — le mécanisme (règle pendant l'écriture, agent sur
+le diff) reste identique, seule la commande change.
 
 ## Ce que ça change pour vous
 

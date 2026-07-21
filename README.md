@@ -5,12 +5,14 @@
 **RGESN · GR491 · Opquast · RGAA** appliqués automatiquement par votre assistant de code,
 quel qu'il soit.
 
+[![Site](https://img.shields.io/badge/site-regles--ecoconception--ia-0a7190)](https://institut-du-numerique-responsable.github.io/regles-ecoconception-ia/)
 [![Licence](https://img.shields.io/badge/licence-CC%20BY--SA%204.0-2ea44f)](LICENSE.md)
 [![Langages couverts](https://img.shields.io/badge/langages-13-1b7a4a)](#langages-couverts)
 [![Assistants pris en charge](https://img.shields.io/badge/assistants%20IA-8-1b7a4a)](#assistants-pris-en-charge)
 [![RGESN](https://img.shields.io/badge/RGESN-v2%20(78%20crit%C3%A8res)-0b6e4f)](https://ecoresponsable.numerique.gouv.fr/publications/referentiel-general-ecoconception/)
 [![GR491](https://img.shields.io/badge/GR491-61%20recommandations-0b6e4f)](https://gr491.isit-europe.org/)
 [![Opquast](https://img.shields.io/badge/Opquast-CC%20BY--SA-0b6e4f)](https://checklists.opquast.com/fr/qualite-numerique/)
+[![RGAA](https://img.shields.io/badge/RGAA-4-0b6e4f)](https://accessibilite.numerique.gouv.fr/)
 [![PR bienvenues](https://img.shields.io/badge/PR-bienvenues-blueviolet)](CONTRIBUTING.md)
 
 </div>
