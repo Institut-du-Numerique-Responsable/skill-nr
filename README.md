@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌱 Règles d'écoconception et de numérique responsable pour assistants IA
+# Règles d'écoconception et de numérique responsable pour assistants IA
 
 **RGESN · GR491 · Opquast · RGAA** appliqués automatiquement par votre assistant de code,
 quel qu'il soit.
