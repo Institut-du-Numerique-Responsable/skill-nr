@@ -1,98 +1,114 @@
-# Règles Numérique Responsable pour Continue
+<div align="center">
 
-Règles et agents [Continue](https://continue.dev) pour appliquer l'écoconception (RGESN, GR491, Opquast) et le numérique responsable (RGAA, RGPD) directement dans le flux de développement assisté par IA.
+# 🌱 Règles d'écoconception et de numérique responsable pour assistants IA
 
-**Langages couverts** : SQL/PL-SQL, HTML, CSS, JavaScript, TypeScript, Java, C#, Python, PHP, Ruby, Rust, C, C++ — chaque règle ne s'active que sur les fichiers de son langage (`globs`).
+**RGESN · GR491 · Opquast · RGAA** appliqués automatiquement par votre assistant de code,
+quel qu'il soit.
 
-**Deux mécanismes complémentaires** :
-- les **règles** (`.continue/rules/`) orientent le code que l'IA génère — prévention ;
-- les **agents** (`.continue/agents/`) relisent les diffs sous l'angle écoconception et accessibilité — contrôle.
+[![Licence](https://img.shields.io/badge/licence-CC%20BY--SA%204.0-2ea44f)](LICENSE.md)
+[![Langages couverts](https://img.shields.io/badge/langages-13-1b7a4a)](#langages-couverts)
+[![Assistants pris en charge](https://img.shields.io/badge/assistants%20IA-7-1b7a4a)](#assistants-pris-en-charge)
+[![RGESN](https://img.shields.io/badge/RGESN-v2%20(78%20crit%C3%A8res)-0b6e4f)](https://ecoresponsable.numerique.gouv.fr/publications/referentiel-general-ecoconception/)
+[![GR491](https://img.shields.io/badge/GR491-61%20recommandations-0b6e4f)](https://gr491.isit-europe.org/)
+[![Opquast](https://img.shields.io/badge/Opquast-CC%20BY--SA-0b6e4f)](https://checklists.opquast.com/fr/qualite-numerique/)
+[![PR bienvenues](https://img.shields.io/badge/PR-bienvenues-blueviolet)](CONTRIBUTING.md)
 
-**Autres assistants** : les règles sont aussi déclinées (générées depuis la même source) pour **Claude Code**, **Gemini CLI**, **OpenCode**, **Mistral Vibe**, **OpenAI Codex** (via `AGENTS.md`) et **ChatGPT** (GPT personnalisé : instructions + fichiers de connaissances) — voir [adaptations/](adaptations/README.md).
+</div>
 
-Licence : CC BY-SA 4.0 (voir [LICENSE.md](LICENSE.md)) · Contributions : [CONTRIBUTING.md](CONTRIBUTING.md)
+---
+
+Ce dépôt traduit quatre référentiels français de sobriété numérique — **RGESN**,
+**GR491**, **Opquast**, **RGAA** — en règles directement exploitables par un assistant
+IA de code : pas de PDF à lire, l'assistant applique la règle pendant qu'il écrit,
+et une revue de diff automatisée vérifie ce qui a été produit.
+
+Écrites une seule fois, ces règles sont **déclinées automatiquement pour 7 assistants** :
+il n'y a pas de version « officielle » et des adaptations bancales — chaque outil reçoit
+le format qu'il attend nativement, généré depuis une source commune.
+
+## Assistants pris en charge
+
+| Assistant | Ce que vous installez | Doc |
+| --- | --- | --- |
+| [Continue](https://continue.dev) | `.continue/rules/` + `.continue/agents/` (source de référence) | [README](#-démarrage-avec-continue) |
+| [Claude Code](https://claude.com/claude-code) | `CLAUDE.md` + `.claude/agents/` | [adaptations/claude-code](adaptations/claude-code) |
+| [Gemini CLI](https://github.com/google-gemini/gemini-cli) | `GEMINI.md` + commandes `/eco-check` | [adaptations/gemini-cli](adaptations/gemini-cli) |
+| [OpenCode](https://opencode.ai) | `AGENTS.md` + `.opencode/agent/` | [adaptations/opencode](adaptations/opencode) |
+| [Mistral Vibe](https://docs.mistral.ai/vibe) | `AGENTS.md` + `.vibe/agents/` | [adaptations/mistral-vibe](adaptations/mistral-vibe) |
+| [OpenAI Codex](https://developers.openai.com/codex) | `AGENTS.md` (standard partagé) | [adaptations/opencode](adaptations/opencode) |
+| [ChatGPT](https://chatgpt.com) (GPT personnalisé) | instructions condensées + fichiers de connaissances | [adaptations/chatgpt](adaptations/chatgpt) |
+
+Tout le détail d'installation par outil est dans [adaptations/README.md](adaptations/README.md).
+
+## Ce que ça fait concrètement
+
+Deux mécanismes complémentaires, portés par chaque déclinaison :
+
+- **Les règles** orientent le code que l'assistant génère — *prévention*. Une requête
+  SQL est paginée sans qu'on le demande, une image passe en `loading="lazy"`, un accès
+  Entity Framework prend `AsNoTracking()`.
+- **Les agents** (`eco-check`, `accessibilite-check`) relisent un diff après coup —
+  *contrôle*. Ils citent le critère source (`GR491_Backend_1`, `Opquast n°124`,
+  `RGESN 4.2`…) à chaque constat, pour que l'équipe monte en compétence au passage.
+
+## Langages couverts
+
+SQL/PL-SQL · HTML · CSS · JavaScript · TypeScript · Java · C# · Python · PHP · Ruby ·
+Rust · C · C++
+
+Chaque règle ne s'active que sur les fichiers de son langage (mécanisme `globs` côté
+Continue) ; les autres assistants reçoivent l'ensemble avec un repère explicite par
+section — voir [adaptations/README.md](adaptations/README.md#différence-avec-la-version-continue)
+pour cette nuance.
+
+## Référentiels utilisés
+
+| Référentiel | Portée | Détail dans ce dépôt |
+| --- | --- | --- |
+| [RGESN v2](https://ecoresponsable.numerique.gouv.fr/publications/referentiel-general-ecoconception/) (ARCEP/ARCOM/ADEME) | 78 critères, 9 thématiques | cité par identifiant dans les règles |
+| [GR491](https://gr491.isit-europe.org/) (INR) | 8 familles, 61 recommandations, 516 critères | [referentiels/gr491.md](referentiels/gr491.md) |
+| [Opquast](https://checklists.opquast.com/fr/qualite-numerique/) | 35 règles taguées écoconception (CC BY-SA) | [referentiels/opquast-ecoconception.md](referentiels/opquast-ecoconception.md) |
+| [RGAA 4](https://accessibilite.numerique.gouv.fr/) | Accessibilité numérique | agent `accessibilite-check` |
+
+## 🚀 Démarrage avec Continue
+
+Continue est la source de référence de ce dépôt (règles avec ciblage par langage via
+`globs`, agents `.continue/agents/` exécutés par `cn review`).
+
+```bash
+npm install -g @continuedev/cli    # commande `cn`
+cn                                 # les règles .continue/rules/ sont chargées automatiquement
+```
+
+Pour un modèle sans API payante (Ollama local, validé sur ce dépôt) et la commande de
+revue de diff, voir le [guide développeur](docs/guide-developpeur.md).
 
 ## Documentation
 
-- [Guide développeur](docs/guide-developpeur.md) — installer, utiliser au quotidien, lancer une revue, dépanner.
-- [Guide de déploiement](docs/guide-deploiement.md) — diffuser les skills aux équipes (git, Hub, CI), choix des modèles, licences.
-- [Développer un skill](docs/developper-un-skill.md) — écrire une règle ou un agent, les tester, pièges connus.
+- 📘 [Guide développeur](docs/guide-developpeur.md) — installer, utiliser au quotidien, lancer une revue, dépanner.
+- 📗 [Guide de déploiement](docs/guide-deploiement.md) — diffuser les règles aux équipes (git, Hub, CI), choix des modèles, licences.
+- 📙 [Développer un skill](docs/developper-un-skill.md) — écrire une règle ou un agent, les tester, pièges connus.
+- 🔧 [adaptations/README.md](adaptations/README.md) — installation détaillée par assistant.
 
 ## Contenu du dépôt
 
 | Chemin | Rôle |
 | --- | --- |
-| `.continue/rules/` | Règles injectées dans le contexte de l'IA (extension IDE et CLI). Elles orientent le code généré : sobriété, accessibilité, protection des données. Ciblées par langage via `globs`. |
-| `.continue/agents/` | Agents de revue de diff exécutés par `cn review` : écoconception et accessibilité. |
-| `referentiels/` | Extractions sourcées des référentiels (GR491, Opquast) avec identifiants cités par les règles. |
-| `adaptations/` | Déclinaisons générées pour Claude Code, Gemini CLI, OpenCode, Mistral Vibe, Codex et ChatGPT. |
-| `scripts/` | `generer-adaptations.py` : régénère `adaptations/` depuis `.continue/` (source unique). |
+| `.continue/rules/` | Règles source, ciblées par langage via `globs`. |
+| `.continue/agents/` | Agents de revue de diff (`eco-check`, `accessibilite-check`). |
+| `referentiels/` | Extractions sourcées (GR491, Opquast) avec identifiants cités par les règles. |
+| `adaptations/` | Déclinaisons générées pour les 6 autres assistants. |
+| `scripts/generer-adaptations.py` | Régénère `adaptations/` depuis `.continue/` (source unique). |
 | `docs/` | Guides développeur, déploiement et contribution. |
-| `continue/` | Clone des sources de Continue (référence et documentation, non versionné ici — voir `.gitignore`). |
-| branche `test-eco` | Fichiers pièges (`exemples/`) pour valider les agents après chaque évolution des règles. |
+| branche `test-eco` | Fichiers pièges par langage pour valider les agents après chaque évolution des règles. |
 
-## Prérequis
+## Contribuer
 
-- Node.js ≥ 18
-- CLI Continue : `npm install -g @continuedev/cli` (installée : commande `cn`)
-- Optionnel : extension Continue pour VS Code ou JetBrains (marketplace), qui lit les mêmes fichiers `.continue/`
+Une nouvelle règle, un langage manquant, un faux positif à corriger : voir
+[CONTRIBUTING.md](CONTRIBUTING.md). Toute contribution se teste sur la branche
+`test-eco` avant merge.
 
-## Configuration du modèle (sans API payante)
+## Licence
 
-La CLI publiée (testée en v1.5.47) ne propose plus `cn login` vers le Hub, contrairement à sa doc.
-Elle est configurée ici sur un modèle **local via Ollama** (gratuit, aucune donnée ne sort du poste)
-dans `~/.continue/config.yaml` :
-
-```yaml
-name: Local (Ollama)
-version: 0.0.1
-schema: v1
-models:
-  - name: Qwen3 Coder (local)
-    provider: ollama
-    model: qwen3-coder:latest
-    roles: [chat, edit, apply]
-```
-
-L'extension IDE (VS Code/JetBrains), elle, garde la connexion Hub et son offre gratuite,
-et lit le même `.continue/rules/`.
-
-## Utilisation
-
-### 1. Chat / génération de code avec les règles actives
-
-```bash
-cn        # session interactive dans ce répertoire ; les règles .continue/rules/ sont chargées
-```
-
-### 2. Revue d'un diff (écoconception / accessibilité)
-
-Dans un projet git contenant des changements non commités (testé et validé le 17/07/2026
-avec qwen3-coder local — la commande est `cn review`, pas `cn check` comme l'indique
-l'ancienne doc) :
-
-```bash
-cn review --review-agents .continue/agents/eco-check.md
-cn review --review-agents .continue/agents/accessibilite-check.md --verbose
-cn review --fix    # applique directement les corrections proposées
-```
-
-Pour rejouer le test de référence : `git checkout test-eco -- exemples/` ramène une page
-volontairement non sobre, puis `cn review --review-agents .continue/agents/eco-check.md --verbose`.
-
-### 3. Développer un nouveau skill
-
-1. Créer un fichier markdown dans `.continue/rules/` (règle de contexte, avec frontmatter `globs` pour cibler des types de fichiers) ou `.continue/agents/` (agent de vérification).
-2. Tester sur un diff réel avec `cn review --review-agents <fichier>` (voir la procédure complète dans [CONTRIBUTING.md](CONTRIBUTING.md)).
-3. Relancer `python3 scripts/generer-adaptations.py` pour synchroniser les adaptations.
-4. Itérer sur la formulation : critères concrets, seuils mesurables, référence au critère RGESN/RGAA.
-
-## Référentiels utilisés
-
-- **RGESN v2** (ARCEP/ARCOM/ADEME, 2024) — Référentiel général d'écoconception de services numériques, 78 critères en 9 thématiques.
-- **GR491** (INR) — 8 familles, 61 recommandations, 516 critères ; extraction des recommandations avec identifiants dans `referentiels/gr491.md`.
-- **Opquast** — checklist « Assurance qualité numérique » (CC BY-SA) ; les 35 règles taguées écoconception (phases conception/développement/éditorial) sont extraites dans `referentiels/opquast-ecoconception.md` et portées par la règle `.continue/rules/qualite-web-opquast.md`.
-- **RGAA 4** — Référentiel général d'amélioration de l'accessibilité.
-- **RGPD** — minimisation des données (art. 5).
-
-Les règles `.continue/rules/` citent les identifiants (GR491_xxx, Opquast n°xxx) pour tracer chaque consigne vers sa source.
+[CC BY-SA 4.0](LICENSE.md) — l'incorporation des règles Opquast (elles-mêmes CC BY-SA)
+impose cette licence à l'ensemble. Attributions complètes dans [LICENSE.md](LICENSE.md).
