@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Règles d'écoconception pour assistants IA | RGESN, GR491, Opquast, RGAA</title>
+<meta name="description" content="Règles open source d'écoconception (RGESN, GR491, Opquast, RGAA) déclinées pour 7 assistants IA de code : Continue, Claude Code, Gemini CLI, OpenCode, Mistral Vibe, Codex, ChatGPT.">
+<link rel="canonical" href="https://institut-du-numerique-responsable.github.io/regles-ecoconception-ia/">
+<meta property="og:title" content="Règles d'écoconception pour assistants IA">
+<meta property="og:description" content="RGESN, GR491, Opquast et RGAA traduits en règles pour 7 assistants IA de code, 13 langages. Une source, sept déclinaisons.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://institut-du-numerique-responsable.github.io/regles-ecoconception-ia/">
+<meta property="og:locale" content="fr_FR">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Règles d'écoconception pour assistants IA">
+<meta name="twitter:description" content="RGESN, GR491, Opquast et RGAA traduits en règles pour 7 assistants IA de code, 13 langages.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  "name": "Règles d'écoconception pour assistants IA",
+  "description": "Règles d'écoconception (RGESN, GR491, Opquast, RGAA) déclinées pour 7 assistants IA de code et 13 langages.",
+  "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "codeRepository": "https://github.com/Institut-du-Numerique-Responsable/regles-ecoconception-ia",
+  "url": "https://institut-du-numerique-responsable.github.io/regles-ecoconception-ia/",
+  "author": { "@type": "Organization", "name": "Institut du Numérique Responsable" },
+  "programmingLanguage": ["SQL", "JavaScript", "TypeScript", "Java", "C#", "Python", "PHP", "Ruby", "Rust", "C", "C++"]
+}
+</script>
+<style>
+/* Page éco-conçue : polices système, zéro JavaScript, zéro requête externe,
+   mode sombre natif. Elle applique les règles qu'elle promeut. */
+:root {
+  --bg: #fdfcf8; --fg: #1e2529; --muted: #5a6570;
+  --accent: #0a7190; --accent-soft: #dceef2; --card: #f1f0e8; --border: #ddd9cc;
+  --sev-high: #a8432b; --sev-med: #a4741f;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #10171a; --fg: #e6e9ea; --muted: #9aacb0;
+          --accent: #5ecbe0; --accent-soft: #16323a; --card: #1a2226; --border: #29343a;
+          --sev-high: #d97456; --sev-med: #d9a24a; }
+}
+:root[data-theme="dark"] {
+  --bg: #10171a; --fg: #e6e9ea; --muted: #9aacb0;
+  --accent: #5ecbe0; --accent-soft: #16323a; --card: #1a2226; --border: #29343a;
+  --sev-high: #d97456; --sev-med: #d9a24a;
+}
+:root[data-theme="light"] {
+  --bg: #fdfcf8; --fg: #1e2529; --muted: #5a6570;
+  --accent: #0a7190; --accent-soft: #dceef2; --card: #f1f0e8; --border: #ddd9cc;
+  --sev-high: #a8432b; --sev-med: #a4741f;
+}
+* { box-sizing: border-box; margin: 0; }
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--bg); color: var(--fg);
+  line-height: 1.65; padding: 0 1.25rem;
+}
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 0 4rem; }
+h1 { font-size: 2rem; line-height: 1.2; margin-bottom: .75rem; text-wrap: balance; }
+h2 { font-size: 1.35rem; margin: 2.75rem 0 .9rem; color: var(--accent); }
+p  { margin-bottom: 1rem; }
+a  { color: var(--accent); }
+.tagline { font-size: 1.15rem; color: var(--muted); margin-bottom: 1.5rem; }
+.stats { display: flex; flex-wrap: wrap; gap: .4rem 1.5rem; padding: 1rem 0 1.5rem;
+         border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 1.75rem; }
+.stats div { display: flex; align-items: baseline; gap: .4rem; }
+.stats b { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 1.15rem; }
+.stats span { font-size: .85rem; color: var(--muted); }
+.cta {
+  display: inline-block; background: var(--accent); color: var(--bg);
+  padding: .65rem 1.3rem; border-radius: .4rem; text-decoration: none;
+  font-weight: 600; margin: .25rem .5rem .25rem 0;
+}
+.cta.secondary { background: transparent; color: var(--accent);
+                 border: 1.5px solid var(--accent); }
+.duo { display: grid; gap: 1rem; grid-template-columns: 1fr; margin: 1.25rem 0; }
+@media (min-width: 40rem) { .duo { grid-template-columns: 1fr 1fr; } }
+.card { background: var(--card); border: 1px solid var(--border);
+        border-radius: .6rem; padding: 1.1rem 1.2rem; }
+.card h3 { font-size: 1.05rem; margin-bottom: .35rem; }
+.card .when { font-size: .8rem; color: var(--muted); margin-bottom: .6rem; }
+.card p { font-size: .95rem; margin-bottom: .8rem; color: var(--muted); }
+.tag { display: inline-block; font-family: ui-monospace, "SF Mono", Menlo, monospace;
+       font-size: .74rem; padding: .2rem .55rem; border-radius: .3rem;
+       background: var(--accent-soft); color: var(--accent); }
+ul { padding-left: 1.2rem; margin-bottom: 1rem; }
+li { margin-bottom: .45rem; }
+pre { background: var(--card); border: 1px solid var(--border);
+      border-radius: .5rem; padding: 1rem; overflow-x: auto;
+      font-size: .85rem; margin-bottom: 1rem; line-height: 1.6; }
+code { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+.dim { color: var(--muted); }
+.strike { color: var(--muted); text-decoration: line-through; }
+.tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+             gap: .7rem; margin: 1.25rem 0 1.75rem; }
+.tool-card { background: var(--card); border: 1px solid var(--border); border-radius: .5rem;
+             padding: .85rem 1rem; text-decoration: none; color: var(--fg); display: block; }
+.tool-card:hover { border-color: var(--accent); }
+.tool-card b { font-size: .95rem; }
+.tool-card .f { display: block; font-family: ui-monospace, monospace; font-size: .76rem;
+                color: var(--muted); margin-top: .2rem; }
+.ref-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: .9rem; margin: 1.25rem 0 .5rem; }
+.ref-card h3 { font-size: 1rem; margin-bottom: .2rem; color: var(--fg); }
+.ref-card .scope { font-size: .82rem; color: var(--muted); margin-bottom: .5rem; }
+.ref-card p { font-size: .9rem; margin-bottom: .5rem; }
+.lang-row { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0 1.5rem; }
+.lang-chip { font-family: ui-monospace, monospace; font-size: .82rem; padding: .35rem .7rem;
+             border: 1px solid var(--border); border-radius: 999px; color: var(--muted); }
+footer { border-top: 1px solid var(--border); margin-top: 3rem;
+         padding-top: 1.25rem; font-size: .88rem; color: var(--muted); }
+footer p + p { margin-top: .5rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>🌱 Écoconception pour tout assistant IA de code</h1>
+  <p class="tagline">RGESN, GR491, Opquast et RGAA traduits en règles qu'un assistant applique en écrivant du code — et qu'un agent vérifie sur le diff. Une source, sept assistants.</p>
+
+  <p>
+    <a class="cta" href="https://github.com/Institut-du-Numerique-Responsable/regles-ecoconception-ia">Voir sur GitHub</a>
+    <a class="cta secondary" href="https://github.com/Institut-du-Numerique-Responsable/regles-ecoconception-ia/blob/main/adaptations/README.md">Installer pour votre assistant</a>
+  </p>
+
+  <div class="stats">
+    <div><b>7</b><span>assistants IA</span></div>
+    <div><b>13</b><span>langages</span></div>
+    <div><b>4</b><span>référentiels</span></div>
+    <div><b>MIT/CC BY-SA</b><span>open source</span></div>
+  </div>
+
+  <p>Un assistant qui écrit une requête, une image ou une boucle ne connaît pas par défaut le référentiel d'écoconception de votre organisation. Une fois le code en production, chaque exécution reproduit ce choix initial chez chaque utilisateur, pendant toute la durée de vie du service. Ce dépôt ferme cet écart : il transforme RGESN, GR491, Opquast et RGAA en instructions que l'assistant charge automatiquement, dans son propre format.</p>
+
+  <h2>Deux moments, un seul jeu de règles</h2>
+  <div class="duo">
+    <div class="card">
+      <h3>La règle</h3>
+      <div class="when">Pendant que le code s'écrit</div>
+      <p>Injectée dans le contexte de l'assistant, elle oriente ce qu'il produit avant même que vous ne le relisiez.</p>
+      <pre><code><span class="dim">-- demande : « le rapport des opérations d'un client »</span>
+<span class="strike">SELECT * FROM operations;</span>
+SELECT id, client_id, date_operation, montant
+FROM operations
+WHERE client_id = :id
+ORDER BY date_operation DESC
+LIMIT 50;</code></pre>
+      <span class="tag">GR491_Backend_1</span>
+    </div>
+    <div class="card">
+      <h3>L'agent</h3>
+      <div class="when">Après coup, sur le diff</div>
+      <p>Relit ce qui a été commité et cite le critère à chaque constat — pour la revue, et pour la montée en compétence de l'équipe.</p>
+      <pre><code><span class="dim">$ cn review --review-agents eco-check.md</span>
+
+[<span style="color:var(--sev-med)">Moyen</span>] rapport-clients.sql:9
+  SELECT * sur une table non filtrée — RGESN 7.x
+  → colonnes explicites + pagination
+
+<span class="dim">1 constat, 0 régression</span></code></pre>
+      <span class="tag">RGESN 7.x</span>
+    </div>
+  </div>
+
+  <h2>Une source, sept assistants</h2>
+  <p>Les règles s'écrivent une seule fois, ciblées par langage. Un script (<code>scripts/generer-adaptations.py</code>) les décline dans le format natif de chaque assistant — aucune copie manuelle, aucune version qui prend du retard sur les autres.</p>
+  <div class="tool-grid">
+    <a class="tool-card" href="https://continue.dev"><b>Continue</b><span class="f">.continue/rules/ + agents/</span></a>
+    <a class="tool-card" href="https://claude.com/claude-code"><b>Claude Code</b><span class="f">CLAUDE.md + .claude/agents/</span></a>
+    <a class="tool-card" href="https://github.com/google-gemini/gemini-cli"><b>Gemini CLI</b><span class="f">GEMINI.md + /eco-check</span></a>
+    <a class="tool-card" href="https://opencode.ai"><b>OpenCode</b><span class="f">AGENTS.md + .opencode/agent/</span></a>
+    <a class="tool-card" href="https://docs.mistral.ai/vibe"><b>Mistral Vibe</b><span class="f">AGENTS.md + .vibe/agents/</span></a>
+    <a class="tool-card" href="https://developers.openai.com/codex"><b>OpenAI Codex</b><span class="f">AGENTS.md (standard partagé)</span></a>
+    <a class="tool-card" href="https://chatgpt.com"><b>ChatGPT</b><span class="f">GPT personnalisé + connaissances</span></a>
+  </div>
+
+  <h2>Quatre référentiels, ramenés à l'actionnable</h2>
+  <div class="ref-grid">
+    <div class="ref-card">
+      <h3>RGESN v2</h3>
+      <div class="scope">78 critères · 9 thématiques</div>
+      <p>ARCEP, ARCOM, ADEME. <a href="https://ecoresponsable.numerique.gouv.fr/publications/referentiel-general-ecoconception/">Le référentiel officiel →</a></p>
+    </div>
+    <div class="ref-card">
+      <h3>GR491</h3>
+      <div class="scope">61 recommandations · 516 critères</div>
+      <p>Institut du Numérique Responsable. <a href="https://gr491.isit-europe.org/">Le référentiel officiel →</a></p>
+    </div>
+    <div class="ref-card">
+      <h3>Opquast</h3>
+      <div class="scope">35 règles retenues, taguées écoconception</div>
+      <p>Checklist Assurance Qualité Numérique. <a href="https://checklists.opquast.com/fr/qualite-numerique/">La checklist complète →</a></p>
+    </div>
+    <div class="ref-card">
+      <h3>RGAA 4</h3>
+      <div class="scope">Accessibilité numérique</div>
+      <p>Porté par l'agent de revue dédié. <a href="https://accessibilite.numerique.gouv.fr/">Le référentiel officiel →</a></p>
+    </div>
+  </div>
+
+  <h2>Treize langages, chacun avec ses propres réflexes</h2>
+  <p>Un N+1 ne s'écrit pas pareil en JPA, en Entity Framework ou en ActiveRecord. Chaque règle nomme les motifs spécifiques au langage plutôt que des principes génériques — ce qui se vérifie, se corrige.</p>
+  <div class="lang-row">
+    <span class="lang-chip">SQL / PL-SQL</span>
+    <span class="lang-chip">HTML</span>
+    <span class="lang-chip">CSS</span>
+    <span class="lang-chip">JavaScript</span>
+    <span class="lang-chip">TypeScript</span>
+    <span class="lang-chip">Java</span>
+    <span class="lang-chip">C#</span>
+    <span class="lang-chip">Python</span>
+    <span class="lang-chip">PHP</span>
+    <span class="lang-chip">Ruby</span>
+    <span class="lang-chip">Rust</span>
+    <span class="lang-chip">C</span>
+    <span class="lang-chip">C++</span>
+  </div>
+
+  <footer>
+    <p>Un projet <strong>CC BY-SA 4.0</strong> de l'<strong>Institut du Numérique Responsable</strong>. <a href="https://github.com/Institut-du-Numerique-Responsable/regles-ecoconception-ia/blob/main/CONTRIBUTING.md">Contribuer</a> · <a href="https://github.com/Institut-du-Numerique-Responsable/regles-ecoconception-ia/blob/main/LICENSE.md">Licence</a></p>
+    <p>Cette page applique les règles qu'elle promeut : zéro JavaScript, zéro requête externe, polices système, mode sombre natif.</p>
+  </footer>
+</main>
+</body>
+</html>
