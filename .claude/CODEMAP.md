@@ -1,4 +1,4 @@
-# CODEMAP — bpce_skillnr
+# CODEMAP — regles-ecoconception-ia
 
 Skills Continue (continue.dev) pour l'écoconception / numérique responsable. Tout est en français.
 
@@ -26,5 +26,5 @@ Skills Continue (continue.dev) pour l'écoconception / numérique responsable. T
 ## Points durs (ne pas redécouvrir)
 
 - CLI `cn` v1.5.47 : pas de `cn login`/Hub ; la commande de revue est `cn review --review-agents <fichier>` ; applique les fixes au working tree ; rapport visible seulement en TTY
-- Modèle : Ollama local `qwen3-coder` via `~/.continue/config.yaml` (l'utilisateur refuse l'API Anthropic)
+- Modèle : Ollama local `qwen3-coder` via `~/.continue/config.yaml` (usage local, sans API payante)
 - Branche `test-eco` : fichiers pièges `exemples/` (HTML, SQL, Java, C#) pour tester les agents

@@ -41,7 +41,7 @@ configuré dans `~/.continue/config.yaml`. Configuration validée avec un modèl
 [Ollama](https://ollama.com) — gratuit et aucune donnée ne quitte le poste :
 
 ```yaml
-name: BPCE local (Ollama)
+name: Local (Ollama)
 version: 0.0.1
 schema: v1
 models:

@@ -44,7 +44,7 @@ Elle est configurée ici sur un modèle **local via Ollama** (gratuit, aucune do
 dans `~/.continue/config.yaml` :
 
 ```yaml
-name: BPCE local (Ollama)
+name: Local (Ollama)
 version: 0.0.1
 schema: v1
 models:

@@ -35,7 +35,7 @@ rules:
 Les développeurs se connectent une fois dans l'extension IDE et récupèrent l'assistant ;
 une mise à jour de block se propage immédiatement à tous.
 
-**Point de vigilance (contexte bancaire)** : le Hub est un SaaS — à valider avec la
+**Point de vigilance (secteurs réglementés)** : le Hub est un SaaS — à valider avec la
 sécurité ; Continue propose des options entreprise/on-premise. Note : la CLI publiée
 (v1.5.47) n'a plus d'intégration Hub — ce canal ne concerne que l'extension IDE.
 
@@ -59,7 +59,7 @@ La CI a besoin d'un modèle : passerelle LLM interne (endpoint compatible OpenAI
 | --- | --- | --- |
 | Poste développeur (IDE) | Compte Continue (gratuit) ou passerelle interne | Le plus simple au quotidien |
 | Poste développeur (CLI) | Ollama local (`qwen3-coder`) | Validé sur ce projet ; confidentialité totale |
-| CI | Passerelle LLM interne BPCE | Cible de production ; clé gérée en secret CI |
+| CI | Passerelle LLM interne de l'organisation | Cible de production ; clé gérée en secret CI |
 
 Un modèle local est aussi un choix d'écoconception : pas de datacenter sollicité pour
 chaque complétion, et une inférence dimensionnée au besoin réel.
