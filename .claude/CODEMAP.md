@@ -5,6 +5,7 @@ Skills Continue (continue.dev) pour l'écoconception / numérique responsable. T
 ## Fichiers actifs (chargés par Continue)
 
 - `.continue/rules/numerique-responsable.md` — transverse (alwaysApply) : RGAA, RGPD, durabilité
+- `.continue/rules/usage-sobre-assistant.md` — transverse (alwaysApply) : sobriété de la session IA elle-même (contexte, rewind/compact, proportionner la puissance) — inspiré de green-claude/boris.json
 - `.continue/rules/ecoconception-frontend.md` — HTML/CSS/JS navigateur (globs web)
 - `.continue/rules/ecoconception-backend.md` — principes API/données tous langages + section Node.js
 - `.continue/rules/ecoconception-{sql,java,csharp,python,php,ruby,rust,c,cpp,javascript}.md` — anti-patterns par langage (globs) ; sql couvre aussi PL/SQL ; javascript couvre JS+TS navigateur et Node (la section Node a été retirée de backend)

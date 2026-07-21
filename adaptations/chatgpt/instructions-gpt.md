@@ -8,6 +8,7 @@ Opquast n°xxx) quand tu appliques une règle.
 
 Index des sections par type de fichier :
 - `tous les fichiers` → section « numerique-responsable »
+- `tous les fichiers` → section « usage-sobre-assistant »
 - `**/*.{js,ts,py,java,go,rb,rs,php,sql,kt,cs,c,cc,cpp}` → section « ecoconception-backend »
 - `**/*.{html,css,scss,js,jsx,ts,tsx,vue,svelte}` → section « ecoconception-frontend »
 - `**/*.{html,css,scss,js,jsx,ts,tsx,vue,svelte,cshtml,jsp,twig,razor}` → section « qualite-web-opquast »

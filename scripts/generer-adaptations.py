@@ -18,6 +18,7 @@ OUT = RACINE / "adaptations"
 # Ordre de concaténation : transverse d'abord, puis principes, puis langages.
 ORDRE = [
     "numerique-responsable",
+    "usage-sobre-assistant",
     "ecoconception-backend",
     "ecoconception-frontend",
     "qualite-web-opquast",
