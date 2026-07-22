@@ -8,7 +8,7 @@ alwaysApply: true
 
 La sobriété numérique ne s'arrête pas au code produit : la session avec l'assistant a
 elle-même un coût en calcul. Le contexte envoyé au modèle est retraité à chaque tour de
-conversation — un contexte obèse ou une conversation-fleuve multiplie ce coût sur tous
+conversation. Un contexte obèse ou une conversation-fleuve multiplie ce coût sur tous
 les échanges suivants, pas seulement le dernier. Applique ces pratiques à ta propre
 conduite de session, pas seulement au code que tu écris.
 
@@ -35,8 +35,8 @@ conduite de session, pas seulement au code que tu écris.
 ## Capitaliser plutôt que répéter
 
 - Une leçon apprise en session (une convention, une erreur récurrente, une contrainte du
-  projet) se documente dans un fichier de règles versionné — pas seulement corrigée
-  dans la conversation en cours, où elle sera reperdue à la prochaine session.
+  projet) se documente dans un fichier de règles versionné. La corriger seulement dans
+  la conversation en cours la reperd à la prochaine session.
 - Donne-toi un moyen de vérification déterministe (tests, build, commande) plutôt que de
   multiplier les tours de relecture manuelle : une vérification automatisée coûte moins
   cher qu'un aller-retour de plus avec le modèle.
@@ -55,11 +55,11 @@ conduite de session, pas seulement au code que tu écris.
 Les mécanismes exacts diffèrent selon l'assistant utilisé ; le principe (contexte propre,
 pas de correction empilée, effort proportionné) reste le même partout.
 
-- **Continue (`cn`)** — `--resume` reprend la dernière session, `--fork <id>` repart
+- **Continue (`cn`)** : `--resume` reprend la dernière session, `--fork <id>` repart
   d'un point antérieur sans réembarquer les tours suivants ; `ls` liste les sessions.
-- **Claude Code** — rembobiner avec un double appui sur Échap, `/clear` pour une tâche
+- **Claude Code** : rembobiner avec un double appui sur Échap, `/clear` pour une tâche
   sans lien, `/compact <consigne>` pour résumer une tâche liée, `/effort` pour ajuster
   le niveau de raisonnement.
-- **Gemini CLI, OpenCode, Mistral Vibe, ChatGPT** — vérifie la commande équivalente de
+- **Gemini CLI, OpenCode, Mistral Vibe, ChatGPT** : vérifie la commande équivalente de
   gestion de session/contexte dans la documentation de l'outil ; le principe ci-dessus
   s'applique quel que soit son nom exact.

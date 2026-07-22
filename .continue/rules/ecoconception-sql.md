@@ -1,12 +1,12 @@
 ---
 name: Écoconception SQL
-description: Règles d'écoconception pour SQL et PL/SQL — sobriété des lectures, index, pagination, traitements ensemblistes, cycle de vie des données
+description: Règles d'écoconception pour SQL et PL/SQL, sobriété des lectures, index, pagination, traitements ensemblistes, cycle de vie des données
 globs: "**/*.{sql,pks,pkb,prc,fnc,trg}"
 ---
 
-# Règles d'écoconception — SQL et PL/SQL
+# Règles d'écoconception : SQL et PL/SQL
 
-Applique ces règles à tout SQL que tu écris ou modifies (requêtes, procédures stockées, migrations). Références : RGESN v2 (Backend, Architecture) et GR491 (GR491_Backend_1, GR491_Architecture_3/5 — voir `referentiels/gr491.md`).
+Applique ces règles à tout SQL que tu écris ou modifies (requêtes, procédures stockées, migrations). Références : RGESN v2 (Backend, Architecture) et GR491 (GR491_Backend_1, GR491_Architecture_3/5, voir `referentiels/gr491.md`).
 
 ## Lectures sobres
 

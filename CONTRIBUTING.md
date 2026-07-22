@@ -4,7 +4,7 @@ Merci de vouloir améliorer ces règles Numérique Responsable pour Continue !
 
 ## Proposer une règle ou un agent
 
-1. Lisez [docs/developper-un-skill.md](docs/developper-un-skill.md) — anatomie des règles
+1. Lisez [docs/developper-un-skill.md](docs/developper-un-skill.md) : anatomie des règles
    et des agents, principes d'écriture, pièges connus.
 2. Une consigne = un comportement vérifiable, avec l'identifiant du critère source
    (GR491_xxx, Opquast n°xxx, RGESN x.x). Pas de généralités (« optimiser », « alléger »)
@@ -37,4 +37,4 @@ dans `exemples/` (commité sur `test-eco`).
 ## Licence des contributions
 
 En contribuant, vous acceptez que votre contribution soit distribuée sous la licence
-du dépôt (CC BY-SA 4.0 — voir [LICENSE.md](LICENSE.md)).
+du dépôt (CC BY-SA 4.0, voir [LICENSE.md](LICENSE.md)).

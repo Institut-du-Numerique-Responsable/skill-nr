@@ -1,6 +1,6 @@
 ---
 name: Numérique responsable
-description: Principes transverses de numérique responsable — accessibilité, inclusion, durabilité, protection des données
+description: Principes transverses de numérique responsable, accessibilité, inclusion, durabilité, protection des données
 alwaysApply: true
 ---
 

@@ -1,12 +1,12 @@
 ---
 name: Écoconception Ruby
-description: Règles d'écoconception pour le code Ruby/Rails — ActiveRecord sobre, batchs, énumérateurs paresseux
+description: Règles d'écoconception pour le code Ruby/Rails, ActiveRecord sobre, batchs, énumérateurs paresseux
 globs: "**/*.rb"
 ---
 
-# Règles d'écoconception — Ruby / Rails
+# Règles d'écoconception : Ruby / Rails
 
-Applique ces règles à tout code Ruby que tu écris ou modifies. Références : RGESN v2 (Backend, Algorithmie) et GR491 (GR491_Backend_2/3/4 — voir `referentiels/gr491.md`).
+Applique ces règles à tout code Ruby que tu écris ou modifies. Références : RGESN v2 (Backend, Algorithmie) et GR491 (GR491_Backend_2/3/4, voir `referentiels/gr491.md`).
 
 ## Accès aux données (ActiveRecord)
 
@@ -20,7 +20,7 @@ Applique ces règles à tout code Ruby que tu écris ou modifies. Références :
 - Chaînes construites avec `<<` (mutation), pas `+=` en boucle ; symboles pour les clés.
 - Énumérateurs paresseux (`.lazy`) et `each_slice` pour les longues chaînes de transformations ; ne matérialise pas de tableaux intermédiaires inutiles.
 - Recherche d'appartenance dans un `Set` ou un hash, pas `include?` sur un grand tableau.
-- Tout cache est borné et expirant (`Rails.cache` avec `expires_in`) — jamais de constante/variable de classe qui accumule sans limite.
+- Tout cache est borné et expirant (`Rails.cache` avec `expires_in`), jamais de constante/variable de classe qui accumule sans limite.
 
 ## Tâches et I/O
 

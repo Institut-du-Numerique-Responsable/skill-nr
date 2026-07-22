@@ -4,9 +4,9 @@ description: Règles d'écoconception pour le code serveur, les API et les donn�
 globs: "**/*.{js,ts,py,java,go,rb,rs,php,sql,kt,cs,c,cc,cpp}"
 ---
 
-# Règles d'écoconception — Backend, API et données
+# Règles d'écoconception : Backend, API et données
 
-Applique ces règles à tout code serveur que tu écris ou modifies. Références : RGESN v2 (thématiques Architecture, Backend, Hébergement, Algorithmie) et GR491 (GR491_Backend_1/3/4, GR491_Architecture_3/5 — voir `referentiels/gr491.md`).
+Applique ces règles à tout code serveur que tu écris ou modifies. Références : RGESN v2 (thématiques Architecture, Backend, Hébergement, Algorithmie) et GR491 (GR491_Backend_1/3/4, GR491_Architecture_3/5, voir `referentiels/gr491.md`).
 
 ## API et transferts
 

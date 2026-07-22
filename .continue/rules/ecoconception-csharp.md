@@ -1,12 +1,12 @@
 ---
 name: Écoconception C#
-description: Règles d'écoconception pour le code C#/.NET — Entity Framework sobre, async, allocations, logs
+description: Règles d'écoconception pour le code C#/.NET, Entity Framework sobre, async, allocations, logs
 globs: "**/*.cs"
 ---
 
-# Règles d'écoconception — C# / .NET
+# Règles d'écoconception : C# / .NET
 
-Applique ces règles à tout code C# que tu écris ou modifies. Références : RGESN v2 (Backend, Algorithmie) et GR491 (GR491_Backend_2/3/4 — voir `referentiels/gr491.md`).
+Applique ces règles à tout code C# que tu écris ou modifies. Références : RGESN v2 (Backend, Algorithmie) et GR491 (GR491_Backend_2/3/4, voir `referentiels/gr491.md`).
 
 ## Accès aux données (Entity Framework Core / ADO.NET)
 
@@ -26,7 +26,7 @@ Applique ces règles à tout code C# que tu écris ou modifies. Références : R
 
 - Évite les allocations dans les chemins chauds : `StringBuilder` pour les concaténations répétées, `Span<T>`/`Memory<T>` pour le parsing intensif, attention aux captures de lambdas dans les boucles.
 - LINQ : attention à l'énumération multiple d'un même `IEnumerable` (matérialise une fois si réutilisé) ; pas de `Count()` quand `Any()` suffit.
-- Tout cache doit être borné et expirant (`IMemoryCache` avec `SizeLimit`/`AbsoluteExpiration`) — jamais de dictionnaire statique qui grossit sans limite.
+- Tout cache doit être borné et expirant (`IMemoryCache` avec `SizeLimit`/`AbsoluteExpiration`), jamais de dictionnaire statique qui grossit sans limite.
 - Utilise `IAsyncEnumerable`/streaming pour les gros volumes plutôt que de tout charger en mémoire.
 
 ## Logs et tâches

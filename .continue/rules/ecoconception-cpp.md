@@ -1,12 +1,12 @@
 ---
 name: Écoconception C++
-description: Règles d'écoconception pour le code C++ — copies évitées, conteneurs adaptés, RAII
+description: Règles d'écoconception pour le code C++, copies évitées, conteneurs adaptés, RAII
 globs: "**/*.{cpp,cc,cxx,hpp,hh}"
 ---
 
-# Règles d'écoconception — C++
+# Règles d'écoconception : C++
 
-Applique ces règles à tout code C++ que tu écris ou modifies. Références : RGESN v2 (Backend, Algorithmie) et GR491 (GR491_Backend_4 — voir `referentiels/gr491.md`).
+Applique ces règles à tout code C++ que tu écris ou modifies. Références : RGESN v2 (Backend, Algorithmie) et GR491 (GR491_Backend_4, voir `referentiels/gr491.md`).
 
 ## Copies et allocations
 

@@ -1,8 +1,0 @@
-# Généré par scripts/generer-adaptations.py — ne pas éditer à la main.
-# Adapter active_model au modèle disponible dans votre organisation.
-agent_type = "agent"
-display_name = "Revue accessibilité"
-description = "Revue accessibilité RGAA 4 / WCAG 2.1 AA d'un diff"
-safety = "safe"
-active_model = "mistral-medium-latest"
-system_prompt_id = "accessibilite-check"

@@ -4,9 +4,9 @@ description: Règles d'écoconception pour le code frontend (HTML, CSS, JS, imag
 globs: "**/*.{html,css,scss,js,jsx,ts,tsx,vue,svelte}"
 ---
 
-# Règles d'écoconception — Frontend
+# Règles d'écoconception : Frontend
 
-Applique ces règles à tout code frontend que tu écris ou modifies. Références : RGESN v2 (thématiques UX/UI, Contenus, Frontend) et GR491 (GR491_Frontend_4/5/9/10, GR491_Contenus_2/3, GR491_UXUI_5/8 — voir `referentiels/gr491.md`).
+Applique ces règles à tout code frontend que tu écris ou modifies. Références : RGESN v2 (thématiques UX/UI, Contenus, Frontend) et GR491 (GR491_Frontend_4/5/9/10, GR491_Contenus_2/3, GR491_UXUI_5/8, voir `referentiels/gr491.md`).
 
 ## Poids et requêtes
 
@@ -38,7 +38,7 @@ Applique ces règles à tout code frontend que tu écris ou modifies. Référenc
 
 ## Rendu et exécution
 
-- Évite le re-rendu inutile : mémoïsation ciblée, pagination ou virtualisation des longues listes (jamais de scroll infini par défaut — RGESN : privilégier la pagination).
+- Évite le re-rendu inutile : mémoïsation ciblée, pagination ou virtualisation des longues listes (jamais de scroll infini par défaut, RGESN recommandant la pagination).
 - Débounce/throttle les gestionnaires d'événements coûteux (scroll, resize, input).
 - Pas de polling : préfère les WebSockets ou Server-Sent Events si un rafraîchissement est réellement nécessaire, sinon un rafraîchissement manuel.
 - Mets en cache les réponses réseau (HTTP cache, service worker) avec une politique explicite.

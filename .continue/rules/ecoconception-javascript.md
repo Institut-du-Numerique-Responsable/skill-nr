@@ -4,13 +4,13 @@ description: Règles d'écoconception pour le code JavaScript et TypeScript, nav
 globs: "**/*.{js,jsx,ts,tsx,mjs,cjs}"
 ---
 
-# Règles d'écoconception — JavaScript / TypeScript
+# Règles d'écoconception : JavaScript / TypeScript
 
-Applique ces règles à tout code JS/TS que tu écris ou modifies, côté navigateur comme côté Node.js. Complète `ecoconception-frontend` (plateforme web) pour les fichiers d'interface. Références : RGESN v2 (Frontend, Backend, Algorithmie) et GR491 (GR491_Frontend_9/10, GR491_Backend_4 — voir `referentiels/gr491.md`).
+Applique ces règles à tout code JS/TS que tu écris ou modifies, côté navigateur comme côté Node.js. Complète `ecoconception-frontend` (plateforme web) pour les fichiers d'interface. Références : RGESN v2 (Frontend, Backend, Algorithmie) et GR491 (GR491_Frontend_9/10, GR491_Backend_4, voir `referentiels/gr491.md`).
 
 ## Dépendances
 
-- API natives d'abord : `fetch`, `Intl`, `URL`, `crypto`, `structuredClone`, `Array`/`Object` modernes — n'ajoute une librairie que si le natif ne suffit pas, et justifie-la.
+- API natives d'abord : `fetch`, `Intl`, `URL`, `crypto`, `structuredClone`, `Array`/`Object` modernes : n'ajoute une librairie que si le natif ne suffit pas, et justifie-la.
 - Imports ciblés (`import { x } from 'lib/x'`) pour préserver le tree-shaking ; surveille le poids ajouté au bundle ou à `node_modules`.
 
 ## Exécution

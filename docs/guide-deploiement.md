@@ -1,13 +1,13 @@
-# Guide de déploiement — diffuser les skills aux équipes
+# Guide de déploiement : diffuser les skills aux équipes
 
 Ce guide s'adresse à l'équipe qui pilote la démarche numérique responsable.
 Trois canaux complémentaires, à activer dans cet ordre. Il détaille le cas Continue
 (source de référence du dépôt) ; si votre équipe est sur un autre assistant, le
 canal 1 (dépôts de projet) et le canal 3 (CI) s'appliquent à l'identique en pointant
-sur le dossier de [adaptations/](../adaptations/README.md) correspondant plutôt que
+sur le dossier de [versions/](../versions/README.md) correspondant plutôt que
 sur `.continue/`.
 
-## 1. Par les dépôts de projet (démarrage — zéro friction)
+## 1. Par les dépôts de projet (démarrage, zéro friction)
 
 Continue (extension IDE **et** CLI) charge automatiquement `.continue/rules/*.md` du
 dépôt ouvert. Déployer = committer :
@@ -39,9 +39,9 @@ rules:
 Les développeurs se connectent une fois dans l'extension IDE et récupèrent l'assistant ;
 une mise à jour de block se propage immédiatement à tous.
 
-**Point de vigilance (secteurs réglementés)** : le Hub est un SaaS — à valider avec la
+**Point de vigilance (secteurs réglementés)** : le Hub est un SaaS, à valider avec la
 sécurité ; Continue propose des options entreprise/on-premise. Note : la CLI publiée
-(v1.5.47) n'a plus d'intégration Hub — ce canal ne concerne que l'extension IDE.
+(v1.5.47) n'a plus d'intégration Hub : ce canal ne concerne que l'extension IDE.
 
 ## 3. En CI (le garde-fou)
 
@@ -70,6 +70,6 @@ chaque complétion, et une inférence dimensionnée au besoin réel.
 
 ## Licences des référentiels
 
-- **GR491** (INR) : citation des recommandations avec attribution — voir conditions sur gr491.isit-europe.org.
-- **Opquast** : checklist sous licence **CC BY-SA**, attribution présente dans `referentiels/opquast-ecoconception.md` — à conserver dans toute rediffusion.
+- **GR491** (INR) : citation des recommandations avec attribution, voir conditions sur gr491.isit-europe.org.
+- **Opquast** : checklist sous licence **CC BY-SA**, attribution présente dans `referentiels/opquast-ecoconception.md`, à conserver dans toute rediffusion.
 - **RGESN, RGAA** : référentiels publics de l'État français.

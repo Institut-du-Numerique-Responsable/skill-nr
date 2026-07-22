@@ -1,12 +1,12 @@
 ---
 name: Écoconception Rust
-description: Règles d'écoconception pour le code Rust — allocations maîtrisées, itérateurs, async non bloquant
+description: Règles d'écoconception pour le code Rust, allocations maîtrisées, itérateurs, async non bloquant
 globs: "**/*.rs"
 ---
 
-# Règles d'écoconception — Rust
+# Règles d'écoconception : Rust
 
-Applique ces règles à tout code Rust que tu écris ou modifies. Rust est déjà sobre par conception : l'enjeu est de ne pas gaspiller cet avantage. Références : RGESN v2 (Backend, Algorithmie) et GR491 (GR491_Backend_2/4 — voir `referentiels/gr491.md`).
+Applique ces règles à tout code Rust que tu écris ou modifies. Rust est déjà sobre par conception : l'enjeu est de ne pas gaspiller cet avantage. Références : RGESN v2 (Backend, Algorithmie) et GR491 (GR491_Backend_2/4, voir `referentiels/gr491.md`).
 
 ## Allocations et copies
 

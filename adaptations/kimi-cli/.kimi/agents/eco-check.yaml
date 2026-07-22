@@ -1,5 +1,0 @@
-# Généré par scripts/generer-adaptations.py — ne pas éditer à la main.
-version: 1
-agent:
-  extend: "default"
-  system_prompt_path: ./eco-check.md

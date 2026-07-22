@@ -117,11 +117,11 @@ footer p + p { margin-top: .5rem; }
 <body>
 <main>
   <h1>🌱 Écoconception pour tout assistant IA de code</h1>
-  <p class="tagline">RGESN, GR491, Opquast et RGAA traduits en règles qu'un assistant applique en écrivant du code — et qu'un agent vérifie sur le diff. Une source, huit assistants.</p>
+  <p class="tagline">RGESN, GR491, Opquast et RGAA traduits en règles qu'un assistant applique en écrivant du code, et qu'un agent vérifie sur le diff. Une source, huit assistants.</p>
 
   <p>
     <a class="cta" href="https://github.com/Institut-du-Numerique-Responsable/regles-ecoconception-ia">Voir sur GitHub</a>
-    <a class="cta secondary" href="https://github.com/Institut-du-Numerique-Responsable/regles-ecoconception-ia/blob/main/adaptations/README.md">Installer pour votre assistant</a>
+    <a class="cta secondary" href="https://github.com/Institut-du-Numerique-Responsable/regles-ecoconception-ia/blob/main/versions/README.md">Installer pour votre assistant</a>
   </p>
 
   <div class="stats">
@@ -151,11 +151,11 @@ LIMIT 50;</code></pre>
     <div class="card">
       <h3>L'agent</h3>
       <div class="when">Après coup, sur le diff</div>
-      <p>Relit ce qui a été commité et cite le critère à chaque constat — pour la revue, et pour la montée en compétence de l'équipe.</p>
+      <p>Relit ce qui a été commité et cite le critère à chaque constat, pour la revue et pour la montée en compétence de l'équipe.</p>
       <pre><code><span class="dim">$ cn review --review-agents eco-check.md</span>
 
 [<span style="color:var(--sev-med)">Moyen</span>] rapport-clients.sql:9
-  SELECT * sur une table non filtrée — RGESN 7.x
+  SELECT * sur une table non filtrée, RGESN 7.x
   → colonnes explicites + pagination
 
 <span class="dim">1 constat, 0 régression</span></code></pre>
@@ -164,7 +164,7 @@ LIMIT 50;</code></pre>
   </div>
 
   <h2>Une source, huit assistants</h2>
-  <p>Les règles s'écrivent une seule fois, ciblées par langage. Un script (<code>scripts/generer-adaptations.py</code>) les décline dans le format natif de chaque assistant — aucune copie manuelle, aucune version qui prend du retard sur les autres.</p>
+  <p>Les règles s'écrivent une seule fois, ciblées par langage. Un script (<code>scripts/generer-versions.py</code>) les décline dans le format natif de chaque assistant. Aucune copie manuelle, aucune version qui prend du retard sur les autres.</p>
   <div class="tool-grid">
     <a class="tool-card" href="https://continue.dev"><b>Continue</b><span class="f">.continue/rules/ + agents/</span></a>
     <a class="tool-card" href="https://claude.com/claude-code"><b>Claude Code</b><span class="f">CLAUDE.md + .claude/agents/</span></a>
@@ -201,7 +201,7 @@ LIMIT 50;</code></pre>
   </div>
 
   <h2>Treize langages, chacun avec ses propres réflexes</h2>
-  <p>Un N+1 ne s'écrit pas pareil en JPA, en Entity Framework ou en ActiveRecord. Chaque règle nomme les motifs spécifiques au langage plutôt que des principes génériques — ce qui se vérifie, se corrige.</p>
+  <p>Un N+1 ne s'écrit pas pareil en JPA, en Entity Framework ou en ActiveRecord. Chaque règle nomme les motifs spécifiques au langage plutôt que des principes génériques, ce qui se vérifie et se corrige.</p>
   <div class="lang-row">
     <span class="lang-chip">SQL / PL-SQL</span>
     <span class="lang-chip">HTML</span>
@@ -218,15 +218,22 @@ LIMIT 50;</code></pre>
     <span class="lang-chip">C++</span>
   </div>
 
+  <h2>Et green-claude ?</h2>
+  <p><a href="https://github.com/Institut-du-Numerique-Responsable/green-claude">green-claude</a>, un autre projet de l'INR, répond à la même question : faire respecter le RGESN et le GR491 par un assistant de code. Les choix de conception diffèrent sur trois points.</p>
+  <p>green-claude est un skill Claude Code : il s'installe une fois dans <code>~/.claude/skills/</code> et ne vise que ce harnais, avec des hooks propres à ce produit (cache local, avertissement aux heures de pointe). Ce dépôt part d'une source unique et la décline pour huit assistants. Une équipe qui travaille sur Gemini CLI ou sur Continue n'a aucun accès aux règles de green-claude ; elle a accès à celles-ci.</p>
+  <p>Sur la détection, green-claude a une longueur d'avance. Son script <code>eco-audit.sh</code> repère des motifs par grep déterministe : <code>SELECT *</code>, <code>lodash</code>, <code>autoplay</code>. Zéro appel modèle, zéro dépendance à sa fiabilité pour les cas simples. Ce dépôt n'a pas cet étage : l'agent <code>eco-check</code> confie toute la détection au modèle. Sur un modèle local, il a bien repéré les écarts attendus, mais a aussi produit un correctif Java invalide (<code>.filter()</code> appelé sur une <code>List</code>, méthode qui n'existe pas). Un script de pré-filtre du même genre manque encore ici.</p>
+  <p>Sur la couverture, les rôles s'inversent. green-claude retient 35 règles parmi les 78 critères RGESN, avec un ancrage marqué sur la famille Algorithmie/IA et sur la sobriété d'usage de Claude Code lui-même (14 pratiques inspirées de Boris Cherny). Ce dépôt couvre ce dernier point dans la règle <code>usage-sobre-assistant.md</code>, et ajoute treize langages avec des anti-patterns propres à chacun ainsi qu'un référentiel que green-claude n'utilise pas, Opquast.</p>
+  <p>Une équipe outillée des deux gagnerait le meilleur des deux mécanismes : le script de green-claude pour un premier passage rapide sur les motifs connus, les règles de ce dépôt pour ce que le grep ne voit pas.</p>
+
   <h2>Aller plus loin</h2>
   <ul>
-    <li><a href="https://github.com/Institut-du-Numerique-Responsable/regles-ecoconception-ia/blob/main/docs/guide-developpeur.md">Guide développeur</a> — installer, utiliser au quotidien, lancer une revue, dépanner.</li>
-    <li><a href="https://github.com/Institut-du-Numerique-Responsable/regles-ecoconception-ia/blob/main/docs/guide-deploiement.md">Guide de déploiement</a> — diffuser les règles aux équipes (git, Hub, CI).</li>
-    <li><a href="https://github.com/Institut-du-Numerique-Responsable/regles-ecoconception-ia/blob/main/docs/developper-un-skill.md">Développer un skill</a> — écrire et tester une règle ou un agent.</li>
+    <li><a href="https://github.com/Institut-du-Numerique-Responsable/regles-ecoconception-ia/blob/main/docs/guide-developpeur.md">Guide développeur</a> : installer, utiliser au quotidien, lancer une revue, dépanner.</li>
+    <li><a href="https://github.com/Institut-du-Numerique-Responsable/regles-ecoconception-ia/blob/main/docs/guide-deploiement.md">Guide de déploiement</a> : diffuser les règles aux équipes (git, Hub, CI).</li>
+    <li><a href="https://github.com/Institut-du-Numerique-Responsable/regles-ecoconception-ia/blob/main/docs/developper-un-skill.md">Développer un skill</a> : écrire et tester une règle ou un agent.</li>
   </ul>
 
   <footer>
-    <p>Un projet <strong>CC BY-SA 4.0</strong> de l'<strong>Institut du Numérique Responsable</strong> — <a href="https://github.com/Institut-du-Numerique-Responsable">voir tous nos projets</a>. <a href="https://github.com/Institut-du-Numerique-Responsable/regles-ecoconception-ia/blob/main/CONTRIBUTING.md">Contribuer</a> · <a href="https://github.com/Institut-du-Numerique-Responsable/regles-ecoconception-ia/blob/main/LICENSE.md">Licence</a></p>
+    <p>Un projet <strong>CC BY-SA 4.0</strong> de l'<strong>Institut du Numérique Responsable</strong>, <a href="https://github.com/Institut-du-Numerique-Responsable">voir tous nos projets</a>. <a href="https://github.com/Institut-du-Numerique-Responsable/regles-ecoconception-ia/blob/main/CONTRIBUTING.md">Contribuer</a> · <a href="https://github.com/Institut-du-Numerique-Responsable/regles-ecoconception-ia/blob/main/LICENSE.md">Licence</a></p>
     <p>Dans le même esprit : <a href="https://github.com/Institut-du-Numerique-Responsable/green-claude">green-claude</a>, un skill de sobriété numérique dédié à Claude Code.</p>
     <p>Cette page applique les règles qu'elle promeut : zéro JavaScript, zéro requête externe, polices système, mode sombre natif.</p>
   </footer>

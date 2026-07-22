@@ -1,0 +1,5 @@
+# Généré par scripts/generer-versions.py, ne pas éditer à la main.
+version: 1
+agent:
+  extend: "default"
+  system_prompt_path: ./accessibilite-check.md

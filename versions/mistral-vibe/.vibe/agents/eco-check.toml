@@ -1,0 +1,8 @@
+# Généré par scripts/generer-versions.py, ne pas éditer à la main.
+# Adapter active_model au modèle disponible dans votre organisation.
+agent_type = "agent"
+display_name = "Revue écoconception"
+description = "Revue écoconception d'un diff selon le RGESN, le GR491 et Opquast"
+safety = "safe"
+active_model = "mistral-medium-latest"
+system_prompt_id = "eco-check"

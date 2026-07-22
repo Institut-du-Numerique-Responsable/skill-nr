@@ -1,12 +1,12 @@
 ---
 name: Écoconception PHP
-description: Règles d'écoconception pour le code PHP — ORM sobre, générateurs, OPcache, connexions réutilisées
+description: Règles d'écoconception pour le code PHP, ORM sobre, générateurs, OPcache, connexions réutilisées
 globs: "**/*.php"
 ---
 
-# Règles d'écoconception — PHP
+# Règles d'écoconception : PHP
 
-Applique ces règles à tout code PHP que tu écris ou modifies. Références : RGESN v2 (Backend, Algorithmie) et GR491 (GR491_Backend_2/3/4 — voir `referentiels/gr491.md`).
+Applique ces règles à tout code PHP que tu écris ou modifies. Références : RGESN v2 (Backend, Algorithmie) et GR491 (GR491_Backend_2/3/4, voir `referentiels/gr491.md`).
 
 ## Accès aux données (Doctrine / Eloquent / PDO)
 
@@ -25,5 +25,5 @@ Applique ces règles à tout code PHP que tu écris ou modifies. Références : 
 
 - OPcache activé en production ; autoload optimisé (`composer dump-autoload -o`) ; pas de dépendance Composer ajoutée quand une fonction native suffit.
 - Réutilise les connexions : client HTTP partagé (Guzzle injecté), connexions PDO persistantes ou pool selon la plateforme.
-- Tout cache est borné et expirant (APCu, Redis avec TTL) — jamais de cache fichier qui grossit sans purge.
+- Tout cache est borné et expirant (APCu, Redis avec TTL), jamais de cache fichier qui grossit sans purge.
 - Logging sobre en production : pas de log dans les boucles, niveaux INFO et au-dessus.

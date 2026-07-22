@@ -1,12 +1,12 @@
 ---
 name: Écoconception Java
-description: Règles d'écoconception pour le code Java — JPA/Hibernate sobre, mémoire, batch, logs
+description: Règles d'écoconception pour le code Java, JPA/Hibernate sobre, mémoire, batch, logs
 globs: "**/*.java"
 ---
 
-# Règles d'écoconception — Java
+# Règles d'écoconception : Java
 
-Applique ces règles à tout code Java que tu écris ou modifies. Références : RGESN v2 (Backend, Algorithmie) et GR491 (GR491_Backend_2/3/4 — voir `referentiels/gr491.md`).
+Applique ces règles à tout code Java que tu écris ou modifies. Références : RGESN v2 (Backend, Algorithmie) et GR491 (GR491_Backend_2/3/4, voir `referentiels/gr491.md`).
 
 ## Accès aux données (JPA / Hibernate / JDBC)
 
@@ -21,7 +21,7 @@ Applique ces règles à tout code Java que tu écris ou modifies. Références :
 - Évite les allocations dans les boucles chaudes ; `StringBuilder` pour les concaténations répétées.
 - Streams : pas de `parallelStream()` par défaut (il consomme tous les cœurs pour un gain rarement mesuré) ; attention au boxing dans les pipelines (`IntStream` plutôt que `Stream<Integer>`).
 - Choisis des structures adaptées au volume (`ArrayList` pré-dimensionnée, `EnumMap`/`EnumSet`…) ; pas de tri ou de recherche linéaire répétée sur de grosses collections.
-- Tout cache doit être borné et expirant (Caffeine : `maximumSize` + `expireAfterWrite`) — jamais de `HashMap` statique qui grossit sans limite.
+- Tout cache doit être borné et expirant (Caffeine : `maximumSize` + `expireAfterWrite`), jamais de `HashMap` statique qui grossit sans limite.
 
 ## API et sérialisation
 

@@ -1,25 +1,25 @@
-# Guide développeur — Assistant IA & écoconception
+# Guide développeur : Assistant IA & écoconception
 
 Ce guide s'adresse aux développeurs qui utilisent [Continue](https://continue.dev)
-avec les règles numérique responsable de ce dépôt — Continue est la source de
+avec les règles numérique responsable de ce dépôt. Continue est la source de
 référence (règles ciblées par langage via `globs`, agents exécutés par `cn review`).
 **Si vous utilisez un autre assistant** (Claude Code, Gemini CLI, OpenCode, Mistral
 Vibe, Codex, Kimi CLI, ChatGPT), les mêmes règles sont déclinées dans leur format
-natif : voir [adaptations/README.md](../adaptations/README.md) pour l'installation
-et l'usage propres à votre outil — le mécanisme (règle pendant l'écriture, agent sur
+natif : voir [versions/README.md](../versions/README.md) pour l'installation
+et l'usage propres à votre outil. Le mécanisme (règle pendant l'écriture, agent sur
 le diff) reste identique, seule la commande change.
 
 ## Ce que ça change pour vous
 
 Une fois le dossier `.continue/` présent dans votre projet :
 
-1. **Pendant que vous codez avec l'assistant** — les règles d'écoconception sont
+1. **Pendant que vous codez avec l'assistant** : les règles d'écoconception sont
    automatiquement injectées dans le contexte de l'IA. Le code généré applique le RGESN,
    le GR491 et Opquast sans que vous ayez rien à demander : requêtes SQL paginées et sans
    `SELECT *`, lectures EF Core avec `AsNoTracking()`, images en lazy loading, etc.
    L'assistant cite le critère qu'il applique (ex. « GR491_Backend_1 », « Opquast n°124 »)
    pour que vous montiez en compétence au passage.
-2. **À la revue** — des agents relisent votre diff sous l'angle écoconception et
+2. **À la revue** : des agents relisent votre diff sous l'angle écoconception et
    accessibilité, et proposent des correctifs.
 
 Les règles sont contextuelles : un fichier `.cs` charge les règles C#, un `.sql` les
@@ -44,7 +44,7 @@ npm install -g @continuedev/cli   # commande `cn`
 Attention : la CLI publiée (v1.5.47 testée) ne propose pas de connexion au compte
 Continue (`cn login` n'existe plus, contrairement à sa doc). Il lui faut un modèle
 configuré dans `~/.continue/config.yaml`. Configuration validée avec un modèle local
-[Ollama](https://ollama.com) — gratuit et aucune donnée ne quitte le poste :
+[Ollama](https://ollama.com), gratuit et aucune donnée ne quitte le poste :
 
 ```yaml
 name: Local (Ollama)

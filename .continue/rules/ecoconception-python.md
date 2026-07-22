@@ -1,12 +1,12 @@
 ---
 name: Écoconception Python
-description: Règles d'écoconception pour le code Python — ORM sobre, générateurs, vectorisation, caches bornés
+description: Règles d'écoconception pour le code Python, ORM sobre, générateurs, vectorisation, caches bornés
 globs: "**/*.py"
 ---
 
-# Règles d'écoconception — Python
+# Règles d'écoconception : Python
 
-Applique ces règles à tout code Python que tu écris ou modifies. Références : RGESN v2 (Backend, Algorithmie) et GR491 (GR491_Backend_2/3/4 — voir `referentiels/gr491.md`).
+Applique ces règles à tout code Python que tu écris ou modifies. Références : RGESN v2 (Backend, Algorithmie) et GR491 (GR491_Backend_2/3/4, voir `referentiels/gr491.md`).
 
 ## Accès aux données (Django ORM / SQLAlchemy)
 
@@ -25,7 +25,7 @@ Applique ces règles à tout code Python que tu écris ou modifies. Références
 
 - Recherche d'appartenance dans un `set`/`dict`, pas `in` sur une grande liste (O(n)) ; pas de traitement quadratique sur des collections non bornées.
 - Concatène les chaînes avec `''.join(...)`, pas `+=` en boucle.
-- Tout cache est borné et expirant (`functools.lru_cache(maxsize=...)`, TTL côté Redis) — jamais de dict global qui grossit sans limite.
+- Tout cache est borné et expirant (`functools.lru_cache(maxsize=...)`, TTL côté Redis), jamais de dict global qui grossit sans limite.
 
 ## I/O et réseau
 
