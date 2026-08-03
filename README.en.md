@@ -357,6 +357,9 @@ The guides below are in French.
 | `verification/` | Deliberately non-compliant test files and expected findings, to validate an install. |
 | `scripts/generer-versions.py` | Regenerates `versions/` from `.continue/` (single source). |
 | `scripts/verifier-installation.sh` | Checks that the rule files are in place in a project. |
+| `scripts/verifier-depot.sh` | Repository integrity checks, also run by CI on every PR. |
+| `scripts/installer-hooks.sh` | Installs the local git hooks (pre-filter on commit, guardrail on push). |
+| `.github/workflows/` | CI: repository integrity, pre-filter on the PR diff. |
 | `scripts/eco-audit.sh` | Deterministic grep pre-filter: known patterns, zero model calls, usable as a commit hook. |
 | `scripts/scorer-detection.py` | Scores a review report against the corpus's 18 defects, to measure a change to the rules. |
 | `docs/` | Developer, deployment and contribution guides. |

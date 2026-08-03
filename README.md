@@ -367,6 +367,9 @@ dans votre home ni dans la configuration de l'outil.
 | `verification/` | Fichiers de test non conformes et écarts attendus, pour valider une installation. |
 | `scripts/generer-versions.py` | Régénère `versions/` depuis `.continue/` (source unique). |
 | `scripts/verifier-installation.sh` | Contrôle que les fichiers de règles sont en place dans un projet. |
+| `scripts/verifier-depot.sh` | Contrôles d'intégrité du dépôt, joués aussi par la CI sur chaque PR. |
+| `scripts/installer-hooks.sh` | Pose les hooks git locaux (pré-filtre au commit, garde-fou au push). |
+| `.github/workflows/` | CI : intégrité du dépôt, pré-filtre sur le diff de la PR. |
 | `scripts/eco-audit.sh` | Pré-filtre déterministe (grep) : motifs connus, zéro appel modèle, utilisable en hook. |
 | `scripts/scorer-detection.py` | Score un rapport de revue contre les 18 écarts du corpus, pour mesurer une évolution des règles. |
 | `docs/` | Guides développeur, déploiement et contribution. |

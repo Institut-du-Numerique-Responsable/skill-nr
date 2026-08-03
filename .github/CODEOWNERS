@@ -1,0 +1,9 @@
+# Relecteurs sollicités automatiquement selon les fichiers touchés.
+# Note : sur un dépôt privé en plan gratuit, GitHub ne peut pas *imposer* cette
+# relecture (la protection de branche est indisponible). C'est une sollicitation,
+# pas un verrou.
+
+*                       @gridboy
+.continue/rules/        @gridboy
+.continue/agents/       @gridboy
+referentiels/           @gridboy

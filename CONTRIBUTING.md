@@ -1,6 +1,29 @@
 # Contribuer
 
-Merci de vouloir améliorer ces règles Numérique Responsable pour Continue !
+Merci de vouloir améliorer ces règles Numérique Responsable. Elles sont écrites une
+fois au format Continue et déclinées pour huit assistants : une contribution profite
+donc à tous les outils d'un coup.
+
+## Le flux
+
+Tout passe par une branche et une pull request, y compris pour les mainteneurs.
+
+```bash
+bash scripts/installer-hooks.sh          # une fois par clone
+git switch -c regle/mon-sujet
+# ... vos modifications ...
+bash scripts/verifier-depot.sh           # les contrôles de la CI, en local
+git push -u origin regle/mon-sujet
+gh pr create
+```
+
+Les hooks installés refusent un push direct sur `main` et lancent le pré-filtre
+écoconception avant chaque commit. Ils sont locaux à votre clone : la protection de
+branche côté GitHub n'est pas disponible sur ce dépôt (privé, plan gratuit), donc
+rien ne l'impose techniquement. C'est une convention outillée, pas un verrou.
+
+La CI rejoue les mêmes contrôles sur chaque PR (`.github/workflows/verification.yml`)
+et commente le résultat du pré-filtre sur les fichiers modifiés.
 
 ## Proposer une règle ou un agent
 

@@ -1,0 +1,87 @@
+name: Vérification
+
+# Sur chaque PR et sur main. Les contrôles sont les mêmes qu'en local
+# (scripts/verifier-depot.sh), pour qu'un contributeur puisse reproduire un échec
+# de CI sans deviner ce qu'elle fait.
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  integrite:
+    name: Intégrité du dépôt
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Contrôles d'intégrité
+        run: bash scripts/verifier-depot.sh
+
+  ecoconception:
+    name: Pré-filtre écoconception du diff
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Auditer les fichiers modifiés par la PR
+        id: audit
+        run: |
+          # Seuls les fichiers touchés par la PR sont audités : une PR n'a pas à
+          # répondre des motifs préexistants du dépôt.
+          git diff --name-only --diff-filter=ACM \
+            "origin/${{ github.base_ref }}...HEAD" > fichiers.txt
+          # Les pièges de verification/ sont volontairement non conformes.
+          grep -v '^verification/exemple-a-corriger\.' fichiers.txt > audites.txt || true
+          if [ ! -s audites.txt ]; then
+            echo "Aucun fichier à auditer." | tee rapport.txt
+            exit 0
+          fi
+          # --avertir : informatif au démarrage. Retirer l'option pour rendre
+          # bloquants les constats « Élevé » quand l'équipe a pris ses marques.
+          bash scripts/eco-audit.sh --avertir $(cat audites.txt) | tee rapport.txt
+
+      - name: Commenter la PR
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let rapport = '';
+            try { rapport = fs.readFileSync('rapport.txt', 'utf8').trim(); } catch (e) { return; }
+            if (!rapport || rapport.includes('aucun motif connu') || rapport.includes('Aucun fichier')) return;
+
+            const marqueur = '<!-- pre-filtre-ecoconception -->';
+            const corps = `${marqueur}\n### Pré-filtre écoconception\n\n`
+              + `Motifs déterministes détectés dans les fichiers de cette PR. `
+              + `Ni exhaustif, ni preuve de non-conformité : à lire comme une liste de points à confirmer.\n\n`
+              + '```\n' + rapport + '\n```\n';
+
+            const { data: commentaires } = await github.rest.issues.listComments({
+              owner: context.repo.owner, repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const existant = commentaires.find(c => c.body.includes(marqueur));
+            if (existant) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner, repo: context.repo.repo,
+                comment_id: existant.id, body: corps,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: context.issue.number, body: corps,
+              });
+            }
