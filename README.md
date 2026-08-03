@@ -15,6 +15,8 @@ quel qu'il soit.
 [![RGAA](https://img.shields.io/badge/RGAA-4-0b6e4f)](https://accessibilite.numerique.gouv.fr/)
 [![PR bienvenues](https://img.shields.io/badge/PR-bienvenues-blueviolet)](CONTRIBUTING.md)
 
+🇬🇧 [English version](README.en.md)
+
 </div>
 
 ---
