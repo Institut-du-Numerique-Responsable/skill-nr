@@ -26,16 +26,18 @@ projet, sans configuration individuelle.
 
 ## 2. Par le Hub Continue (passage à l'échelle)
 
-Sur [hub.continue.dev](https://hub.continue.dev) : créer une **organisation** au nom de
-la vôtre (`votre-organisation` dans les exemples ci-dessous), publier chaque règle comme
-*block* (`votre-organisation/ecoconception-sql`, …), définir un assistant d'organisation
-qui les référence :
+Sur [hub.continue.dev](https://hub.continue.dev) : créer une **organisation**, publier
+chaque règle comme *block*, définir un assistant d'organisation qui les référence :
 
 ```yaml
 rules:
-  - uses: votre-organisation/ecoconception-frontend
-  - uses: votre-organisation/qualite-web-opquast
+  - uses: rule/ecoconception-frontend
+  - uses: rule/qualite-web-opquast
 ```
+
+Dans ces exemples, `rule` tient la place du slug de votre organisation sur le Hub :
+remplacez-le par le vôtre. Ce n'est pas un mot-clé réservé, le type de block est déjà
+porté par la clé `rules:` au-dessus.
 
 Les développeurs se connectent une fois dans l'extension IDE et récupèrent l'assistant ;
 une mise à jour de block se propage immédiatement à tous.
