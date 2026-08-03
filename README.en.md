@@ -243,6 +243,30 @@ rules. Hence two layers:
 Then share the GPT through an internal link. Creating one requires a Plus, Team or
 Enterprise account. A ChatGPT *Project* works too, with the same two layers.
 
+## The deterministic guardrail
+
+Rules steer generation and agents review on demand: neither fires by itself at commit
+time. `scripts/eco-audit.sh` fills that gap. It greps for known patterns, calling no
+model at all: no cost, no wait, no invented fix.
+
+```bash
+bash scripts/eco-audit.sh                    # staged files, otherwise the whole repo
+bash scripts/eco-audit.sh src/api.sql        # specific files
+bash scripts/eco-audit.sh --installer-hook   # blocks the commit on a high finding
+```
+
+Every finding comes out with its file, line and source criterion. Only "Élevé" findings
+fail the command; `--avertir` never fails, for a first rollout across a team.
+
+Calibration was done against real third-party code: on 600 files of an open source
+project, 3 blocking findings, all genuine. Patterns too noisy for a hook (`import * as`,
+`.ToList()`, `.clone()`) sit behind `--tout`, for one-off audits. `--motifs` prints the
+full table.
+
+What the script cannot see stays with the rules and the agents: it catches no absence
+(a missing pagination, an undefined retention policy) and nothing that requires reading
+intent. Out of the corpus's 18 defects it finds 12. It is a filter, not a judge.
+
 ## Checking that the installation works
 
 Copying files does not prove the assistant reads them. An overwritten `AGENTS.md`, a wrong
@@ -333,6 +357,8 @@ The guides below are in French.
 | `verification/` | Deliberately non-compliant test files and expected findings, to validate an install. |
 | `scripts/generer-versions.py` | Regenerates `versions/` from `.continue/` (single source). |
 | `scripts/verifier-installation.sh` | Checks that the rule files are in place in a project. |
+| `scripts/eco-audit.sh` | Deterministic grep pre-filter: known patterns, zero model calls, usable as a commit hook. |
+| `scripts/scorer-detection.py` | Scores a review report against the corpus's 18 defects, to measure a change to the rules. |
 | `docs/` | Developer, deployment and contribution guides. |
 | `test-eco` branch | Trap files per language, to validate the agents after every change to the rules. |
 

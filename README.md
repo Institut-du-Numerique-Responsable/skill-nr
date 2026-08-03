@@ -241,6 +241,33 @@ règles complètes. D'où deux étages :
 Partagez ensuite le GPT par lien interne à l'organisation. La création demande un compte
 Plus, Team ou Enterprise. Un *Projet* ChatGPT fonctionne aussi, avec les mêmes deux étages.
 
+## Le garde-fou déterministe
+
+Les règles orientent la génération, les agents relisent à la demande : ni l'un ni l'autre
+ne se déclenche tout seul au moment du commit. `scripts/eco-audit.sh` comble ce trou. Il
+cherche par `grep` des motifs connus, sans appeler aucun modèle : pas de coût, pas
+d'attente, pas de correctif inventé.
+
+```bash
+bash scripts/eco-audit.sh                    # fichiers indexés, sinon tout le dépôt
+bash scripts/eco-audit.sh src/api.sql        # fichiers précis
+bash scripts/eco-audit.sh --installer-hook   # bloque le commit sur un constat élevé
+```
+
+Chaque constat sort avec son fichier, sa ligne et son critère source. Seuls les constats
+« Élevé » font échouer la commande ; `--avertir` n'échoue jamais, pour un premier
+déploiement en équipe.
+
+Le calibrage a été fait sur du code tiers réel : sur 600 fichiers d'un projet open source,
+3 constats bloquants, tous fondés. Les motifs trop bruyants pour un hook (`import * as`,
+`.ToList()`, `.clone()`) sont derrière `--tout`, réservé aux audits ponctuels. `--motifs`
+liste la table complète.
+
+Ce que le script ne voit pas reste du ressort des règles et des agents : il n'attrape
+aucune absence (une pagination manquante, une rétention non définie), ni rien qui demande
+de comprendre l'intention. Sur les 18 écarts du corpus de vérification, il en trouve 12.
+C'est un filtre, pas un juge.
+
 ## Vérifier que l'installation fonctionne
 
 Copier des fichiers ne prouve pas que l'assistant les lit. Un `AGENTS.md` écrasé, un
@@ -275,6 +302,16 @@ Comparez à [`verification/resultats-attendus.md`](verification/resultats-attend
 détaille les 18 écarts avec leurs critères. Repère : **10 écarts relevés sur 18, dont au
 moins 3 avec un critère cité**, c'est bon. En dessous de 5, ou si aucun critère n'est jamais
 cité, les règles ne sont pas chargées.
+
+Pour éviter la comparaison à la main, passez le rapport au scorer :
+
+```bash
+python3 scripts/scorer-detection.py rapport.txt      # ou par un tube
+```
+
+Il sort le nombre d'écarts détectés, les critères cités, et ceux qui manquent. Utile
+surtout pour **mesurer une évolution des règles** : sans ce chiffre, on empile des
+consignes sans savoir si l'observance monte ou baisse.
 
 Le signal le plus fiable n'est pas le nombre d'écarts mais la **citation des critères**.
 N'importe quel modèle correct dira qu'une image manque d'`alt` ; seul un modèle qui a les
@@ -330,6 +367,8 @@ dans votre home ni dans la configuration de l'outil.
 | `verification/` | Fichiers de test non conformes et écarts attendus, pour valider une installation. |
 | `scripts/generer-versions.py` | Régénère `versions/` depuis `.continue/` (source unique). |
 | `scripts/verifier-installation.sh` | Contrôle que les fichiers de règles sont en place dans un projet. |
+| `scripts/eco-audit.sh` | Pré-filtre déterministe (grep) : motifs connus, zéro appel modèle, utilisable en hook. |
+| `scripts/scorer-detection.py` | Score un rapport de revue contre les 18 écarts du corpus, pour mesurer une évolution des règles. |
 | `docs/` | Guides développeur, déploiement et contribution. |
 | branche `test-eco` | Fichiers pièges par langage pour valider les agents après chaque évolution des règles. |
 

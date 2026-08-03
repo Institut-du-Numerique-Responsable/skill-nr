@@ -27,6 +27,20 @@ git checkout -- exemples/ && rm -rf exemples/
 Toute nouvelle consigne dans une règle doit s'accompagner du piège correspondant
 dans `exemples/` (commité sur `test-eco`).
 
+### Mesurer l'effet de votre changement
+
+Une règle reformulée peut améliorer ou dégrader la détection sans qu'on s'en aperçoive.
+Le corpus de `verification/` et son scorer donnent un chiffre avant/après :
+
+```bash
+cn review --review-agents .continue/agents/eco-check.md verification/exemple-a-corriger.* \
+  | python3 scripts/scorer-detection.py
+```
+
+Indiquez le score avant et après dans la PR. Si votre consigne porte sur un motif
+détectable par `grep`, ajoutez-le aussi à `scripts/eco-audit.sh` : ce qui peut être
+attrapé sans appeler un modèle doit l'être.
+
 ## Conventions
 
 - Tout le contenu est rédigé en **français**, consignes à l'impératif.

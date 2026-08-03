@@ -57,6 +57,19 @@ Ou lancez directement l'agent de revue de votre outil :
 Comparez ensuite la réponse à [`resultats-attendus.md`](resultats-attendus.md), qui liste
 les 18 écarts volontaires des deux fichiers avec leurs critères.
 
+Pour ne pas comparer à la main, passez le rapport au scorer :
+
+```bash
+cn review --review-agents .continue/agents/eco-check.md | python3 scripts/scorer-detection.py
+python3 scripts/scorer-detection.py rapport-colle.txt        # ou depuis un fichier
+```
+
+Il rapproche le rapport de `attendus.json` et sort le nombre d'écarts détectés, le
+nombre de critères cités, et lesquels manquent. Le rapprochement est textuel, donc
+généreux : le chiffre absolu vaut moins que son évolution entre deux états des règles.
+C'est ce qui permet de dire « cette reformulation fait passer la détection de 11 à 15
+sur 18 » au lieu de s'en remettre à une impression.
+
 **Barème** : 10 écarts sur 18 relevés, dont au moins 3 avec un critère cité (RGESN, GR491,
 Opquast, RGAA), c'est une installation qui fonctionne. En dessous de 5, ou si aucun critère
 n'est jamais cité, les règles ne sont pas chargées : reprenez l'étape 1.

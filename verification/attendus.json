@@ -1,0 +1,131 @@
+{
+  "_commentaire": "Source machine des écarts volontaires des fichiers exemple-a-corriger.*. Lu par scripts/scorer-detection.py. La table lisible correspondante est resultats-attendus.md : les deux doivent rester synchronisées (le scorer vérifie au moins le compte).",
+  "ecarts": [
+    {
+      "id": 1,
+      "fichier": "exemple-a-corriger.html",
+      "libelle": "Image sans attribut alt",
+      "criteres": ["RGAA 1.1"],
+      "motifs": ["\\balt\\b"]
+    },
+    {
+      "id": 2,
+      "fichier": "exemple-a-corriger.html",
+      "libelle": "Image sans lazy loading, sans dimensions, sans format moderne",
+      "criteres": ["GR491_UXUI_8", "GR491_Contenus_2"],
+      "motifs": ["lazy", "loading\\s*=", "\\bwidth\\b.{0,20}\\bheight\\b", "webp", "avif", "srcset"]
+    },
+    {
+      "id": 3,
+      "fichier": "exemple-a-corriger.html",
+      "libelle": "Image 4000x3000 redimensionnée côté client",
+      "criteres": ["Opquast n°119"],
+      "motifs": ["4000", "redimensionn", "resiz", "surdimensionn", "vignette", "trop (grande|lourde)"]
+    },
+    {
+      "id": 4,
+      "fichier": "exemple-a-corriger.html",
+      "libelle": "Vidéo en autoplay et en boucle",
+      "criteres": ["Opquast n°124", "GR491_Contenus_3"],
+      "motifs": ["autoplay", "lecture automatique", "automatic(ally)? play"]
+    },
+    {
+      "id": 5,
+      "fichier": "exemple-a-corriger.html",
+      "libelle": "Iframe tierce chargée au chargement de la page",
+      "criteres": ["GR491_Frontend_9", "GR491_Contenus_3"],
+      "motifs": ["iframe", "youtube", "façade", "facade"]
+    },
+    {
+      "id": 6,
+      "fichier": "exemple-a-corriger.html",
+      "libelle": "Tableau de données simulé en div",
+      "criteres": ["Opquast n°245", "RGAA 5"],
+      "motifs": ["tableau (de données )?simul", "simulated table", "<table>", "\\bthead\\b", "245"]
+    },
+    {
+      "id": 7,
+      "fichier": "exemple-a-corriger.html",
+      "libelle": "Framework CSS complet et police distante multi-graisses",
+      "criteres": ["GR491_Frontend_9", "GR491_UXUI_8"],
+      "motifs": ["bootstrap", "police", "\\bfont(s|-family|-display)?\\b", "woff", "graisse", "cdn"]
+    },
+    {
+      "id": 8,
+      "fichier": "exemple-a-corriger.html",
+      "libelle": "div cliquable au lieu d'un button",
+      "criteres": ["RGAA 7.1", "GR491_UXUI_4"],
+      "motifs": ["onclick", "div.{0,40}(cliquab|bouton|button)", "(bouton|button).{0,40}div", "clavier", "keyboard"]
+    },
+    {
+      "id": 9,
+      "fichier": "exemple-a-corriger.html",
+      "libelle": "Champ de formulaire sans label associé",
+      "criteres": ["RGAA 11.1"],
+      "motifs": ["\\blabel\\b", "placeholder"]
+    },
+    {
+      "id": 10,
+      "fichier": "exemple-a-corriger.html",
+      "libelle": "Contraste de texte insuffisant",
+      "criteres": ["RGAA 3.2"],
+      "motifs": ["contrast", "b9b9b9", "4[,.]5"]
+    },
+    {
+      "id": 11,
+      "fichier": "exemple-a-corriger.html",
+      "libelle": "jQuery et lodash là où les API natives suffisent",
+      "criteres": ["GR491_Frontend_9", "GR491_Backend_2"],
+      "motifs": ["jquery", "lodash", "dépendance", "librairie", "library"]
+    },
+    {
+      "id": 12,
+      "fichier": "exemple-a-corriger.html",
+      "libelle": "Polling toutes les 3 secondes",
+      "criteres": ["GR491_Frontend_10", "GR491_Backend_3"],
+      "motifs": ["setinterval", "polling", "interrogation périodique", "websocket", "server-sent"]
+    },
+    {
+      "id": 13,
+      "fichier": "exemple-a-corriger.html",
+      "libelle": "Aucune balise sémantique ni hiérarchie de titres",
+      "criteres": ["RGAA 9.1", "GR491_Frontend_5"],
+      "motifs": ["sémanti", "semantic", "hiérarchie de titres", "heading", "landmark", "<h1", "\\bmain\\b.{0,20}(balise|element)"]
+    },
+    {
+      "id": 14,
+      "fichier": "exemple-a-corriger.sql",
+      "libelle": "SELECT * sur une jointure à trois tables",
+      "criteres": ["GR491_Backend_3"],
+      "motifs": ["select\\s*\\*", "projection", "colonnes (explicites|utiles|nécessaires)"]
+    },
+    {
+      "id": 15,
+      "fichier": "exemple-a-corriger.sql",
+      "libelle": "Aucune pagination sur un volume non borné",
+      "criteres": ["GR491_Backend_1"],
+      "motifs": ["pagination", "paginat", "\\blimit\\b", "fetch first", "curseur"]
+    },
+    {
+      "id": 16,
+      "fichier": "exemple-a-corriger.sql",
+      "libelle": "Prédicats non sargables (UPPER, LIKE '%...', YEAR)",
+      "criteres": ["GR491_Backend_4"],
+      "motifs": ["sargab", "upper\\s*\\(", "year\\s*\\(", "like\\s*'%", "index", "fonction sur (la )?colonne"]
+    },
+    {
+      "id": 17,
+      "fichier": "exemple-a-corriger.sql",
+      "libelle": "Table de journalisation sans politique de rétention",
+      "criteres": ["GR491_Backend_1", "RGESN"],
+      "motifs": ["rétention", "retention", "purge", "durée de conservation", "archivage"]
+    },
+    {
+      "id": 18,
+      "fichier": "exemple-a-corriger.sql",
+      "libelle": "Collecte d'IP et de user-agent sans nécessité démontrée",
+      "criteres": ["GR491_Backend_5", "RGPD"],
+      "motifs": ["adresse_ip", "\\bip\\b", "user.?agent", "rgpd", "donnée.{0,25}personnel", "minimisation"]
+    }
+  ]
+}
