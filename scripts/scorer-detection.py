@@ -36,9 +36,35 @@ TABLE_LISIBLE = RACINE / "verification" / "resultats-attendus.md"
 # contexte : n'importe quel modèle voit un alt manquant, seul un modèle équipé
 # écrit « Opquast n°124 ».
 MOTIF_CRITERE = re.compile(
-    r"GR491_[A-Za-z]+_\d+|Opquast\s*n°\s*\d+|RGESN\s*\d|RGAA\s*\d|RGPD",
+    r"GR491_[A-Za-z]+_\d+|Opquast\s*n°\s*\d+|RGESN\s*\d+(?:\.\d+)?|RGAA\s*\d+(?:\.\d+)?|RGPD",
     re.IGNORECASE,
 )
+
+
+def charger_referentiels():
+    """Identifiants réellement existants, lus dans referentiels/.
+
+    Un modèle qui a les règles en contexte cite des critères ; un modèle qui ne les a
+    pas en invente de plausibles, souvent en séquence (RGESN 6.1, 6.2, 6.3…). La
+    présence d'une citation ne prouve donc rien : sa vérifiabilité, si.
+    """
+    reels = set()
+    rgesn = RACINE / "referentiels" / "rgesn.md"
+    if rgesn.exists():
+        reels |= {f"RGESN {m}" for m in re.findall(r"^- \*\*RGESN (\d+\.\d+)", rgesn.read_text(encoding="utf-8"), re.M)}
+    gr491 = RACINE / "referentiels" / "gr491.md"
+    if gr491.exists():
+        reels |= set(re.findall(r"GR491_[A-Za-z]+_\d+", gr491.read_text(encoding="utf-8")))
+    opquast = RACINE / "referentiels" / "opquast-ecoconception.md"
+    if opquast.exists():
+        reels |= {f"Opquast n°{m}" for m in re.findall(r"^- (\d+) :", opquast.read_text(encoding="utf-8"), re.M)}
+    return reels
+
+
+def normaliser(citation: str) -> str:
+    c = " ".join(citation.split())
+    c = re.sub(r"Opquast\s*n°\s*", "Opquast n°", c, flags=re.IGNORECASE)
+    return c
 
 
 def charger_attendus():
@@ -73,7 +99,11 @@ def scorer(rapport: str, ecarts: list) -> dict:
                 re.search(re.escape(c), rapport, re.IGNORECASE) for c in ecart["criteres"]
             ),
         })
-    criteres = sorted(set(m.group(0) for m in MOTIF_CRITERE.finditer(rapport)))
+    criteres = sorted(set(normaliser(m.group(0)) for m in MOTIF_CRITERE.finditer(rapport)))
+    reels = charger_referentiels()
+    # RGAA et RGPD ne sont pas extraits dans referentiels/ : non vérifiables ici.
+    verifiables = [c for c in criteres if c.startswith(("RGESN", "GR491", "Opquast"))]
+    inexistants = sorted(c for c in verifiables if c not in reels)
     detectes = [r for r in resultats if r["detecte"]]
     return {
         "total": len(ecarts),
@@ -81,6 +111,7 @@ def scorer(rapport: str, ecarts: list) -> dict:
         "criteres_cites": len(criteres),
         "liste_criteres": criteres,
         "exacts": sum(1 for r in resultats if r["critere_cite"]),
+        "citations_inexistantes": inexistants,
         "resultats": resultats,
     }
 
@@ -114,13 +145,26 @@ def principal():
         print(f"  Critères cités    : {score['criteres_cites']} distincts"
               + (f" ({', '.join(score['liste_criteres'][:6])}…)" if score["criteres_cites"] else ""))
         print(f"  Écarts tracés au bon critère : {score['exacts']}/{score['total']}")
+        if score["citations_inexistantes"]:
+            print()
+            print(f"  ⚠ {len(score['citations_inexistantes'])} identifiant(s) cité(s) qui n'existent pas :")
+            print(f"      {', '.join(score['citations_inexistantes'])}")
+            print("      Le modèle invente des références. Citer n'est pas tracer :")
+            print("      c'est la vérifiabilité de la citation qui compte, pas sa présence.")
         print()
-        if score["detectes"] >= 10 and score["criteres_cites"] >= 3:
-            print("  Lecture : au-dessus du repère d'installation fonctionnelle (10/18, 3 critères).")
-        elif score["detectes"] < 5 or score["criteres_cites"] == 0:
+        # Repères calés sur une mesure réelle (qwen3-coder local, règles Continue
+        # chargées) : 16/18 détectés, mais 1 seul écart tracé au bon critère et des
+        # identifiants inventés. La détection est donc le signal solide ; la citation
+        # ne vaut que si elle est vérifiable.
+        if score["detectes"] >= 12 and not score["citations_inexistantes"]:
+            print("  Lecture : installation fonctionnelle, citations vérifiables.")
+        elif score["detectes"] >= 12:
+            print("  Lecture : les règles sont chargées (détection élevée), mais certaines")
+            print("  références sont inventées : relire les critères cités avant de s'y fier.")
+        elif score["detectes"] < 5:
             print("  Lecture : sous le repère. Les règles ne semblent pas chargées.")
         else:
-            print("  Lecture : entre les deux repères. Détection partielle.")
+            print("  Lecture : détection partielle, entre les deux repères.")
 
     if args.seuil is not None and score["detectes"] < args.seuil:
         return 1

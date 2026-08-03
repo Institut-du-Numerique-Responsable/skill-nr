@@ -334,13 +334,14 @@ assistant, from `$PROJET`:
 > accessibility. List the issues and cite the source criterion for each one.
 
 Compare with [`verification/resultats-attendus.md`](verification/resultats-attendus.md),
-which details all 18 defects and their criteria. Benchmark: **10 out of 18 found, at least
-3 of them with a criterion cited**, and you are fine. Below 5, or if no criterion is ever
-cited, the rules are not loaded.
+which details all 18 defects and their criteria. Measured benchmark: **12 out of 18**.
+Below 5, the rules are not loaded.
 
-The most reliable signal is not the number of findings but the **criterion citations**.
-Any decent model will say an image is missing its `alt`; only a model with the rules in
-context writes "Opquast n°124" or "GR491_Backend_3".
+One warning that came out of measuring: do not take a cited criterion as proof. A local
+model with the rules loaded found 16 defects out of 18, yet cited a criterion that does not
+exist (`RGESN 6.8`) and invented titles for the others. `scorer-detection.py` therefore
+checks every identifier against `referentiels/`. Test in an isolated folder too: from
+inside this repository, the assistant can read the answer key.
 
 Remember to remove the test files afterwards: `rm "$PROJET"/exemple-a-corriger.*`.
 

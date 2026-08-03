@@ -70,13 +70,20 @@ généreux : le chiffre absolu vaut moins que son évolution entre deux états d
 C'est ce qui permet de dire « cette reformulation fait passer la détection de 11 à 15
 sur 18 » au lieu de s'en remettre à une impression.
 
-**Barème** : 10 écarts sur 18 relevés, dont au moins 3 avec un critère cité (RGESN, GR491,
-Opquast, RGAA), c'est une installation qui fonctionne. En dessous de 5, ou si aucun critère
-n'est jamais cité, les règles ne sont pas chargées : reprenez l'étape 1.
+**Barème** : 12 écarts sur 18, c'est une installation qui fonctionne. En dessous de 5, les
+règles ne sont pas chargées, reprenez l'étape 1. Ce repère vient d'une mesure, pas d'une
+estimation : un modèle local (qwen3-coder) avec les règles chargées en trouve 16 sur 18.
 
-Le signe le plus fiable n'est pas le nombre d'écarts, c'est la **citation des critères**.
-N'importe quel modèle correct dira qu'une image manque d'`alt` ; seul un modèle qui a les
-règles en contexte écrira « Opquast n°124 » ou « GR491_Backend_3 ».
+**Ne vous fiez pas aux citations seules.** Il était tentant de prendre « le modèle cite des
+critères » comme preuve d'installation. La mesure a montré l'inverse : le même modèle a
+cité 13 identifiants dont un inexistant (`RGESN 6.8`, alors que la thématique 6 s'arrête à
+6.7), avec des intitulés inventés. C'est pourquoi `scorer-detection.py` vérifie chaque
+identifiant contre `referentiels/` et signale ceux qui n'existent pas.
+
+**Testez en isolation.** Si vous lancez la revue depuis ce dépôt, l'assistant a accès à
+`resultats-attendus.md`, donc aux réponses : le premier essai a rendu 18/18 avec des
+formulations recopiées de la grille. Copiez les règles et les deux fichiers pièges dans un
+dossier vide, et travaillez là.
 
 ## Étape 3 : la prévention, pas seulement la revue
 

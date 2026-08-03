@@ -335,9 +335,15 @@ votre assistant, dans `$PROJET` :
 > accessibilité. Liste les écarts et cite le critère source pour chacun.
 
 Comparez à [`verification/resultats-attendus.md`](verification/resultats-attendus.md), qui
-détaille les 18 écarts avec leurs critères. Repère : **10 écarts relevés sur 18, dont au
-moins 3 avec un critère cité**, c'est bon. En dessous de 5, ou si aucun critère n'est jamais
-cité, les règles ne sont pas chargées.
+détaille les 18 écarts avec leurs critères. Repère mesuré : **12 écarts sur 18**. En dessous
+de 5, les règles ne sont pas chargées.
+
+Une mise en garde issue de la mesure : ne prenez pas la citation d'un critère pour une
+preuve. Un modèle local avec les règles chargées a trouvé 16 écarts sur 18, mais a cité un
+critère qui n'existe pas (thématique 6 du RGESN, qui s'arrête à 6.7) et inventé des
+intitulés pour les autres. `scorer-detection.py` vérifie donc chaque identifiant contre
+`referentiels/`. Testez aussi dans un dossier isolé : depuis ce dépôt, l'assistant a accès
+à la grille de réponses.
 
 Pour éviter la comparaison à la main, passez le rapport au scorer :
 

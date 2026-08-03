@@ -62,7 +62,11 @@ if [ -n "$INEXISTANTS" ]; then
 else
   ok "$(wc -l < /tmp/nr-cites.txt | tr -d ' ') identifiants GR491 cités, tous présents dans referentiels/"
 fi
-grep -rhoE 'RGESN [0-9]+\.[0-9]+' .continue/ versions/ verification/ scripts/ README.md README.en.md docs/ 2>/dev/null | sed 's/RGESN //' | sort -u > /tmp/nr-rgesn-cites.txt
+# Les lignes qui présentent un identifiant comme inexistant sont des contre-exemples
+# assumés (la doc s'en sert pour illustrer l'hallucination de références) : on les écarte.
+grep -rhE 'RGESN [0-9]+\.[0-9]+' .continue/ versions/ verification/ scripts/ README.md README.en.md docs/ 2>/dev/null \
+  | grep -viE "inexistant|n'existe pas|does not exist|invent" \
+  | grep -oE 'RGESN [0-9]+\.[0-9]+' | sed 's/RGESN //' | sort -u > /tmp/nr-rgesn-cites.txt
 grep -oE '^- \*\*RGESN [0-9]+\.[0-9]+' referentiels/rgesn.md | sed 's/^- \*\*RGESN //' | sort -u > /tmp/nr-rgesn-reels.txt
 RGESN_KO=$(comm -23 /tmp/nr-rgesn-cites.txt /tmp/nr-rgesn-reels.txt)
 if [ -n "$RGESN_KO" ]; then

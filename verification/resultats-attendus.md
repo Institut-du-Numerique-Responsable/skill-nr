@@ -7,9 +7,32 @@ ou les signalera sans jamais citer de critère.
 
 Les deux fichiers totalisent **18 écarts**, 13 côté HTML et 5 côté SQL.
 
-Barème indicatif : **10 écarts sur 18 relevés, avec au moins 3 critères cités**
-(RGESN, GR491, Opquast ou RGAA), c'est une installation qui fonctionne. En dessous de 5,
-les règles ne sont pas chargées, reprenez l'installation.
+## Barème, calé sur des mesures
+
+Deux passages sur ce corpus, mesurés le 03/08/2026 :
+
+| Source | Écarts détectés | Tracés au bon critère | Identifiants inventés |
+| --- | --- | --- | --- |
+| Modèle local (qwen3-coder via Continue, règles chargées) | 16/18 | 1/18 | 1 inventé : `RGESN 6.8` |
+| Pré-filtre déterministe `scripts/eco-audit.sh` | 12/18 | 12/18 | 0 |
+
+**Repère : 12 écarts sur 18.** Au-dessus, les règles sont chargées. En dessous de 5,
+elles ne le sont pas, reprenez l'installation.
+
+Ce que ces mesures ont changé : le barème reposait au départ sur « au moins 3 critères
+cités ». Le modèle en a cité 13, dont un qui **n'existe pas** : la thématique 6 du RGESN
+compte 7 critères, il a écrit `RGESN 6.8`, avec des intitulés inventés pour les autres.
+Une citation ne prouve donc rien par elle-même. `scripts/scorer-detection.py` vérifie
+désormais chaque identifiant contre `referentiels/` et signale les inventés.
+
+C'est aussi le partage des rôles entre les deux étages : le modèle voit plus de choses
+(16 contre 12), le pré-filtre les rattache correctement (12 contre 1). L'un sans l'autre
+est incomplet.
+
+Attention si vous testez depuis ce dépôt : donner le corpus à un assistant qui a accès à
+`verification/` lui donne aussi ce fichier, donc les réponses. Le premier passage mesuré
+ici l'a montré, 18/18 avec des formulations reprises mot pour mot. Testez dans un dossier
+isolé contenant les règles et les deux fichiers pièges, rien d'autre.
 
 Ne corrigez pas ces fichiers dans ce dépôt. Si votre assistant applique les correctifs
 directement (c'est le cas de `cn review` et des agents en mode écriture), annulez ensuite
