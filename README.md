@@ -305,7 +305,7 @@ dans votre home ni dans la configuration de l'outil.
 | --- | --- |
 | L'assistant ne cite jamais de critère | Fichiers au mauvais endroit : ils doivent être à la **racine** du projet ouvert, pas dans un sous-dossier. Lancez `verifier-installation.sh`. |
 | Les règles marchaient, plus maintenant | Un `AGENTS.md` ou `CLAUDE.md` du projet a écrasé la copie lors d'un merge. Recopiez, en concaténant cette fois. |
-| Session très lourde en contexte | Normal hors Continue : les formats à fichier unique chargent les 31 Ko de règles à chaque session. Supprimez de votre copie les sections des langages que le projet n'utilise pas. |
+| Session très lourde en contexte | Normal hors Continue : les formats à fichier unique chargent toutes les règles à chaque session (34 Ko aujourd'hui, taille exacte avec `wc -c versions/opencode/AGENTS.md`). Supprimez de votre copie les sections des langages que le projet n'utilise pas. |
 | `Agent file must contain YAML frontmatter with a 'name' field` | Un agent `.md` a perdu son frontmatter à la copie. Recopiez le fichier entier. |
 | `Cannot start TUI in TTY-less environment` (Continue) | Contexte non interactif : utilisez `cn -p "prompt"` ou lancez depuis un vrai terminal. |
 | Revue sans résultat visible (Continue) | Les correctifs sont peut-être déjà appliqués dans vos fichiers : regardez `git diff`. |

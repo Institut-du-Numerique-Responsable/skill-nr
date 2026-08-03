@@ -12,7 +12,7 @@ sur `.continue/`.
 Continue (extension IDE **et** CLI) charge automatiquement `.continue/rules/*.md` du
 dépôt ouvert. Déployer = committer :
 
-1. Ce dépôt (`bpce_skillnr`) fait autorité sur les règles.
+1. Ce dépôt (`regles-ecoconception-ia`) fait autorité sur les règles.
 2. Copiez le dossier `.continue/` dans chaque dépôt de projet via une merge request
    (revue par l'équipe = adhésion + traçabilité).
 3. À chaque évolution des règles ici, resynchronisez les projets (script de copie,
@@ -26,14 +26,15 @@ projet, sans configuration individuelle.
 
 ## 2. Par le Hub Continue (passage à l'échelle)
 
-Sur [hub.continue.dev](https://hub.continue.dev) : créer une **organisation** (ex.
-`bpce`), publier chaque règle comme *block* (`bpce/ecoconception-sql`, …), définir un
-assistant d'organisation qui les référence :
+Sur [hub.continue.dev](https://hub.continue.dev) : créer une **organisation** au nom de
+la vôtre (`votre-organisation` dans les exemples ci-dessous), publier chaque règle comme
+*block* (`votre-organisation/ecoconception-sql`, …), définir un assistant d'organisation
+qui les référence :
 
 ```yaml
 rules:
-  - uses: bpce/ecoconception-frontend
-  - uses: bpce/qualite-web-opquast
+  - uses: votre-organisation/ecoconception-frontend
+  - uses: votre-organisation/qualite-web-opquast
 ```
 
 Les développeurs se connectent une fois dans l'extension IDE et récupèrent l'assistant ;

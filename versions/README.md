@@ -65,7 +65,8 @@ Enterprise pour la création.
 
 Continue active chaque règle **par type de fichier** (`globs`) : un fichier Java ne charge
 que les règles Java. Les fichiers de contexte uniques (`CLAUDE.md`, `GEMINI.md`,
-`AGENTS.md`) n'ont pas ce mécanisme : **toutes les règles (~31 Ko) sont chargées à chaque
+`AGENTS.md`) n'ont pas ce mécanisme : **toutes les règles (34 Ko à ce jour, voir
+`wc -c opencode/AGENTS.md`) sont chargées à chaque
 session**, avec une mention « S'applique aux fichiers : … » par section pour guider le
 modèle. C'est le compromis de ces formats ; si votre projet n'utilise que certains
 langages, supprimez les sections inutiles de votre copie (ou générez une variante) pour

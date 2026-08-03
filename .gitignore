@@ -3,3 +3,7 @@ continue/
 
 node_modules/
 .DS_Store
+
+# Généré par l'exécution de scripts/generer-versions.py
+__pycache__/
+*.pyc

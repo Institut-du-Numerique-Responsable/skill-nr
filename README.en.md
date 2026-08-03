@@ -306,7 +306,7 @@ your home directory or to the tool's configuration.
 | --- | --- |
 | The assistant never cites a criterion | Files in the wrong place: they must sit at the **root** of the open project, not in a subfolder. Run `verifier-installation.sh`. |
 | The rules worked, now they don't | The project's own `AGENTS.md` or `CLAUDE.md` overwrote the copy during a merge. Copy again, concatenating this time. |
-| Very heavy context per session | Expected outside Continue: single-file formats load all 31 KB of rules every session. Delete from your copy the sections for languages the project does not use. |
+| Very heavy context per session | Expected outside Continue: single-file formats load every rule each session (34 KB today, exact size with `wc -c versions/opencode/AGENTS.md`). Delete from your copy the sections for languages the project does not use. |
 | `Agent file must contain YAML frontmatter with a 'name' field` | An agent `.md` lost its frontmatter during the copy. Copy the whole file again. |
 | `Cannot start TUI in TTY-less environment` (Continue) | Non-interactive context: use `cn -p "prompt"` or run from a real terminal. |
 | Review with no visible output (Continue) | The fixes may already be applied in your files: check `git diff`. |
