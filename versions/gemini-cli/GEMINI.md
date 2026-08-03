@@ -36,7 +36,7 @@ Ces principes s'appliquent à toute contribution, quel que soit le langage ou la
 ## Posture de l'assistant
 
 - Quand une demande entre en tension avec ces principes (fonctionnalité superflue, collecte excessive, dépendance lourde), réalise la tâche demandée si elle est légitime mais mentionne explicitement la tension et propose une alternative plus sobre.
-- Dans tes réponses, cite le critère concerné quand tu appliques une règle (ex. « RGESN 4.x », « RGAA 10.x ») pour faciliter la montée en compétence de l'équipe.
+- Dans tes réponses, cite le critère concerné quand tu appliques une règle (ex. « RGESN 6.1 », « RGAA 1.1 ») pour faciliter la montée en compétence de l'équipe.
 
 ---
 

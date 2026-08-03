@@ -68,7 +68,7 @@ pour cette nuance.
 
 | Référentiel | Portée | Détail dans ce dépôt |
 | --- | --- | --- |
-| [RGESN v2](https://ecoresponsable.numerique.gouv.fr/publications/referentiel-general-ecoconception/) (ARCEP/ARCOM/ADEME) | 78 critères, 9 thématiques | cité par identifiant dans les règles |
+| [RGESN 2024](https://ecoresponsable.numerique.gouv.fr/publications/referentiel-general-ecoconception/) (Arcep/Arcom/ADEME) | 78 critères, 9 thématiques | [referentiels/rgesn.md](referentiels/rgesn.md) |
 | [GR491](https://gr491.isit-europe.org/) (INR) | 8 familles, 61 recommandations, 516 critères | [referentiels/gr491.md](referentiels/gr491.md) |
 | [Opquast](https://checklists.opquast.com/fr/qualite-numerique/) | 35 règles taguées écoconception (CC BY-SA) | [referentiels/opquast-ecoconception.md](referentiels/opquast-ecoconception.md) |
 | [RGAA 4](https://accessibilite.numerique.gouv.fr/) | Accessibilité numérique | agent `accessibilite-check` |
@@ -362,7 +362,7 @@ dans votre home ni dans la configuration de l'outil.
 | --- | --- |
 | `.continue/rules/` | Règles source, ciblées par langage via `globs`. |
 | `.continue/agents/` | Agents de revue de diff (`eco-check`, `accessibilite-check`). |
-| `referentiels/` | Extractions sourcées (GR491, Opquast) avec identifiants cités par les règles. |
+| `referentiels/` | Extractions sourcées (RGESN, GR491, Opquast) avec identifiants cités par les règles, vérifiés en CI. |
 | `versions/` | Versions générées pour les 7 autres assistants. |
 | `verification/` | Fichiers de test non conformes et écarts attendus, pour valider une installation. |
 | `scripts/generer-versions.py` | Régénère `versions/` depuis `.continue/` (source unique). |

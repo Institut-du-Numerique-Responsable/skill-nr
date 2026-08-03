@@ -75,7 +75,7 @@ for that nuance.
 
 | Framework | Scope | Detail in this repository |
 | --- | --- | --- |
-| [RGESN v2](https://ecoresponsable.numerique.gouv.fr/publications/referentiel-general-ecoconception/) (ARCEP/ARCOM/ADEME) | 78 criteria, 9 themes | cited by identifier in the rules |
+| [RGESN 2024](https://ecoresponsable.numerique.gouv.fr/publications/referentiel-general-ecoconception/) (Arcep/Arcom/ADEME) | 78 criteria, 9 themes | [referentiels/rgesn.md](referentiels/rgesn.md) |
 | [GR491](https://gr491.isit-europe.org/) (INR) | 8 families, 61 recommendations, 516 criteria | [referentiels/gr491.md](referentiels/gr491.md) |
 | [Opquast](https://checklists.opquast.com/fr/qualite-numerique/) | 35 rules tagged eco-design (CC BY-SA) | [referentiels/opquast-ecoconception.md](referentiels/opquast-ecoconception.md) |
 | [RGAA 4](https://accessibilite.numerique.gouv.fr/) | Digital accessibility | `accessibilite-check` agent |
@@ -352,7 +352,7 @@ The guides below are in French.
 | --- | --- |
 | `.continue/rules/` | Source rules, targeted by language through `globs`. |
 | `.continue/agents/` | Diff review agents (`eco-check`, `accessibilite-check`). |
-| `referentiels/` | Sourced extracts (GR491, Opquast) with the identifiers the rules cite. |
+| `referentiels/` | Sourced extracts (RGESN, GR491, Opquast) with the identifiers the rules cite, checked in CI. |
 | `versions/` | Versions generated for the 7 other assistants. |
 | `verification/` | Deliberately non-compliant test files and expected findings, to validate an install. |
 | `scripts/generer-versions.py` | Regenerates `versions/` from `.continue/` (single source). |

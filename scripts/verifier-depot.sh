@@ -61,6 +61,15 @@ if [ -n "$INEXISTANTS" ]; then
 else
   ok "$(wc -l < /tmp/nr-cites.txt | tr -d ' ') identifiants GR491 cités, tous présents dans referentiels/"
 fi
+grep -rhoE 'RGESN [0-9]+\.[0-9]+' .continue/ versions/ verification/ scripts/ README.md README.en.md docs/ 2>/dev/null | sed 's/RGESN //' | sort -u > /tmp/nr-rgesn-cites.txt
+grep -oE '^- \*\*RGESN [0-9]+\.[0-9]+' referentiels/rgesn.md | sed 's/^- \*\*RGESN //' | sort -u > /tmp/nr-rgesn-reels.txt
+RGESN_KO=$(comm -23 /tmp/nr-rgesn-cites.txt /tmp/nr-rgesn-reels.txt)
+if [ -n "$RGESN_KO" ]; then
+  echo "$RGESN_KO" | while read -r i; do ko "RGESN $i inexistant dans referentiels/rgesn.md"; done
+  ECHECS=$((ECHECS + 1))
+else
+  ok "$(wc -l < /tmp/nr-rgesn-cites.txt | tr -d ' ') identifiants RGESN cités, tous présents (référentiel : $(wc -l < /tmp/nr-rgesn-reels.txt | tr -d ' ') critères)"
+fi
 grep -rhoE 'Opquast n°[0-9]+' .continue/ verification/ scripts/ README.md 2>/dev/null | grep -oE '[0-9]+' | sort -u > /tmp/nr-opq-cites.txt
 grep -oE '^- [0-9]+ :' referentiels/opquast-ecoconception.md | grep -oE '[0-9]+' | sort -u > /tmp/nr-opq-reels.txt
 OPQ=$(comm -23 /tmp/nr-opq-cites.txt /tmp/nr-opq-reels.txt)

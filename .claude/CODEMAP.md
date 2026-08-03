@@ -16,7 +16,8 @@ Skills Continue (continue.dev) pour l'écoconception / numérique responsable. T
 
 ## Référence et doc
 
-- `referentiels/gr491.md` : 61 recommandations GR491 extraites avec IDs (cités par les règles)
+- `referentiels/rgesn.md` : 78 critères RGESN 2024, 9 thématiques, extraits du PDF Arcep (URL dans l'en-tête du fichier ; le site officiel sert du HTML anti-bot, il faut un user-agent pour récupérer le PDF). Niveaux de priorité VOLONTAIREMENT absents : tableaux sur deux colonnes, extraction non fiable (4.3 fantôme en Prioritaire, 4.13 dans aucun tableau). Vérifié en CI.
+- `referentiels/gr491.md` : extraction PARTIELLE et assumée, 47 recommandations sur 61, 6 familles sur 8 (Stratégie et Spécifications hors périmètre code). L'en-tête le dit explicitement depuis le 2026-08-03.
 - `referentiels/opquast-ecoconception.md` : 35 règles Opquast (CC BY-SA), filtre écoconception × conception/développement/éditorial
 - `docs/guide-developpeur.md`, `docs/guide-deploiement.md`, `docs/developper-un-skill.md`
 - `continue/` : clone amont (gitignoré), utile pour la doc : `continue/docs/`
