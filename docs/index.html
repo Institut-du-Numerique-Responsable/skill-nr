@@ -7,7 +7,7 @@
 <meta name="description" content="Règles open source d'écoconception (RGESN, GR491, Opquast, RGAA) déclinées pour 8 assistants IA de code : Continue, Claude Code, Gemini CLI, OpenCode, Mistral Vibe, Codex, Kimi CLI, ChatGPT.">
 <link rel="canonical" href="https://institut-du-numerique-responsable.github.io/regles-ecoconception-ia/">
 <meta property="og:title" content="Règles d'écoconception pour assistants IA">
-<meta property="og:description" content="RGESN, GR491, Opquast et RGAA traduits en règles pour 8 assistants IA de code, 13 langages. Une source, huit déclinaisons.">
+<meta property="og:description" content="RGESN, GR491, Opquast et RGAA traduits en règles pour 10 assistants IA de code, 13 langages. Une source, dix déclinaisons.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://institut-du-numerique-responsable.github.io/regles-ecoconception-ia/">
 <meta property="og:locale" content="fr_FR">
@@ -19,12 +19,12 @@
   "@context": "https://schema.org",
   "@type": "SoftwareSourceCode",
   "name": "Règles d'écoconception pour assistants IA",
-  "description": "Règles d'écoconception (RGESN, GR491, Opquast, RGAA) déclinées pour 8 assistants IA de code et 13 langages.",
+  "description": "Règles d'écoconception (RGESN, GR491, Opquast, RGAA) déclinées pour 10 assistants IA de code et 13 langages.",
   "license": "https://creativecommons.org/licenses/by-sa/4.0/",
   "codeRepository": "https://github.com/Institut-du-Numerique-Responsable/regles-ecoconception-ia",
   "url": "https://institut-du-numerique-responsable.github.io/regles-ecoconception-ia/",
   "author": { "@type": "Organization", "name": "Institut du Numérique Responsable" },
-  "programmingLanguage": ["SQL", "JavaScript", "TypeScript", "Java", "C#", "Python", "PHP", "Ruby", "Rust", "C", "C++"]
+  "programmingLanguage": ["SQL", "HTML", "CSS", "JavaScript", "TypeScript", "Java", "C#", "Python", "PHP", "Ruby", "Rust", "C", "C++"]
 }
 </script>
 <style>
@@ -117,7 +117,7 @@ footer p + p { margin-top: .5rem; }
 <body>
 <main>
   <h1>🌱 Écoconception pour tout assistant IA de code</h1>
-  <p class="tagline">RGESN, GR491, Opquast et RGAA traduits en règles qu'un assistant applique en écrivant du code, et qu'un agent vérifie sur le diff. Une source, huit assistants.</p>
+  <p class="tagline">RGESN, GR491, Opquast et RGAA traduits en règles qu'un assistant applique en écrivant du code, et qu'un agent vérifie sur le diff. Une source, dix assistants.</p>
 
   <p>
     <a class="cta" href="https://github.com/Institut-du-Numerique-Responsable/regles-ecoconception-ia">Voir sur GitHub</a>
@@ -163,11 +163,13 @@ LIMIT 50;</code></pre>
     </div>
   </div>
 
-  <h2>Une source, huit assistants</h2>
+  <h2>Une source, dix assistants</h2>
   <p>Les règles s'écrivent une seule fois, ciblées par langage. Un script (<code>scripts/generer-versions.py</code>) les décline dans le format natif de chaque assistant. Aucune copie manuelle, aucune version qui prend du retard sur les autres.</p>
   <div class="tool-grid">
     <a class="tool-card" href="https://continue.dev"><b>Continue</b><span class="f">.continue/rules/ + agents/</span></a>
     <a class="tool-card" href="https://claude.com/claude-code"><b>Claude Code</b><span class="f">CLAUDE.md + .claude/agents/</span></a>
+    <a class="tool-card" href="https://cursor.com"><b>Cursor</b><span class="f">.cursor/rules/ ciblés par globs</span></a>
+    <a class="tool-card" href="https://github.com/features/copilot"><b>GitHub Copilot</b><span class="f">.github/instructions/ (applyTo)</span></a>
     <a class="tool-card" href="https://github.com/google-gemini/gemini-cli"><b>Gemini CLI</b><span class="f">GEMINI.md + /eco-check</span></a>
     <a class="tool-card" href="https://opencode.ai"><b>OpenCode</b><span class="f">AGENTS.md + .opencode/agent/</span></a>
     <a class="tool-card" href="https://docs.mistral.ai/vibe"><b>Mistral Vibe</b><span class="f">AGENTS.md + .vibe/agents/</span></a>
@@ -220,7 +222,7 @@ LIMIT 50;</code></pre>
 
   <h2>Et green-claude ?</h2>
   <p><a href="https://github.com/Institut-du-Numerique-Responsable/green-claude">green-claude</a>, un autre projet de l'INR, répond à la même question : faire respecter le RGESN et le GR491 par un assistant de code. Les choix de conception diffèrent sur trois points.</p>
-  <p>green-claude est un skill Claude Code : il s'installe une fois dans <code>~/.claude/skills/</code> et ne vise que ce harnais, avec des hooks propres à ce produit (cache local, avertissement aux heures de pointe). Ce dépôt part d'une source unique et la décline pour huit assistants. Une équipe qui travaille sur Gemini CLI ou sur Continue n'a aucun accès aux règles de green-claude ; elle a accès à celles-ci.</p>
+  <p>green-claude est un skill Claude Code : il s'installe une fois dans <code>~/.claude/skills/</code> et ne vise que ce harnais, avec des hooks propres à ce produit (cache local, avertissement aux heures de pointe). Ce dépôt part d'une source unique et la décline pour dix assistants. Une équipe qui travaille sur Gemini CLI ou sur Continue n'a aucun accès aux règles de green-claude ; elle a accès à celles-ci.</p>
   <p>Sur la détection, green-claude a une longueur d'avance. Son script <code>eco-audit.sh</code> repère des motifs par grep déterministe : <code>SELECT *</code>, <code>lodash</code>, <code>autoplay</code>. Zéro appel modèle, zéro dépendance à sa fiabilité pour les cas simples. Ce dépôt n'a pas cet étage : l'agent <code>eco-check</code> confie toute la détection au modèle. Sur un modèle local, il a bien repéré les écarts attendus, mais a aussi produit un correctif Java invalide (<code>.filter()</code> appelé sur une <code>List</code>, méthode qui n'existe pas). Un script de pré-filtre du même genre manque encore ici.</p>
   <p>Sur la couverture, les rôles s'inversent. green-claude retient 35 règles parmi les 78 critères RGESN, avec un ancrage marqué sur la famille Algorithmie/IA et sur la sobriété d'usage de Claude Code lui-même (14 pratiques inspirées de Boris Cherny). Ce dépôt couvre ce dernier point dans la règle <code>usage-sobre-assistant.md</code>, et ajoute treize langages avec des anti-patterns propres à chacun ainsi qu'un référentiel que green-claude n'utilise pas, Opquast.</p>
   <p>Une équipe outillée des deux gagnerait le meilleur des deux mécanismes : le script de green-claude pour un premier passage rapide sur les motifs connus, les règles de ce dépôt pour ce que le grep ne voit pas.</p>

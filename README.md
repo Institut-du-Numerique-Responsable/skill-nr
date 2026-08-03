@@ -8,7 +8,7 @@ quel qu'il soit.
 [![Site](https://img.shields.io/badge/site-regles--ecoconception--ia-0a7190)](https://institut-du-numerique-responsable.github.io/regles-ecoconception-ia/)
 [![Licence](https://img.shields.io/badge/licence-CC%20BY--SA%204.0-2ea44f)](LICENSE.md)
 [![Langages couverts](https://img.shields.io/badge/langages-13-1b7a4a)](#langages-couverts)
-[![Assistants pris en charge](https://img.shields.io/badge/assistants%20IA-8-1b7a4a)](#assistants-pris-en-charge)
+[![Assistants pris en charge](https://img.shields.io/badge/assistants%20IA-10-1b7a4a)](#assistants-pris-en-charge)
 [![RGESN](https://img.shields.io/badge/RGESN-v2%20(78%20crit%C3%A8res)-0b6e4f)](https://ecoresponsable.numerique.gouv.fr/publications/referentiel-general-ecoconception/)
 [![GR491](https://img.shields.io/badge/GR491-61%20recommandations-0b6e4f)](https://gr491.isit-europe.org/)
 [![Opquast](https://img.shields.io/badge/Opquast-CC%20BY--SA-0b6e4f)](https://checklists.opquast.com/fr/qualite-numerique/)
@@ -26,7 +26,7 @@ Ce dépôt traduit quatre référentiels français de sobriété numérique, **R
 IA de code : pas de PDF à lire, l'assistant applique la règle pendant qu'il écrit,
 et une revue de diff automatisée vérifie ce qui a été produit.
 
-Écrites une seule fois, ces règles sont **déclinées automatiquement pour 8 assistants** :
+Écrites une seule fois, ces règles sont **déclinées automatiquement pour 10 assistants** :
 il n'y a pas de version « officielle » et des versions bancales : chaque outil reçoit
 le format qu'il attend nativement, généré depuis une source commune.
 
@@ -36,6 +36,8 @@ le format qu'il attend nativement, généré depuis une source commune.
 | --- | --- | --- |
 | [Continue](https://continue.dev) | `.continue/rules/` + `.continue/agents/` (source de référence) | [↓](#continue) |
 | [Claude Code](https://claude.com/claude-code) | `CLAUDE.md` + `.claude/agents/` | [↓](#claude-code) |
+| [Cursor](https://cursor.com) | `.cursor/rules/*.mdc` (ciblés par `globs`) | [↓](#cursor) |
+| [GitHub Copilot](https://github.com/features/copilot) | `.github/instructions/*.instructions.md` (`applyTo`) | [↓](#github-copilot) |
 | [Gemini CLI](https://github.com/google-gemini/gemini-cli) | `GEMINI.md` + commandes `/eco-check` | [↓](#gemini-cli) |
 | [OpenCode](https://opencode.ai) | `AGENTS.md` + `.opencode/agent/` | [↓](#opencode) |
 | [Mistral Vibe](https://docs.mistral.ai/vibe) | `AGENTS.md` + `.vibe/agents/` | [↓](#mistral-vibe) |
@@ -59,9 +61,9 @@ Deux mécanismes complémentaires, portés par chaque déclinaison :
 SQL/PL-SQL · HTML · CSS · JavaScript · TypeScript · Java · C# · Python · PHP · Ruby ·
 Rust · C · C++
 
-Chaque règle ne s'active que sur les fichiers de son langage (mécanisme `globs` côté
-Continue) ; les autres assistants reçoivent l'ensemble avec un repère explicite par
-section : voir [versions/README.md](versions/README.md#différence-avec-la-version-continue)
+Chaque règle ne s'active que sur les fichiers de son langage chez **Continue, Cursor et
+GitHub Copilot** (`globs`, `applyTo`) ; les autres assistants reçoivent l'ensemble dans un
+fichier unique, avec un repère explicite par section : voir [versions/README.md](versions/README.md#différence-avec-la-version-continue)
 pour cette nuance.
 
 ## Référentiels utilisés
@@ -150,6 +152,40 @@ gardez les règles dans un fichier séparé et référencez-le depuis le vôtre 
 
 Lancez `claude` dans `$PROJET`. Les deux sous-agents apparaissent dans `/agents` ; pour une
 revue, demandez « lance l'agent eco-check sur mes changements ».
+
+### Cursor
+
+Avec Continue et Copilot, c'est l'une des trois déclinaisons où chaque règle est
+**ciblée par `globs`** : un fichier `.sql` ouvert ne charge que les règles SQL. Vous ne
+payez jamais le contexte des langages que le projet n'utilise pas.
+
+```bash
+cp -r "$REGLES/versions/cursor/.cursor" "$PROJET/"
+```
+
+Une règle par fichier `.mdc` dans `.cursor/rules/`, plus deux commandes dans
+`.cursor/commands/` : tapez `/eco-check` ou `/accessibilite-check` dans le chat. Si le
+projet a déjà des règles Cursor, les fichiers cohabitent sans conflit, les noms étant
+préfixés `ecoconception-` et `numerique-responsable`.
+
+### GitHub Copilot
+
+```bash
+cp -r "$REGLES/versions/copilot/.github" "$PROJET/"
+```
+
+Chaque fichier `.instructions.md` porte un `applyTo` qui limite son chargement aux
+fichiers concernés, comme les `globs` de Continue. Les deux prompts de revue sont dans
+`.github/prompts/` : tapez `/eco-check` dans Copilot Chat.
+
+Attention si le projet a déjà un dossier `.github/` : copiez le contenu plutôt que
+d'écraser le dossier entier, sinon vous perdez vos workflows.
+
+```bash
+mkdir -p "$PROJET/.github/instructions" "$PROJET/.github/prompts"
+cp "$REGLES"/versions/copilot/.github/instructions/* "$PROJET/.github/instructions/"
+cp "$REGLES"/versions/copilot/.github/prompts/*      "$PROJET/.github/prompts/"
+```
 
 ### Gemini CLI
 
@@ -363,7 +399,7 @@ dans votre home ni dans la configuration de l'outil.
 | `.continue/rules/` | Règles source, ciblées par langage via `globs`. |
 | `.continue/agents/` | Agents de revue de diff (`eco-check`, `accessibilite-check`). |
 | `referentiels/` | Extractions sourcées (RGESN, GR491, Opquast) avec identifiants cités par les règles, vérifiés en CI. |
-| `versions/` | Versions générées pour les 7 autres assistants. |
+| `versions/` | Versions générées pour les 9 autres assistants. |
 | `verification/` | Fichiers de test non conformes et écarts attendus, pour valider une installation. |
 | `scripts/generer-versions.py` | Régénère `versions/` depuis `.continue/` (source unique). |
 | `scripts/verifier-installation.sh` | Contrôle que les fichiers de règles sont en place dans un projet. |

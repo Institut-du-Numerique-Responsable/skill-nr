@@ -4,8 +4,8 @@
 #   bash scripts/verifier-installation.sh [outil] [chemin-du-projet]
 #
 # Sans argument : détecte les outils présents dans le répertoire courant.
-# Outils : continue, claude-code, gemini-cli, opencode, mistral-vibe, kimi-cli,
-#          codex, chatgpt.
+# Outils : continue, claude-code, cursor, copilot, gemini-cli, opencode,
+#          mistral-vibe, kimi-cli, codex, chatgpt.
 #
 # Ce script contrôle la présence et le contenu des fichiers, pas le comportement
 # du modèle : pour ça, voir verification/README.md (étape 2).
@@ -82,6 +82,22 @@ verifier_kimi() {
   fichier ".kimi/agents/eco-check.md" "écoconception"
 }
 
+verifier_cursor() {
+  info "Cursor"
+  dossier ".cursor/rules"
+  fichier ".cursor/rules/numerique-responsable.mdc" "alwaysApply: true"
+  fichier ".cursor/rules/ecoconception-sql.mdc" "globs:"
+  fichier ".cursor/commands/eco-check.md" "écoconception"
+}
+
+verifier_copilot() {
+  info "GitHub Copilot"
+  dossier ".github/instructions"
+  fichier ".github/instructions/numerique-responsable.instructions.md" "applyTo:"
+  fichier ".github/instructions/ecoconception-sql.instructions.md" "applyTo:"
+  fichier ".github/prompts/eco-check.prompt.md" "mode: agent"
+}
+
 verifier_codex() {
   info "OpenAI Codex / ZCode (AGENTS.md seul)"
   fichier "AGENTS.md" "$MARQUEUR"
@@ -102,6 +118,8 @@ case "$OUTIL" in
   opencode)     verifier_opencode ;;
   mistral-vibe) verifier_vibe ;;
   kimi-cli)     verifier_kimi ;;
+  cursor)       verifier_cursor ;;
+  copilot)      verifier_copilot ;;
   codex)        verifier_codex ;;
   chatgpt)      verifier_chatgpt ;;
   auto)
@@ -113,6 +131,8 @@ case "$OUTIL" in
     [ -d "$PROJET/.opencode" ]       && { verifier_opencode; TROUVE=1; }
     [ -d "$PROJET/.vibe" ]           && { verifier_vibe; TROUVE=1; }
     [ -d "$PROJET/.kimi" ]           && { verifier_kimi; TROUVE=1; }
+    [ -d "$PROJET/.cursor/rules" ]   && { verifier_cursor; TROUVE=1; }
+    [ -d "$PROJET/.github/instructions" ] && { verifier_copilot; TROUVE=1; }
     if [ "$TROUVE" -eq 0 ] && [ -f "$PROJET/AGENTS.md" ]; then verifier_codex; TROUVE=1; fi
     if [ "$TROUVE" -eq 0 ]; then
       echo "  Aucun fichier de règles trouvé. Copiez d'abord la version de votre outil"
@@ -122,7 +142,7 @@ case "$OUTIL" in
     ;;
   *)
     echo "Outil inconnu : $OUTIL"
-    echo "Attendu : continue | claude-code | gemini-cli | opencode | mistral-vibe | kimi-cli | codex | chatgpt"
+    echo "Attendu : continue | claude-code | cursor | copilot | gemini-cli | opencode | mistral-vibe | kimi-cli | codex | chatgpt"
     exit 2
     ;;
 esac

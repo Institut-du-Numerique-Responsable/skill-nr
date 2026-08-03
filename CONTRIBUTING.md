@@ -44,7 +44,8 @@ La branche `test-eco` contient des fichiers pièges par langage :
 git checkout test-eco -- exemples/
 cn review --review-agents .continue/agents/eco-check.md   # dans un vrai terminal
 git diff exemples/          # vérifier détection et qualité des correctifs
-git checkout -- exemples/ && rm -rf exemples/
+git reset -- exemples/ && rm -rf exemples/   # reset et non checkout : sinon l'index
+                                             # garde des suppressions fantômes
 ```
 
 Toute nouvelle consigne dans une règle doit s'accompagner du piège correspondant

@@ -18,12 +18,13 @@ ko()    { printf '  \033[31m✗\033[0m %s\n' "$1"; ECHECS=$((ECHECS + 1)); }
 # --- 1. Les versions générées correspondent-elles à la source ? -----------------
 # Le piège numéro un du dépôt : modifier .continue/ sans relancer le générateur.
 titre "Versions générées à jour"
+# versions/README.md est rédigé à la main, pas généré : il est exclu de la comparaison.
 if python3 scripts/generer-versions.py >/dev/null 2>&1; then
-  if git diff --quiet -- versions/; then
+  if git diff --quiet -- versions/ ':(exclude)versions/README.md'; then
     ok "versions/ correspond à .continue/"
   else
     ko "versions/ diverge de .continue/ : lancez python3 scripts/generer-versions.py et committez"
-    git --no-pager diff --stat -- versions/ | sed 's/^/      /'
+    git --no-pager diff --stat -- versions/ ':(exclude)versions/README.md' | sed 's/^/      /'
   fi
 else
   ko "scripts/generer-versions.py a échoué"

@@ -56,6 +56,27 @@ def corps_agent(nom: str) -> str:
     return texte[m.end():].strip() if m else texte.strip()
 
 
+def description_regle(slug: str) -> str:
+    """Renvoie la description du frontmatter, pour les formats qui l'exigent."""
+    texte = (RULES / f"{slug}.md").read_text(encoding="utf-8")
+    m = re.search(r"^description:\s*(.+)$", texte, re.M)
+    return m.group(1).strip() if m else slug
+
+
+def globs_separes(globs: str) -> str:
+    """Développe `**/*.{js,ts}` en `**/*.js,**/*.ts`.
+
+    Continue accepte l'alternance en accolades ; Cursor et Copilot attendent plutôt
+    une liste séparée par des virgules. On développe pour ne dépendre d'aucun des deux
+    comportements.
+    """
+    m = re.match(r"^(.*)\{([^}]+)\}(.*)$", globs)
+    if not m:
+        return globs
+    avant, alternatives, apres = m.groups()
+    return ",".join(f"{avant}{a.strip()}{apres}" for a in alternatives.split(","))
+
+
 def bloc_regles() -> str:
     parties = []
     for slug in ORDRE:
@@ -202,6 +223,60 @@ def generer():
     )
     (ki / ".kimi" / "agents" / "eco-check.md").write_text(AVERTISSEMENT + eco + "\n", encoding="utf-8")
     (ki / ".kimi" / "agents" / "accessibilite-check.md").write_text(AVERTISSEMENT + a11y + "\n", encoding="utf-8")
+
+    # ---- Cursor : une règle .mdc par fichier source, ciblée par globs ----
+    # Comme Continue, Cursor charge une règle seulement si un fichier correspondant est
+    # dans le contexte : pas de bloc unique de 34 Ko à chaque session.
+    cu = OUT / "cursor"
+    (cu / ".cursor" / "rules").mkdir(parents=True, exist_ok=True)
+    (cu / ".cursor" / "commands").mkdir(parents=True, exist_ok=True)
+    for slug in ORDRE:
+        globs, corps = lire_regle(slug)
+        entete = [
+            "---",
+            f"description: {description_regle(slug)}",
+        ]
+        if globs:
+            entete.append(f"globs: {globs_separes(globs)}")
+            entete.append("alwaysApply: false")
+        else:
+            entete.append("alwaysApply: true")
+        entete.append("---")
+        (cu / ".cursor" / "rules" / f"{slug}.mdc").write_text(
+            "\n".join(entete) + "\n\n" + AVERTISSEMENT + corps + "\n", encoding="utf-8"
+        )
+    for nom, corps in (("eco-check", eco), ("accessibilite-check", a11y)):
+        (cu / ".cursor" / "commands" / f"{nom}.md").write_text(
+            AVERTISSEMENT + corps + "\n\nApplique cette revue aux changements en cours.\n",
+            encoding="utf-8",
+        )
+
+    # ---- GitHub Copilot : instructions ciblées par applyTo + prompts de revue ----
+    co = OUT / "copilot"
+    (co / ".github" / "instructions").mkdir(parents=True, exist_ok=True)
+    (co / ".github" / "prompts").mkdir(parents=True, exist_ok=True)
+    for slug in ORDRE:
+        globs, corps = lire_regle(slug)
+        cible = globs_separes(globs) if globs else "**"
+        (co / ".github" / "instructions" / f"{slug}.instructions.md").write_text(
+            "---\n"
+            f'applyTo: "{cible}"\n'
+            f"description: {description_regle(slug)}\n"
+            "---\n\n" + AVERTISSEMENT + corps + "\n",
+            encoding="utf-8",
+        )
+    for nom, corps, desc in (
+        ("eco-check", eco, "Revue écoconception du diff courant (RGESN, GR491, Opquast)"),
+        ("accessibilite-check", a11y, "Revue accessibilité RGAA 4 du diff courant"),
+    ):
+        (co / ".github" / "prompts" / f"{nom}.prompt.md").write_text(
+            "---\n"
+            "mode: agent\n"
+            f"description: {desc}\n"
+            "---\n\n" + AVERTISSEMENT + corps
+            + "\n\nApplique cette revue aux changements en cours dans l'espace de travail.\n",
+            encoding="utf-8",
+        )
 
     # ---- ChatGPT : GPT personnalisé (instructions condensées + connaissances) ----
     cg = OUT / "chatgpt"

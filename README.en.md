@@ -8,7 +8,7 @@ whichever one you use.
 [![Site](https://img.shields.io/badge/site-regles--ecoconception--ia-0a7190)](https://institut-du-numerique-responsable.github.io/regles-ecoconception-ia/)
 [![Licence](https://img.shields.io/badge/licence-CC%20BY--SA%204.0-2ea44f)](LICENSE.md)
 [![Languages covered](https://img.shields.io/badge/languages-13-1b7a4a)](#languages-covered)
-[![AI assistants](https://img.shields.io/badge/AI%20assistants-8-1b7a4a)](#supported-assistants)
+[![AI assistants](https://img.shields.io/badge/AI%20assistants-10-1b7a4a)](#supported-assistants)
 [![RGESN](https://img.shields.io/badge/RGESN-v2%20(78%20criteria)-0b6e4f)](https://ecoresponsable.numerique.gouv.fr/publications/referentiel-general-ecoconception/)
 [![GR491](https://img.shields.io/badge/GR491-61%20recommendations-0b6e4f)](https://gr491.isit-europe.org/)
 [![Opquast](https://img.shields.io/badge/Opquast-CC%20BY--SA-0b6e4f)](https://checklists.opquast.com/fr/qualite-numerique/)
@@ -26,7 +26,7 @@ This repository turns four French digital sustainability frameworks, **RGESN**,
 directly: no PDF to read, the assistant applies the rule while it writes, and an
 automated diff review checks what came out.
 
-Written once, these rules are **generated automatically for 8 assistants**: there is no
+Written once, these rules are **generated automatically for 10 assistants**: there is no
 "official" version with shaky ports alongside it. Each tool gets the format it expects
 natively, produced from a single source.
 
@@ -43,6 +43,8 @@ natively, produced from a single source.
 | --- | --- | --- |
 | [Continue](https://continue.dev) | `.continue/rules/` + `.continue/agents/` (reference source) | [↓](#continue) |
 | [Claude Code](https://claude.com/claude-code) | `CLAUDE.md` + `.claude/agents/` | [↓](#claude-code) |
+| [Cursor](https://cursor.com) | `.cursor/rules/*.mdc` (targeted by `globs`) | [↓](#cursor) |
+| [GitHub Copilot](https://github.com/features/copilot) | `.github/instructions/*.instructions.md` (`applyTo`) | [↓](#github-copilot) |
 | [Gemini CLI](https://github.com/google-gemini/gemini-cli) | `GEMINI.md` + `/eco-check` commands | [↓](#gemini-cli) |
 | [OpenCode](https://opencode.ai) | `AGENTS.md` + `.opencode/agent/` | [↓](#opencode) |
 | [Mistral Vibe](https://docs.mistral.ai/vibe) | `AGENTS.md` + `.vibe/agents/` | [↓](#mistral-vibe) |
@@ -66,9 +68,9 @@ Two complementary mechanisms, carried by every version:
 SQL/PL-SQL · HTML · CSS · JavaScript · TypeScript · Java · C# · Python · PHP · Ruby ·
 Rust · C · C++
 
-Each rule only activates on files of its own language (the `globs` mechanism on the
-Continue side). Other assistants receive the whole set with an explicit marker per
-section: see [versions/README.md](versions/README.md#différence-avec-la-version-continue)
+Each rule only activates on files of its own language with **Continue, Cursor and GitHub
+Copilot** (`globs`, `applyTo`). The other assistants receive the whole set in a single
+file, with an explicit marker per section: see [versions/README.md](versions/README.md#différence-avec-la-version-continue)
 for that nuance.
 
 ## Frameworks used
@@ -154,6 +156,40 @@ the rules in a separate file and reference it from yours with `@regles-nr.md`.
 
 Run `claude` in `$PROJET`. Both subagents show up under `/agents`; for a review, ask
 "run the eco-check agent on my changes".
+
+### Cursor
+
+Along with Continue and Copilot, this is one of the three versions where every rule is
+**targeted by `globs`**: an open `.sql` file loads the SQL rules only. You never pay the
+context cost of languages the project does not use.
+
+```bash
+cp -r "$REGLES/versions/cursor/.cursor" "$PROJET/"
+```
+
+One `.mdc` file per rule under `.cursor/rules/`, plus two commands in
+`.cursor/commands/`: type `/eco-check` or `/accessibilite-check` in the chat. If the
+project already has Cursor rules, the files coexist without clashing, since ours are
+prefixed `ecoconception-` and `numerique-responsable`.
+
+### GitHub Copilot
+
+```bash
+cp -r "$REGLES/versions/copilot/.github" "$PROJET/"
+```
+
+Each `.instructions.md` file carries an `applyTo` that limits loading to the relevant
+files, like Continue's `globs`. Both review prompts sit in `.github/prompts/`: type
+`/eco-check` in Copilot Chat.
+
+Careful if the project already has a `.github/` folder: copy the contents rather than
+the folder itself, or you lose your workflows.
+
+```bash
+mkdir -p "$PROJET/.github/instructions" "$PROJET/.github/prompts"
+cp "$REGLES"/versions/copilot/.github/instructions/* "$PROJET/.github/instructions/"
+cp "$REGLES"/versions/copilot/.github/prompts/*      "$PROJET/.github/prompts/"
+```
 
 ### Gemini CLI
 
@@ -353,7 +389,7 @@ The guides below are in French.
 | `.continue/rules/` | Source rules, targeted by language through `globs`. |
 | `.continue/agents/` | Diff review agents (`eco-check`, `accessibilite-check`). |
 | `referentiels/` | Sourced extracts (RGESN, GR491, Opquast) with the identifiers the rules cite, checked in CI. |
-| `versions/` | Versions generated for the 7 other assistants. |
+| `versions/` | Versions generated for the 9 other assistants. |
 | `verification/` | Deliberately non-compliant test files and expected findings, to validate an install. |
 | `scripts/generer-versions.py` | Regenerates `versions/` from `.continue/` (single source). |
 | `scripts/verifier-installation.sh` | Checks that the rule files are in place in a project. |

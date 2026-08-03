@@ -69,18 +69,44 @@ La branche `test-eco` contient des fichiers pièges (HTML, SQL, Java, C#) couvra
 git checkout test-eco -- exemples/       # ramène les pièges dans le working tree
 cn review --review-agents .continue/agents/eco-check.md   # dans un vrai terminal
 git diff exemples/                        # ce que l'agent a corrigé
-git checkout -- exemples/ && rm -rf exemples/             # nettoyage
+git reset -- exemples/ && rm -rf exemples/                # nettoyage (reset, pas checkout :
+                                          # checkout laisserait les fichiers indexés)
 ```
 
 Vérifiez : les écarts attendus sont-ils détectés ? corrigés correctement ? le critère
 source est-il cité ? Si vous ajoutez une consigne à une règle, ajoutez le piège
 correspondant dans `exemples/` sur `test-eco`.
 
-## Propager le changement aux 7 autres assistants
+## Mesurer l'effet, pas seulement le constater
+
+Deux dispositifs de test coexistent, avec des rôles distincts :
+
+- **`verification/`** (sur `main`) valide qu'une **installation** fonctionne chez un
+  utilisateur : 18 écarts volontaires, une grille de résultats attendus, un barème.
+- **`test-eco`** valide qu'une **évolution des règles** ne régresse pas chez un
+  contributeur : des pièges par langage, à enrichir avec chaque nouvelle consigne.
+
+Une règle reformulée peut dégrader la détection sans que personne s'en aperçoive. Le
+scorer donne un chiffre avant/après :
+
+```bash
+cn review --review-agents .continue/agents/eco-check.md verification/exemple-a-corriger.* \
+  | python3 scripts/scorer-detection.py
+```
+
+Le rapprochement est textuel, donc généreux : c'est l'écart entre deux mesures qui
+compte, pas le chiffre absolu.
+
+Et si votre consigne porte sur un motif repérable par `grep`, ajoutez-le à
+`scripts/eco-audit.sh` : ce qui peut être attrapé sans appeler un modèle doit l'être,
+c'est le seul étage qui se déclenche à chaque commit sans rien demander.
+
+## Propager le changement aux 9 autres assistants
 
 `.continue/rules/` et `.continue/agents/` sont la source unique : toute modification
-doit être répercutée dans `versions/` (Claude Code, Gemini CLI, OpenCode, Mistral
-Vibe, Kimi CLI, Codex, ChatGPT) avant de commiter.
+doit être répercutée dans `versions/` (Claude Code, Cursor, GitHub Copilot, Gemini
+CLI, OpenCode, Mistral Vibe, Kimi CLI, Codex, ChatGPT) avant de commiter. La CI
+échoue si vous l'oubliez.
 
 ```bash
 python3 scripts/generer-versions.py
