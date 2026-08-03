@@ -3,9 +3,9 @@
 Ce guide s'adresse aux développeurs qui utilisent [Continue](https://continue.dev)
 avec les règles numérique responsable de ce dépôt. Continue est la source de
 référence (règles ciblées par langage via `globs`, agents exécutés par `cn review`).
-**Si vous utilisez un autre assistant** (Claude Code, Gemini CLI, OpenCode, Mistral
-Vibe, Codex, Kimi CLI, ChatGPT), les mêmes règles sont déclinées dans leur format
-natif : voir la [section Installation du README](../README.md#installation) pour la
+**Si vous utilisez un autre assistant** (Claude Code, Cursor, GitHub Copilot, Gemini
+CLI, OpenCode, Mistral Vibe, Codex, Kimi CLI, ChatGPT), les mêmes règles sont
+déclinées dans leur format natif : voir la [section Installation du README](../README.md#installation) pour la
 procédure propre à votre outil. Le mécanisme (règle pendant l'écriture, agent sur
 le diff) reste identique, seule la commande change.
 
@@ -82,6 +82,22 @@ cn review --review-agents .continue/agents/accessibilite-check.md
   `List` Java, méthode inexistante). Le patch est une proposition, pas une vérité.
 - Le rapport détaillé ne s'affiche que dans un terminal interactif (TTY). En script/CI,
   la sortie est réduite.
+
+## Le garde-fou qui ne dépend pas du modèle
+
+Les règles orientent la génération, l'agent relit quand vous le demandez : ni l'un ni
+l'autre ne se déclenche au moment du commit. `scripts/eco-audit.sh` comble ce trou en
+cherchant des motifs connus par `grep`, sans appeler aucun modèle.
+
+```bash
+bash scripts/eco-audit.sh                    # fichiers indexés
+bash scripts/installer-hooks.sh              # le pose en pre-commit, une fois par clone
+```
+
+Il ne voit aucune absence (pagination manquante, rétention non définie) et rate ce qui
+demande de comprendre l'intention : sur le corpus de `verification/`, il trouve 12 des
+18 écarts contre 16 pour un modèle. Mais il les rattache tous au bon critère, là où le
+modèle n'y parvient qu'une fois sur dix-huit. Les deux sont complémentaires.
 
 ## Dépannage
 

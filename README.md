@@ -426,16 +426,16 @@ GR491 par un assistant de code. Les choix de conception diffèrent sur trois poi
 green-claude est un skill Claude Code : il s'installe une fois dans
 `~/.claude/skills/` et ne vise que ce harnais, avec des hooks propres à ce produit
 (cache local, avertissement aux heures de pointe). Ce dépôt part d'une source unique
-et la décline pour huit assistants. Une équipe qui travaille sur Gemini CLI ou sur
+et la décline pour dix assistants. Une équipe qui travaille sur Gemini CLI ou sur
 Continue n'a aucun accès aux règles de green-claude ; elle a accès à celles-ci.
 
-Sur la détection, green-claude a une longueur d'avance. Son script `eco-audit.sh`
-repère des motifs par grep déterministe : `SELECT *`, `lodash`, `autoplay`. Zéro appel
-modèle, zéro dépendance à sa fiabilité pour les cas simples. Ce dépôt n'a pas cet
-étage : l'agent `eco-check` confie toute la détection au modèle. Sur un modèle local,
-il a bien repéré les écarts attendus, mais a aussi produit un correctif Java invalide
-(`.filter()` appelé sur une `List`, méthode qui n'existe pas). Un script de pré-filtre
-du même genre manque encore ici.
+Sur la détection, les deux projets ont maintenant le même étage déterministe. Celui de
+green-claude, `eco-audit.sh`, a inspiré le nôtre, qui en reprend les motifs et y ajoute
+la couche HTML/CSS que green-claude ne couvre pas, puis rattache chaque constat à un
+critère vérifié dans `referentiels/`. Cet étage compte : mesuré sur le corpus de
+`verification/`, un modèle local détecte 16 écarts sur 18 mais ne les rattache
+correctement qu'une fois sur dix-huit, et invente des identifiants de critères. Le
+grep en trouve moins (12 sur 18) et les trace tous. Aucun des deux ne suffit seul.
 
 Sur la couverture, les rôles s'inversent. green-claude retient 35 règles parmi les 78
 critères RGESN, avec un ancrage marqué sur la famille Algorithmie/IA et sur la

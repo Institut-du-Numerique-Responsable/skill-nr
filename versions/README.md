@@ -21,6 +21,8 @@ racine de votre projet.
 | Outil | Fichiers | Revue de diff |
 | --- | --- | --- |
 | **Claude Code** | `claude-code/CLAUDE.md` + `claude-code/.claude/agents/` | demander « lance l'agent eco-check » (sous-agents) |
+| **Cursor** | `cursor/.cursor/rules/` (une règle `.mdc` par langage) + `cursor/.cursor/commands/` | `/eco-check` dans le chat |
+| **GitHub Copilot** | `copilot/.github/instructions/` (`applyTo` par langage) + `copilot/.github/prompts/` | `/eco-check` dans Copilot Chat |
 | **Gemini CLI** | `gemini-cli/GEMINI.md` + `gemini-cli/.gemini/commands/` | `/eco-check` et `/accessibilite-check` (le diff est injecté automatiquement) |
 | **OpenCode** | `opencode/AGENTS.md` + `opencode/.opencode/agent/` | mentionner l'agent `eco-check` (mode subagent) |
 | **Mistral Vibe** | `mistral-vibe/AGENTS.md` + `mistral-vibe/.vibe/` | `vibe --agent eco-check` (ajustez `active_model` dans les `.toml`) |
@@ -63,8 +65,9 @@ Enterprise pour la création.
 
 ## Différence avec la version Continue
 
-Continue active chaque règle **par type de fichier** (`globs`) : un fichier Java ne charge
-que les règles Java. Les fichiers de contexte uniques (`CLAUDE.md`, `GEMINI.md`,
+Trois outils activent chaque règle **par type de fichier** : Continue (`globs`), Cursor
+(`globs` dans le frontmatter `.mdc`) et GitHub Copilot (`applyTo`). Un fichier Java n'y
+charge que les règles Java. Les fichiers de contexte uniques (`CLAUDE.md`, `GEMINI.md`,
 `AGENTS.md`) n'ont pas ce mécanisme : **toutes les règles (34 Ko à ce jour, voir
 `wc -c opencode/AGENTS.md`) sont chargées à chaque
 session**, avec une mention « S'applique aux fichiers : … » par section pour guider le

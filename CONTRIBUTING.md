@@ -1,7 +1,7 @@
 # Contribuer
 
 Merci de vouloir améliorer ces règles Numérique Responsable. Elles sont écrites une
-fois au format Continue et déclinées pour huit assistants : une contribution profite
+fois au format Continue et déclinées pour dix assistants : une contribution profite
 donc à tous les outils d'un coup.
 
 ## Le flux

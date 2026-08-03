@@ -5,7 +5,9 @@ Trois canaux complémentaires, à activer dans cet ordre. Il détaille le cas Co
 (source de référence du dépôt) ; si votre équipe est sur un autre assistant, le
 canal 1 (dépôts de projet) et le canal 3 (CI) s'appliquent à l'identique en pointant
 sur le dossier de [versions/](../versions/README.md) correspondant plutôt que
-sur `.continue/`.
+sur `.continue/`. Cursor et GitHub Copilot méritent une mention particulière : comme
+Continue, ils ciblent les règles par type de fichier, donc sans le coût de contexte
+des formats à fichier unique.
 
 ## 1. Par les dépôts de projet (démarrage, zéro friction)
 
@@ -49,16 +51,33 @@ sécurité ; Continue propose des options entreprise/on-premise. Note : la CLI p
 ## 3. En CI (le garde-fou)
 
 Les règles orientent la génération ; la CI garantit l'application même sans assistant.
-Sur chaque MR (GitLab CI / GitHub Actions) :
+Deux étages, à activer dans cet ordre.
+
+**Le pré-filtre déterministe, d'abord.** Il ne demande aucun modèle, ne coûte rien et
+ne produit aucun correctif inventé :
+
+```bash
+bash scripts/eco-audit.sh --avertir $(git diff --name-only origin/main...HEAD)
+```
+
+C'est le seul étage réellement systématique. Ce dépôt l'utilise sur ses propres PR,
+voir `.github/workflows/verification.yml` : un job rejoue les contrôles d'intégrité
+(`scripts/verifier-depot.sh`), un autre audite le diff et commente la PR. Sur un poste,
+`bash scripts/installer-hooks.sh` pose le même contrôle en `pre-commit`.
+
+**La revue par agent, ensuite**, pour ce que le grep ne voit pas :
 
 ```bash
 npm i -g @continuedev/cli
 cn review --review-agents .continue/agents/eco-check.md
 ```
 
-La CI a besoin d'un modèle : passerelle LLM interne (endpoint compatible OpenAI dans
+Elle a besoin d'un modèle : passerelle LLM interne (endpoint compatible OpenAI dans
 `config.yaml`) ou instance Ollama sur le runner. Commencer en mode informatif
-(non bloquant), passer en bloquant quand les équipes ont confiance.
+(non bloquant), passer en bloquant quand les équipes ont confiance. Mesuré sur le
+corpus de `verification/` : un modèle local repère 16 écarts sur 18, mais ne rattache
+qu'un seul constat au bon critère et invente des identifiants. À traiter comme un
+signal à relire, pas comme un verdict.
 
 ## Modèles : recommandations par contexte
 

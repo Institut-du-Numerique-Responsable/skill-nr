@@ -49,6 +49,8 @@ Ou lancez directement l'agent de revue de votre outil :
 | --- | --- |
 | Continue | `cn review --review-agents .continue/agents/eco-check.md` |
 | Claude Code | « lance l'agent eco-check sur ces deux fichiers » |
+| Cursor | `/eco-check` dans le chat |
+| GitHub Copilot | `/eco-check` dans Copilot Chat |
 | Gemini CLI | `/eco-check` |
 | OpenCode | mentionner l'agent `eco-check` |
 | Mistral Vibe | `vibe --agent eco-check` |

@@ -410,16 +410,17 @@ GR491. The design choices differ on three points.
 
 green-claude is a Claude Code skill: it installs once in `~/.claude/skills/` and targets
 that harness only, with hooks specific to that product (local cache, warning during peak
-grid hours). This repository starts from a single source and generates it for eight
+grid hours). This repository starts from a single source and generates it for ten
 assistants. A team working in Gemini CLI or Continue has no access to green-claude's
 rules; it does have access to these.
 
-On detection, green-claude is ahead. Its `eco-audit.sh` script spots patterns through
-deterministic grep: `SELECT *`, `lodash`, `autoplay`. Zero model calls, zero dependency on
-model reliability for the easy cases. This repository has no such layer: the `eco-check`
-agent hands all detection to the model. On a local model it did find the expected issues,
-but it also produced an invalid Java fix (`.filter()` called on a `List`, a method that
-does not exist). A pre-filter script of the same kind is still missing here.
+On detection, both projects now have the same deterministic layer. green-claude's
+`eco-audit.sh` inspired ours, which reuses its patterns, adds the HTML/CSS coverage
+green-claude lacks, and ties every finding to a criterion verified against
+`referentiels/`. That layer matters: measured on the `verification/` corpus, a local
+model finds 16 defects out of 18 but traces only one of them to the right criterion, and
+invents criterion identifiers along the way. The grep finds fewer (12 out of 18) and
+traces all of them. Neither is enough on its own.
 
 On coverage, the roles reverse. green-claude keeps 35 rules out of the 78 RGESN criteria,
 with a strong anchor in the Algorithms/AI family and in the frugal use of Claude Code

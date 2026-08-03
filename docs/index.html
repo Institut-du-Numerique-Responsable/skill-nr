@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Règles d'écoconception pour assistants IA | RGESN, GR491, Opquast, RGAA</title>
-<meta name="description" content="Règles open source d'écoconception (RGESN, GR491, Opquast, RGAA) déclinées pour 8 assistants IA de code : Continue, Claude Code, Gemini CLI, OpenCode, Mistral Vibe, Codex, Kimi CLI, ChatGPT.">
+<meta name="description" content="Règles open source d'écoconception (RGESN, GR491, Opquast, RGAA) déclinées pour 10 assistants IA de code : Continue, Claude Code, Gemini CLI, OpenCode, Mistral Vibe, Codex, Kimi CLI, ChatGPT.">
 <link rel="canonical" href="https://institut-du-numerique-responsable.github.io/regles-ecoconception-ia/">
 <meta property="og:title" content="Règles d'écoconception pour assistants IA">
 <meta property="og:description" content="RGESN, GR491, Opquast et RGAA traduits en règles pour 10 assistants IA de code, 13 langages. Une source, dix déclinaisons.">
@@ -13,7 +13,7 @@
 <meta property="og:locale" content="fr_FR">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Règles d'écoconception pour assistants IA">
-<meta name="twitter:description" content="RGESN, GR491, Opquast et RGAA traduits en règles pour 8 assistants IA de code, 13 langages.">
+<meta name="twitter:description" content="RGESN, GR491, Opquast et RGAA traduits en règles pour 10 assistants IA de code, 13 langages.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -223,7 +223,7 @@ LIMIT 50;</code></pre>
   <h2>Et green-claude ?</h2>
   <p><a href="https://github.com/Institut-du-Numerique-Responsable/green-claude">green-claude</a>, un autre projet de l'INR, répond à la même question : faire respecter le RGESN et le GR491 par un assistant de code. Les choix de conception diffèrent sur trois points.</p>
   <p>green-claude est un skill Claude Code : il s'installe une fois dans <code>~/.claude/skills/</code> et ne vise que ce harnais, avec des hooks propres à ce produit (cache local, avertissement aux heures de pointe). Ce dépôt part d'une source unique et la décline pour dix assistants. Une équipe qui travaille sur Gemini CLI ou sur Continue n'a aucun accès aux règles de green-claude ; elle a accès à celles-ci.</p>
-  <p>Sur la détection, green-claude a une longueur d'avance. Son script <code>eco-audit.sh</code> repère des motifs par grep déterministe : <code>SELECT *</code>, <code>lodash</code>, <code>autoplay</code>. Zéro appel modèle, zéro dépendance à sa fiabilité pour les cas simples. Ce dépôt n'a pas cet étage : l'agent <code>eco-check</code> confie toute la détection au modèle. Sur un modèle local, il a bien repéré les écarts attendus, mais a aussi produit un correctif Java invalide (<code>.filter()</code> appelé sur une <code>List</code>, méthode qui n'existe pas). Un script de pré-filtre du même genre manque encore ici.</p>
+  <p>Sur la détection, les deux projets ont maintenant le même étage déterministe. Celui de green-claude, <code>eco-audit.sh</code>, a inspiré le nôtre, qui en reprend les motifs et y ajoute la couche HTML/CSS que green-claude ne couvre pas, puis rattache chaque constat à un critère vérifié dans <code>referentiels/</code>. Cet étage compte : mesuré sur notre corpus de vérification, un modèle local détecte 16 écarts sur 18 mais ne les rattache correctement qu'une fois sur dix-huit, et invente des identifiants de critères. Le grep en trouve moins (12 sur 18) et les trace tous. Aucun des deux ne suffit seul.</p>
   <p>Sur la couverture, les rôles s'inversent. green-claude retient 35 règles parmi les 78 critères RGESN, avec un ancrage marqué sur la famille Algorithmie/IA et sur la sobriété d'usage de Claude Code lui-même (14 pratiques inspirées de Boris Cherny). Ce dépôt couvre ce dernier point dans la règle <code>usage-sobre-assistant.md</code>, et ajoute treize langages avec des anti-patterns propres à chacun ainsi qu'un référentiel que green-claude n'utilise pas, Opquast.</p>
   <p>Une équipe outillée des deux gagnerait le meilleur des deux mécanismes : le script de green-claude pour un premier passage rapide sur les motifs connus, les règles de ce dépôt pour ce que le grep ne voit pas.</p>
 
