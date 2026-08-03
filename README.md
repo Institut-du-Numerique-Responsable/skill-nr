@@ -30,18 +30,16 @@ le format qu'il attend nativement, généré depuis une source commune.
 
 ## Assistants pris en charge
 
-| Assistant | Ce que vous installez | Doc |
+| Assistant | Ce que vous installez | Installation |
 | --- | --- | --- |
-| [Continue](https://continue.dev) | `.continue/rules/` + `.continue/agents/` (source de référence) | [README](#-démarrage-avec-continue) |
-| [Claude Code](https://claude.com/claude-code) | `CLAUDE.md` + `.claude/agents/` | [versions/claude-code](versions/claude-code) |
-| [Gemini CLI](https://github.com/google-gemini/gemini-cli) | `GEMINI.md` + commandes `/eco-check` | [versions/gemini-cli](versions/gemini-cli) |
-| [OpenCode](https://opencode.ai) | `AGENTS.md` + `.opencode/agent/` | [versions/opencode](versions/opencode) |
-| [Mistral Vibe](https://docs.mistral.ai/vibe) | `AGENTS.md` + `.vibe/agents/` | [versions/mistral-vibe](versions/mistral-vibe) |
-| [OpenAI Codex](https://developers.openai.com/codex) | `AGENTS.md` (standard partagé) | [versions/opencode](versions/opencode) |
-| [Kimi CLI](https://github.com/MoonshotAI/kimi-cli) (Moonshot AI) | `AGENTS.md` + `.kimi/agents/` | [versions/kimi-cli](versions/kimi-cli) |
-| [ChatGPT](https://chatgpt.com) (GPT personnalisé) | instructions condensées + fichiers de connaissances | [versions/chatgpt](versions/chatgpt) |
-
-Tout le détail d'installation par outil est dans [versions/README.md](versions/README.md).
+| [Continue](https://continue.dev) | `.continue/rules/` + `.continue/agents/` (source de référence) | [↓](#continue) |
+| [Claude Code](https://claude.com/claude-code) | `CLAUDE.md` + `.claude/agents/` | [↓](#claude-code) |
+| [Gemini CLI](https://github.com/google-gemini/gemini-cli) | `GEMINI.md` + commandes `/eco-check` | [↓](#gemini-cli) |
+| [OpenCode](https://opencode.ai) | `AGENTS.md` + `.opencode/agent/` | [↓](#opencode) |
+| [Mistral Vibe](https://docs.mistral.ai/vibe) | `AGENTS.md` + `.vibe/agents/` | [↓](#mistral-vibe) |
+| [OpenAI Codex](https://developers.openai.com/codex) | `AGENTS.md` (standard partagé) | [↓](#openai-codex-et-zcode-glm) |
+| [Kimi CLI](https://github.com/MoonshotAI/kimi-cli) (Moonshot AI) | `AGENTS.md` + `.kimi/agents/` | [↓](#kimi-cli-moonshot-ai) |
+| [ChatGPT](https://chatgpt.com) (GPT personnalisé) | instructions condensées + fichiers de connaissances | [↓](#chatgpt-gpt-personnalisé) |
 
 ## Ce que ça fait concrètement
 
@@ -73,25 +71,251 @@ pour cette nuance.
 | [Opquast](https://checklists.opquast.com/fr/qualite-numerique/) | 35 règles taguées écoconception (CC BY-SA) | [referentiels/opquast-ecoconception.md](referentiels/opquast-ecoconception.md) |
 | [RGAA 4](https://accessibilite.numerique.gouv.fr/) | Accessibilité numérique | agent `accessibilite-check` |
 
-## 🚀 Démarrage avec Continue
+## Installation
 
-Continue est la source de référence de ce dépôt (règles avec ciblage par langage via
-`globs`, agents `.continue/agents/` exécutés par `cn review`).
+Le principe est le même pour tous les outils : **des fichiers à copier à la racine du
+projet où vous codez**. Rien à installer sur le poste, rien à configurer dans l'IDE, aucun
+service à joindre. L'assistant les lit à l'ouverture du projet.
+
+Un seul préalable, quel que soit l'outil : récupérer ce dépôt une fois quelque part.
 
 ```bash
-npm install -g @continuedev/cli    # commande `cn`
-cn                                 # les règles .continue/rules/ sont chargées automatiquement
+git clone https://github.com/Institut-du-Numerique-Responsable/regles-ecoconception-ia.git
+cd regles-ecoconception-ia
 ```
 
-Pour un modèle sans API payante (Ollama local, validé sur ce dépôt) et la commande de
-revue de diff, voir le [guide développeur](docs/guide-developpeur.md).
+Dans tout ce qui suit, `$REGLES` désigne ce dossier et `$PROJET` le dépôt de votre
+application. Vous pouvez poser les deux variables pour copier-coller les commandes telles
+quelles :
+
+```bash
+export REGLES=$PWD
+export PROJET=~/dev/mon-application
+```
+
+Un mot sur ce que vous copiez : `.continue/` est la **source**, tout le reste est généré
+à partir d'elle par `scripts/generer-versions.py`. Vous installez donc soit `.continue/`
+(Continue), soit un dossier de `versions/` (les autres). Jamais les deux.
+
+### Continue
+
+C'est la version de référence : chaque règle porte des `globs` et ne se charge que sur les
+fichiers de son langage. Un fichier `.sql` ouvert ne coûte que les règles SQL.
+
+```bash
+cp -r "$REGLES/.continue" "$PROJET/"
+```
+
+Puis, côté outil, au choix :
+
+- **Extension IDE** (usage quotidien) : installez Continue depuis le marketplace VS Code
+  ou JetBrains, rouvrez `$PROJET`, les règles sont actives. L'icône stylo dans la barre
+  Continue liste les règles chargées : c'est là que vous voyez si elles sont bien prises
+  en compte.
+- **CLI** (revue de diff, CI) :
+
+  ```bash
+  npm install -g @continuedev/cli   # fournit la commande `cn`
+  cd "$PROJET" && cn                # les règles .continue/rules/ sont chargées d'office
+  ```
+
+  La CLI a besoin d'un modèle déclaré dans `~/.continue/config.yaml`. Elle n'a plus de
+  connexion au compte Continue (`cn login` n'existe pas en v1.5.47, contrairement à sa
+  doc). Configuration validée sur ce dépôt avec Ollama en local, gratuite et sans qu'aucun
+  code ne quitte le poste : voir le [guide développeur](docs/guide-developpeur.md).
+
+Revue d'un diff :
+
+```bash
+cn review --review-agents .continue/agents/eco-check.md
+cn review --review-agents .continue/agents/accessibilite-check.md
+```
+
+Deux choses à savoir avant de lancer : l'agent **modifie directement vos fichiers** quand
+il corrige, et le rapport détaillé ne s'affiche que dans un vrai terminal interactif.
+Travaillez sur un état commité, et relisez les patchs comme n'importe quelle MR.
+
+### Claude Code
+
+```bash
+cp "$REGLES/versions/claude-code/CLAUDE.md" "$PROJET/"
+cp -r "$REGLES/versions/claude-code/.claude" "$PROJET/"
+```
+
+Si le projet a déjà un `CLAUDE.md`, ne l'écrasez pas : ajoutez le contenu à la suite, ou
+gardez les règles dans un fichier séparé et référencez-le depuis le vôtre avec
+`@regles-nr.md`.
+
+Lancez `claude` dans `$PROJET`. Les deux sous-agents apparaissent dans `/agents` ; pour une
+revue, demandez « lance l'agent eco-check sur mes changements ».
+
+### Gemini CLI
+
+```bash
+cp "$REGLES/versions/gemini-cli/GEMINI.md" "$PROJET/"
+cp -r "$REGLES/versions/gemini-cli/.gemini" "$PROJET/"
+```
+
+C'est la déclinaison la plus confortable pour la revue : les commandes `/eco-check` et
+`/accessibilite-check` injectent elles-mêmes le `git diff HEAD` dans le prompt, vous n'avez
+rien à coller. Lancez `gemini` dans `$PROJET` et tapez `/eco-check`.
+
+### OpenCode
+
+```bash
+cp "$REGLES/versions/opencode/AGENTS.md" "$PROJET/"
+cp -r "$REGLES/versions/opencode/.opencode" "$PROJET/"
+```
+
+Attention si le projet a déjà un `AGENTS.md` (c'est fréquent, le format est partagé par
+plusieurs outils) : concaténez plutôt qu'écraser.
+
+```bash
+cat "$REGLES/versions/opencode/AGENTS.md" >> "$PROJET/AGENTS.md"
+```
+
+Lancez `opencode` dans `$PROJET`, puis mentionnez l'agent `eco-check` (déclaré en
+`mode: subagent`) ou `accessibilite-check` pour une revue.
+
+### Mistral Vibe
+
+```bash
+cp "$REGLES/versions/mistral-vibe/AGENTS.md" "$PROJET/"
+cp -r "$REGLES/versions/mistral-vibe/.vibe" "$PROJET/"
+```
+
+Une étape en plus : ouvrez `.vibe/agents/eco-check.toml` et
+`.vibe/agents/accessibilite-check.toml` pour remplacer `active_model` par un modèle
+disponible dans votre organisation (la valeur générée, `mistral-medium-latest`, n'est
+qu'un défaut raisonnable).
+
+```bash
+cd "$PROJET" && vibe --agent eco-check
+```
+
+### Kimi CLI (Moonshot AI)
+
+```bash
+cp "$REGLES/versions/kimi-cli/AGENTS.md" "$PROJET/"
+cp -r "$REGLES/versions/kimi-cli/.kimi" "$PROJET/"
+```
+
+Même vigilance que pour OpenCode sur un `AGENTS.md` déjà présent. Les fichiers `.yaml`
+pointent vers le `.md` voisin via `system_prompt_path` : gardez les deux ensemble dans
+`.kimi/agents/`.
+
+```bash
+cd "$PROJET" && kimi --agent-file .kimi/agents/eco-check.yaml
+```
+
+### OpenAI Codex et ZCode (GLM)
+
+Ces deux outils lisent nativement `AGENTS.md`, le fichier d'OpenCode leur convient tel
+quel. Pas de dossier dédié à copier, pas d'agent de revue déclaré : la revue se demande
+en langage naturel.
+
+```bash
+cp "$REGLES/versions/opencode/AGENTS.md" "$PROJET/"
+```
+
+Cas voisin : **GLM utilisé comme fournisseur de modèle** dans Claude Code, OpenCode ou
+Cline. Là il n'y a rien de spécifique à faire, l'installation de l'outil hôte s'applique.
+
+### ChatGPT (GPT personnalisé)
+
+Pas de fichiers dans le projet ici : ChatGPT ne lit pas votre dépôt. On construit un GPT
+qui porte les règles, et l'équipe lui soumet son code.
+
+Les instructions d'un GPT sont limitées à environ 8 000 caractères, trop peu pour les
+règles complètes. D'où deux étages :
+
+1. **ChatGPT → Explorer les GPT → Créer**. Dans *Instructions*, collez le contenu de
+   `versions/chatgpt/instructions-gpt.md` (environ 2,5 Ko : les principes toujours actifs
+   et l'index des sections par langage).
+2. Dans *Connaissances*, téléversez les 5 fichiers de
+   `versions/chatgpt/connaissances/` : les règles complètes, les deux méthodes de revue,
+   et les extractions GR491 et Opquast. Le GPT y pioche la section du langage concerné.
+
+Partagez ensuite le GPT par lien interne à l'organisation. La création demande un compte
+Plus, Team ou Enterprise. Un *Projet* ChatGPT fonctionne aussi, avec les mêmes deux étages.
+
+## Vérifier que l'installation fonctionne
+
+Copier des fichiers ne prouve pas que l'assistant les lit. Un `AGENTS.md` écrasé, un
+mauvais dossier, une extension non rechargée : rien ne le signale, l'assistant continue de
+répondre, simplement sans les règles. Le dossier
+[`verification/`](verification/README.md) sert à lever ce doute, en trois minutes.
+
+**1. Les fichiers sont-ils au bon endroit ?**
+
+```bash
+bash "$REGLES/scripts/verifier-installation.sh" auto "$PROJET"
+```
+
+Le script détecte les outils présents et contrôle chaque fichier attendu, contenu compris :
+un `AGENTS.md` qui existe mais ne contient pas les règles est signalé comme tel. Ciblez un
+outil précis si besoin : `claude-code`, `opencode`, `gemini-cli`, `mistral-vibe`,
+`kimi-cli`, `continue`, `codex`, `chatgpt`.
+
+**2. L'assistant applique-t-il vraiment les règles ?**
+
+```bash
+cp "$REGLES"/verification/exemple-a-corriger.* "$PROJET/"
+```
+
+Ces deux fichiers, un HTML et un SQL, contiennent **18 écarts volontaires**. Demandez à
+votre assistant, dans `$PROJET` :
+
+> Relis `exemple-a-corriger.html` et `exemple-a-corriger.sql` sous l'angle écoconception et
+> accessibilité. Liste les écarts et cite le critère source pour chacun.
+
+Comparez à [`verification/resultats-attendus.md`](verification/resultats-attendus.md), qui
+détaille les 18 écarts avec leurs critères. Repère : **10 écarts relevés sur 18, dont au
+moins 3 avec un critère cité**, c'est bon. En dessous de 5, ou si aucun critère n'est jamais
+cité, les règles ne sont pas chargées.
+
+Le signal le plus fiable n'est pas le nombre d'écarts mais la **citation des critères**.
+N'importe quel modèle correct dira qu'une image manque d'`alt` ; seul un modèle qui a les
+règles en contexte écrira « Opquast n°124 » ou « GR491_Backend_3 ».
+
+Pensez à retirer les fichiers de test ensuite : `rm "$PROJET"/exemple-a-corriger.*`.
+
+**3. Et en écriture ?** La revue n'est que la moitié du sujet. Demandez une requête SQL ou
+une galerie d'images sans autre précision : avec les règles chargées, la requête pagine et
+projette ses colonnes, les images arrivent en `loading="lazy"` avec `alt` et dimensions.
+Cette différence-là est la vraie preuve. Détail dans
+[verification/README.md](verification/README.md).
+
+## Mettre à jour, désinstaller
+
+Les règles évoluent. Pour resynchroniser un projet, refaites simplement la copie de votre
+outil après un `git pull` dans `$REGLES` : les fichiers générés sont écrasés à l'identique,
+sauf ceux que vous avez adaptés à la main (le `active_model` de Mistral Vibe, un
+`AGENTS.md` concaténé). À l'échelle de plusieurs dépôts, voir le
+[guide de déploiement](docs/guide-deploiement.md).
+
+Pour désinstaller, supprimez les fichiers copiés. Aucune trace ailleurs : rien n'est écrit
+dans votre home ni dans la configuration de l'outil.
+
+## Problèmes fréquents
+
+| Symptôme | Cause probable et remède |
+| --- | --- |
+| L'assistant ne cite jamais de critère | Fichiers au mauvais endroit : ils doivent être à la **racine** du projet ouvert, pas dans un sous-dossier. Lancez `verifier-installation.sh`. |
+| Les règles marchaient, plus maintenant | Un `AGENTS.md` ou `CLAUDE.md` du projet a écrasé la copie lors d'un merge. Recopiez, en concaténant cette fois. |
+| Session très lourde en contexte | Normal hors Continue : les formats à fichier unique chargent les 31 Ko de règles à chaque session. Supprimez de votre copie les sections des langages que le projet n'utilise pas. |
+| `Agent file must contain YAML frontmatter with a 'name' field` | Un agent `.md` a perdu son frontmatter à la copie. Recopiez le fichier entier. |
+| `Cannot start TUI in TTY-less environment` (Continue) | Contexte non interactif : utilisez `cn -p "prompt"` ou lancez depuis un vrai terminal. |
+| Revue sans résultat visible (Continue) | Les correctifs sont peut-être déjà appliqués dans vos fichiers : regardez `git diff`. |
+| Un correctif proposé est faux | C'est possible et attendu : le patch est une proposition, pas une vérité. Cas observé, un `.filter()` appelé sur une `List` Java. Relisez comme une MR. |
 
 ## Documentation
 
 - 📘 [Guide développeur](docs/guide-developpeur.md) : installer, utiliser au quotidien, lancer une revue, dépanner.
 - 📗 [Guide de déploiement](docs/guide-deploiement.md) : diffuser les règles aux équipes (git, Hub, CI), choix des modèles, licences.
 - 📙 [Développer un skill](docs/developper-un-skill.md) : écrire une règle ou un agent, les tester, pièges connus.
-- 🔧 [versions/README.md](versions/README.md) : installation détaillée par assistant.
+- ✅ [verification/README.md](verification/README.md) : contrôler qu'un assistant a bien chargé les règles.
+- 🔧 [versions/README.md](versions/README.md) : formats générés, différences entre outils, cas non retenus.
 
 ## Contenu du dépôt
 
@@ -101,7 +325,9 @@ revue de diff, voir le [guide développeur](docs/guide-developpeur.md).
 | `.continue/agents/` | Agents de revue de diff (`eco-check`, `accessibilite-check`). |
 | `referentiels/` | Extractions sourcées (GR491, Opquast) avec identifiants cités par les règles. |
 | `versions/` | Versions générées pour les 7 autres assistants. |
+| `verification/` | Fichiers de test non conformes et écarts attendus, pour valider une installation. |
 | `scripts/generer-versions.py` | Régénère `versions/` depuis `.continue/` (source unique). |
+| `scripts/verifier-installation.sh` | Contrôle que les fichiers de règles sont en place dans un projet. |
 | `docs/` | Guides développeur, déploiement et contribution. |
 | branche `test-eco` | Fichiers pièges par langage pour valider les agents après chaque évolution des règles. |
 

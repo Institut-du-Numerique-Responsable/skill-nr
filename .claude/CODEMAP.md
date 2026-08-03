@@ -22,6 +22,9 @@ Skills Continue (continue.dev) pour l'écoconception / numérique responsable. T
 - `continue/` : clone amont (gitignoré), utile pour la doc : `continue/docs/`
 
 - `versions/{claude-code,gemini-cli,opencode,mistral-vibe,kimi-cli,chatgpt}/` : GÉNÉRÉS par `scripts/generer-versions.py` depuis .continue/ (ne jamais éditer à la main). Codex et ZCode (GLM) réutilisent tels quels le AGENTS.md d'opencode/kimi-cli (standard partagé), pas de dossier dédié. DeepSeek non retenu (pas de harnais/format stabilisé, cf. versions/README.md).
+- `verification/` : kit de validation d'installation. `exemple-a-corriger.{html,sql}` = 18 écarts volontaires (13 HTML + 5 SQL), `resultats-attendus.md` = grille avec critères et barème (10/18 dont 3 critères cités), `README.md` = protocole en 3 étapes. Ne jamais corriger ces fichiers.
+- `scripts/verifier-installation.sh` : contrôle présence + contenu des fichiers de règles dans un projet cible (`bash scripts/verifier-installation.sh [outil] [chemin]`, `auto` par défaut). Détecte le cas fréquent d'un `AGENTS.md`/`CLAUDE.md` du projet ayant écrasé la copie. Codes : 0 ok, 1 fichier manquant, 2 outil inconnu.
+- `README.md` : porte désormais la procédure d'installation complète par outil (section `## Installation`) ; `versions/README.md` n'en garde que le résumé et les spécificités de format.
 - `docs/index.html` (+ robots.txt, sitemap.xml) : page vitrine GitHub Pages, thème repris de green-claude (bleu #0a7190/#5ecbe0), déployée sur docs/ de main
 
 ## Points durs (ne pas redécouvrir)

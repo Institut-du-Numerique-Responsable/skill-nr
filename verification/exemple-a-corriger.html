@@ -1,0 +1,44 @@
+<!-- Fichier de test volontairement non conforme. Ne pas corriger dans ce dépôt :
+     il sert à vérifier qu'un assistant IA a bien chargé les règles.
+     Écarts attendus détaillés dans verification/resultats-attendus.md -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Fiche produit</title>
+  <link rel="stylesheet" href="https://cdn.example.com/bootstrap.min.css">
+  <link rel="stylesheet" href="https://fonts.example.com/css?family=Lato:100,300,400,700,900">
+</head>
+<body>
+  <div class="entete">
+    <div class="titre">Chaise de bureau ergonomique</div>
+  </div>
+
+  <img src="/media/chaise-4000x3000.jpg">
+
+  <video src="/media/demo.mp4" autoplay loop muted></video>
+
+  <iframe src="https://www.youtube.com/embed/xxxxxxxxxxx" width="560" height="315"></iframe>
+
+  <div class="table">
+    <div class="ligne"><div>Hauteur</div><div>112 cm</div></div>
+    <div class="ligne"><div>Poids</div><div>14 kg</div></div>
+  </div>
+
+  <form action="/panier" method="post">
+    <input type="text" name="quantite" placeholder="Quantité">
+    <div class="btn" onclick="ajouterAuPanier()">Ajouter au panier</div>
+  </form>
+
+  <p style="color:#b9b9b9;background:#ffffff">Livraison estimée sous 48 heures.</p>
+
+  <script src="https://cdn.example.com/jquery.min.js"></script>
+  <script src="https://cdn.example.com/lodash.min.js"></script>
+  <script>
+    // Rafraîchit le stock affiché
+    setInterval(function () {
+      fetch('/api/stock').then(function (r) { return r.json(); });
+    }, 3000);
+  </script>
+</body>
+</html>

@@ -5,9 +5,13 @@ avec les règles numérique responsable de ce dépôt. Continue est la source de
 référence (règles ciblées par langage via `globs`, agents exécutés par `cn review`).
 **Si vous utilisez un autre assistant** (Claude Code, Gemini CLI, OpenCode, Mistral
 Vibe, Codex, Kimi CLI, ChatGPT), les mêmes règles sont déclinées dans leur format
-natif : voir [versions/README.md](../versions/README.md) pour l'installation
-et l'usage propres à votre outil. Le mécanisme (règle pendant l'écriture, agent sur
+natif : voir la [section Installation du README](../README.md#installation) pour la
+procédure propre à votre outil. Le mécanisme (règle pendant l'écriture, agent sur
 le diff) reste identique, seule la commande change.
+
+Dans tous les cas, une fois les fichiers copiés, contrôlez l'installation avec le
+[kit de vérification](../verification/README.md) : `bash scripts/verifier-installation.sh`
+pour les fichiers, puis les deux fichiers de test pour le comportement du modèle.
 
 ## Ce que ça change pour vous
 

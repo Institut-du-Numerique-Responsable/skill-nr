@@ -11,7 +11,12 @@ python3 scripts/generer-versions.py
 
 ## Installation par outil
 
-Copiez le contenu du sous-dossier correspondant à la racine de votre projet :
+**La procédure complète, outil par outil, est dans le
+[README principal](../README.md#installation)** : commandes de copie, pièges (`AGENTS.md`
+déjà présent, `active_model` de Mistral Vibe), et
+[vérification de l'installation](../README.md#vérifier-que-linstallation-fonctionne).
+Ce tableau n'en est que le résumé : copiez le contenu du sous-dossier correspondant à la
+racine de votre projet.
 
 | Outil | Fichiers | Revue de diff |
 | --- | --- | --- |
