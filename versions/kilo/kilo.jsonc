@@ -1,0 +1,22 @@
+// Généré par scripts/generer-versions.py, ne pas éditer à la main.
+// Fusionnez la clé "instructions" si le projet a déjà un kilo.jsonc.
+// Commentez une ligne pour retirer un langage que le projet n'utilise pas.
+{
+  "instructions": [
+    ".kilo/rules/numerique-responsable.md",
+    ".kilo/rules/usage-sobre-assistant.md",
+    ".kilo/rules/ecoconception-backend.md",
+    ".kilo/rules/ecoconception-frontend.md",
+    ".kilo/rules/qualite-web-opquast.md",
+    ".kilo/rules/ecoconception-sql.md",
+    ".kilo/rules/ecoconception-javascript.md",
+    ".kilo/rules/ecoconception-java.md",
+    ".kilo/rules/ecoconception-csharp.md",
+    ".kilo/rules/ecoconception-python.md",
+    ".kilo/rules/ecoconception-php.md",
+    ".kilo/rules/ecoconception-ruby.md",
+    ".kilo/rules/ecoconception-rust.md",
+    ".kilo/rules/ecoconception-c.md",
+    ".kilo/rules/ecoconception-cpp.md",
+  ],
+}

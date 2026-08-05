@@ -23,8 +23,8 @@ bash scripts/verifier-installation.sh claude-code /chemin/vers/mon-projet
 bash scripts/verifier-installation.sh opencode    /chemin/vers/mon-projet
 ```
 
-Outils reconnus : `continue`, `claude-code`, `gemini-cli`, `opencode`, `mistral-vibe`,
-`kimi-cli`, `codex`, `chatgpt`. Le script sort en code 1 si un fichier manque.
+Outils reconnus : `continue`, `claude-code`, `cursor`, `copilot`, `gemini-cli`,
+`opencode`, `mistral-vibe`, `kimi-cli`, `kilo`, `codex`, `chatgpt`. Le script sort en code 1 si un fichier manque.
 
 Il contrôle aussi le contenu, pas seulement le nom : un `AGENTS.md` qui existe mais ne
 contient pas les règles est signalé comme tel. C'est le cas le plus fréquent, quand le
@@ -55,6 +55,7 @@ Ou lancez directement l'agent de revue de votre outil :
 | OpenCode | mentionner l'agent `eco-check` |
 | Mistral Vibe | `vibe --agent eco-check` |
 | Kimi CLI | `kimi --agent-file .kimi/agents/eco-check.yaml` |
+| Kilo Code | `@eco-check` dans le chat |
 
 Comparez ensuite la réponse à [`resultats-attendus.md`](resultats-attendus.md), qui liste
 les 18 écarts volontaires des deux fichiers avec leurs critères.

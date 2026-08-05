@@ -26,7 +26,7 @@ Ce dépôt traduit quatre référentiels français de sobriété numérique, **R
 IA de code : pas de PDF à lire, l'assistant applique la règle pendant qu'il écrit,
 et une revue de diff automatisée vérifie ce qui a été produit.
 
-Écrites une seule fois, ces règles sont **déclinées automatiquement pour 10 assistants** :
+Écrites une seule fois, ces règles sont **déclinées automatiquement pour 11 assistants** :
 il n'y a pas de version « officielle » et des versions bancales : chaque outil reçoit
 le format qu'il attend nativement, généré depuis une source commune.
 
@@ -41,6 +41,7 @@ le format qu'il attend nativement, généré depuis une source commune.
 | [Gemini CLI](https://github.com/google-gemini/gemini-cli) | `GEMINI.md` + commandes `/eco-check` | [↓](#gemini-cli) |
 | [OpenCode](https://opencode.ai) | `AGENTS.md` + `.opencode/agent/` | [↓](#opencode) |
 | [Mistral Vibe](https://docs.mistral.ai/vibe) | `AGENTS.md` + `.vibe/agents/` | [↓](#mistral-vibe) |
+| [Kilo Code](https://kilo.ai) | `.kilo/rules/` + `kilo.jsonc` + `.kilo/agents/` | [↓](#kilo-code) |
 | [OpenAI Codex](https://developers.openai.com/codex) | `AGENTS.md` (standard partagé) | [↓](#openai-codex-et-zcode-glm) |
 | [Kimi CLI](https://github.com/MoonshotAI/kimi-cli) (Moonshot AI) | `AGENTS.md` + `.kimi/agents/` | [↓](#kimi-cli-moonshot-ai) |
 | [ChatGPT](https://chatgpt.com) (GPT personnalisé) | instructions condensées + fichiers de connaissances | [↓](#chatgpt-gpt-personnalisé) |
@@ -246,6 +247,24 @@ pointent vers le `.md` voisin via `system_prompt_path` : gardez les deux ensembl
 cd "$PROJET" && kimi --agent-file .kimi/agents/eco-check.yaml
 ```
 
+### Kilo Code
+
+```bash
+cp -r "$REGLES/versions/kilo/.kilo" "$PROJET/"
+cp "$REGLES/versions/kilo/kilo.jsonc" "$PROJET/"
+```
+
+Si le projet a déjà un `kilo.jsonc`, ne l'écrasez pas : ouvrez-le et ajoutez les entrées
+`.kilo/rules/*.md` à sa clé `instructions` (une règle non listée n'est jamais chargée).
+Kilo ne cible pas les règles par type de fichier : tout ce que liste `instructions` est
+chargé à chaque session, commentez les langages que le projet n'utilise pas.
+
+Lancez Kilo dans `$PROJET`, puis appelez la revue avec `@eco-check` ou
+`@accessibilite-check` dans le chat (les deux sont déclarés en `mode: subagent`).
+
+Les anciennes versions de l'extension lisaient `.kilocode/rules/` sans `kilo.jsonc` ;
+ce dossier reste pris en charge par compatibilité, un `mv .kilo .kilocode` suffit alors.
+
 ### OpenAI Codex et ZCode (GLM)
 
 Ces deux outils lisent nativement `AGENTS.md`, le fichier d'OpenCode leur convient tel
@@ -320,7 +339,7 @@ bash "$REGLES/scripts/verifier-installation.sh" auto "$PROJET"
 Le script détecte les outils présents et contrôle chaque fichier attendu, contenu compris :
 un `AGENTS.md` qui existe mais ne contient pas les règles est signalé comme tel. Ciblez un
 outil précis si besoin : `claude-code`, `opencode`, `gemini-cli`, `mistral-vibe`,
-`kimi-cli`, `continue`, `codex`, `chatgpt`.
+`kimi-cli`, `kilo`, `cursor`, `copilot`, `continue`, `codex`, `chatgpt`.
 
 **2. L'assistant applique-t-il vraiment les règles ?**
 
@@ -384,7 +403,7 @@ dans votre home ni dans la configuration de l'outil.
 | --- | --- |
 | L'assistant ne cite jamais de critère | Fichiers au mauvais endroit : ils doivent être à la **racine** du projet ouvert, pas dans un sous-dossier. Lancez `verifier-installation.sh`. |
 | Les règles marchaient, plus maintenant | Un `AGENTS.md` ou `CLAUDE.md` du projet a écrasé la copie lors d'un merge. Recopiez, en concaténant cette fois. |
-| Session très lourde en contexte | Normal hors Continue : les formats à fichier unique chargent toutes les règles à chaque session (34 Ko aujourd'hui, taille exacte avec `wc -c versions/opencode/AGENTS.md`). Supprimez de votre copie les sections des langages que le projet n'utilise pas. |
+| Session très lourde en contexte | Normal hors Continue : les formats à fichier unique chargent toutes les règles à chaque session (34 Ko aujourd'hui, taille exacte avec `wc -c versions/opencode/AGENTS.md`). Supprimez de votre copie les sections des langages que le projet n'utilise pas (sous Kilo Code, commentez la ligne correspondante de `kilo.jsonc`). |
 | `Agent file must contain YAML frontmatter with a 'name' field` | Un agent `.md` a perdu son frontmatter à la copie. Recopiez le fichier entier. |
 | `Cannot start TUI in TTY-less environment` (Continue) | Contexte non interactif : utilisez `cn -p "prompt"` ou lancez depuis un vrai terminal. |
 | Revue sans résultat visible (Continue) | Les correctifs sont peut-être déjà appliqués dans vos fichiers : regardez `git diff`. |
@@ -426,7 +445,7 @@ GR491 par un assistant de code. Les choix de conception diffèrent sur trois poi
 green-claude est un skill Claude Code : il s'installe une fois dans
 `~/.claude/skills/` et ne vise que ce harnais, avec des hooks propres à ce produit
 (cache local, avertissement aux heures de pointe). Ce dépôt part d'une source unique
-et la décline pour dix assistants. Une équipe qui travaille sur Gemini CLI ou sur
+et la décline pour onze assistants. Une équipe qui travaille sur Gemini CLI ou sur
 Continue n'a aucun accès aux règles de green-claude ; elle a accès à celles-ci.
 
 Sur la détection, les deux projets ont maintenant le même étage déterministe. Celui de

@@ -1,10 +1,10 @@
-<!-- Fichier généré par scripts/generer-versions.py, ne pas éditer à la main.
-     Source : .continue/rules/ -->
-
 ---
 name: eco-check
 description: Revue écoconception d'un diff selon le RGESN, le GR491 et Opquast. À utiliser après toute modification de code significative.
 ---
+
+<!-- Fichier généré par scripts/generer-versions.py, ne pas éditer à la main.
+     Source : .continue/rules/ -->
 
 # Vérification écoconception (RGESN / GR491)
 

@@ -1,10 +1,10 @@
-<!-- Fichier généré par scripts/generer-versions.py, ne pas éditer à la main.
-     Source : .continue/rules/ -->
-
 ---
 name: accessibilite-check
 description: Revue accessibilité RGAA 4 / WCAG 2.1 AA d'un diff. À utiliser après toute modification d'interface.
 ---
+
+<!-- Fichier généré par scripts/generer-versions.py, ne pas éditer à la main.
+     Source : .continue/rules/ -->
 
 # Vérification accessibilité (RGAA 4)
 

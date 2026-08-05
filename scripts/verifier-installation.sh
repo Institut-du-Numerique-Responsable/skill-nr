@@ -5,7 +5,7 @@
 #
 # Sans argument : détecte les outils présents dans le répertoire courant.
 # Outils : continue, claude-code, cursor, copilot, gemini-cli, opencode,
-#          mistral-vibe, kimi-cli, codex, chatgpt.
+#          mistral-vibe, kimi-cli, kilo, codex, chatgpt.
 #
 # Ce script contrôle la présence et le contenu des fichiers, pas le comportement
 # du modèle : pour ça, voir verification/README.md (étape 2).
@@ -82,6 +82,16 @@ verifier_kimi() {
   fichier ".kimi/agents/eco-check.md" "écoconception"
 }
 
+verifier_kilo() {
+  info "Kilo Code"
+  dossier ".kilo/rules"
+  fichier ".kilo/rules/numerique-responsable.md" "numérique responsable"
+  fichier ".kilo/rules/ecoconception-sql.md" "S'applique aux fichiers"
+  # Une règle non listée dans instructions n'est jamais chargée par Kilo.
+  fichier "kilo.jsonc" "ecoconception-sql.md"
+  fichier ".kilo/agents/eco-check.md" "mode: subagent"
+}
+
 verifier_cursor() {
   info "Cursor"
   dossier ".cursor/rules"
@@ -118,6 +128,7 @@ case "$OUTIL" in
   opencode)     verifier_opencode ;;
   mistral-vibe) verifier_vibe ;;
   kimi-cli)     verifier_kimi ;;
+  kilo)         verifier_kilo ;;
   cursor)       verifier_cursor ;;
   copilot)      verifier_copilot ;;
   codex)        verifier_codex ;;
@@ -131,6 +142,7 @@ case "$OUTIL" in
     [ -d "$PROJET/.opencode" ]       && { verifier_opencode; TROUVE=1; }
     [ -d "$PROJET/.vibe" ]           && { verifier_vibe; TROUVE=1; }
     [ -d "$PROJET/.kimi" ]           && { verifier_kimi; TROUVE=1; }
+    [ -d "$PROJET/.kilo/rules" ]     && { verifier_kilo; TROUVE=1; }
     [ -d "$PROJET/.cursor/rules" ]   && { verifier_cursor; TROUVE=1; }
     [ -d "$PROJET/.github/instructions" ] && { verifier_copilot; TROUVE=1; }
     if [ "$TROUVE" -eq 0 ] && [ -f "$PROJET/AGENTS.md" ]; then verifier_codex; TROUVE=1; fi
@@ -142,7 +154,7 @@ case "$OUTIL" in
     ;;
   *)
     echo "Outil inconnu : $OUTIL"
-    echo "Attendu : continue | claude-code | cursor | copilot | gemini-cli | opencode | mistral-vibe | kimi-cli | codex | chatgpt"
+    echo "Attendu : continue | claude-code | cursor | copilot | gemini-cli | opencode | mistral-vibe | kimi-cli | kilo | codex | chatgpt"
     exit 2
     ;;
 esac

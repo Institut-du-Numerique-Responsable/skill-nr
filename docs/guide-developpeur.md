@@ -4,7 +4,7 @@ Ce guide s'adresse aux développeurs qui utilisent [Continue](https://continue.d
 avec les règles numérique responsable de ce dépôt. Continue est la source de
 référence (règles ciblées par langage via `globs`, agents exécutés par `cn review`).
 **Si vous utilisez un autre assistant** (Claude Code, Cursor, GitHub Copilot, Gemini
-CLI, OpenCode, Mistral Vibe, Codex, Kimi CLI, ChatGPT), les mêmes règles sont
+CLI, OpenCode, Mistral Vibe, Codex, Kimi CLI, Kilo Code, ChatGPT), les mêmes règles sont
 déclinées dans leur format natif : voir la [section Installation du README](../README.md#installation) pour la
 procédure propre à votre outil. Le mécanisme (règle pendant l'écriture, agent sur
 le diff) reste identique, seule la commande change.

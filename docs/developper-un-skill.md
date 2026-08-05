@@ -105,7 +105,7 @@ c'est le seul étage qui se déclenche à chaque commit sans rien demander.
 
 `.continue/rules/` et `.continue/agents/` sont la source unique : toute modification
 doit être répercutée dans `versions/` (Claude Code, Cursor, GitHub Copilot, Gemini
-CLI, OpenCode, Mistral Vibe, Kimi CLI, Codex, ChatGPT) avant de commiter. La CI
+CLI, OpenCode, Mistral Vibe, Kimi CLI, Kilo Code, Codex, ChatGPT) avant de commiter. La CI
 échoue si vous l'oubliez.
 
 ```bash

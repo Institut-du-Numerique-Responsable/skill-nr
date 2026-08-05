@@ -34,6 +34,8 @@ ORDRE = [
     "ecoconception-cpp",
 ]
 
+# Ce commentaire ne doit JAMAIS précéder un frontmatter : les outils n'analysent le bloc
+# YAML que s'il ouvre le fichier. Sur un fichier à frontmatter, l'écrire après le `---`.
 AVERTISSEMENT = (
     "<!-- Fichier généré par scripts/generer-versions.py, ne pas éditer à la main.\n"
     "     Source : .continue/rules/ -->\n\n"
@@ -77,20 +79,22 @@ def globs_separes(globs: str) -> str:
     return ",".join(f"{avant}{a.strip()}{apres}" for a in alternatives.split(","))
 
 
+def corps_avec_portee(slug: str) -> str:
+    """Corps de la règle, avec la mention de portée pour les formats sans globs."""
+    globs, corps = lire_regle(slug)
+    if globs:
+        corps = re.sub(
+            r"^(# .+)$",
+            rf"\1\n\n> S'applique aux fichiers : `{globs}`",
+            corps,
+            count=1,
+            flags=re.M,
+        )
+    return corps
+
+
 def bloc_regles() -> str:
-    parties = []
-    for slug in ORDRE:
-        globs, corps = lire_regle(slug)
-        if globs:
-            corps = re.sub(
-                r"^(# .+)$",
-                rf"\1\n\n> S'applique aux fichiers : `{globs}`",
-                corps,
-                count=1,
-                flags=re.M,
-            )
-        parties.append(corps)
-    return "\n\n---\n\n".join(parties)
+    return "\n\n---\n\n".join(corps_avec_portee(slug) for slug in ORDRE)
 
 
 PREAMBULE = """# Règles Numérique Responsable : écoconception et accessibilité
@@ -116,17 +120,15 @@ def generer():
     (cc / ".claude" / "agents").mkdir(parents=True, exist_ok=True)
     (cc / "CLAUDE.md").write_text(AVERTISSEMENT + PREAMBULE + regles + "\n", encoding="utf-8")
     (cc / ".claude" / "agents" / "eco-check.md").write_text(
-        AVERTISSEMENT
-        + "---\nname: eco-check\ndescription: Revue écoconception d'un diff selon le RGESN, "
+        "---\nname: eco-check\ndescription: Revue écoconception d'un diff selon le RGESN, "
         "le GR491 et Opquast. À utiliser après toute modification de code significative.\n---\n\n"
-        + eco + "\n",
+        + AVERTISSEMENT + eco + "\n",
         encoding="utf-8",
     )
     (cc / ".claude" / "agents" / "accessibilite-check.md").write_text(
-        AVERTISSEMENT
-        + "---\nname: accessibilite-check\ndescription: Revue accessibilité RGAA 4 / WCAG 2.1 AA "
+        "---\nname: accessibilite-check\ndescription: Revue accessibilité RGAA 4 / WCAG 2.1 AA "
         "d'un diff. À utiliser après toute modification d'interface.\n---\n\n"
-        + a11y + "\n",
+        + AVERTISSEMENT + a11y + "\n",
         encoding="utf-8",
     )
 
@@ -160,15 +162,13 @@ def generer():
     (oc / ".opencode" / "agent").mkdir(parents=True, exist_ok=True)
     (oc / "AGENTS.md").write_text(AVERTISSEMENT + PREAMBULE + regles + "\n", encoding="utf-8")
     (oc / ".opencode" / "agent" / "eco-check.md").write_text(
-        AVERTISSEMENT
-        + "---\ndescription: Revue écoconception d'un diff selon le RGESN, le GR491 et Opquast\n"
-        "mode: subagent\n---\n\n" + eco + "\n",
+        "---\ndescription: Revue écoconception d'un diff selon le RGESN, le GR491 et Opquast\n"
+        "mode: subagent\n---\n\n" + AVERTISSEMENT + eco + "\n",
         encoding="utf-8",
     )
     (oc / ".opencode" / "agent" / "accessibilite-check.md").write_text(
-        AVERTISSEMENT
-        + "---\ndescription: Revue accessibilité RGAA 4 / WCAG 2.1 AA d'un diff\n"
-        "mode: subagent\n---\n\n" + a11y + "\n",
+        "---\ndescription: Revue accessibilité RGAA 4 / WCAG 2.1 AA d'un diff\n"
+        "mode: subagent\n---\n\n" + AVERTISSEMENT + a11y + "\n",
         encoding="utf-8",
     )
 
@@ -223,6 +223,45 @@ def generer():
     )
     (ki / ".kimi" / "agents" / "eco-check.md").write_text(AVERTISSEMENT + eco + "\n", encoding="utf-8")
     (ki / ".kimi" / "agents" / "accessibilite-check.md").write_text(AVERTISSEMENT + a11y + "\n", encoding="utf-8")
+
+    # ---- Kilo Code : .kilo/rules/ (un fichier par règle) + sous-agents ----
+    # Kilo ne cible pas les règles par type de fichier : tout ce que liste `instructions`
+    # est chargé à chaque session. Le découpage en fichiers reste utile pour retirer les
+    # langages inutiles du projet (une ligne à commenter dans kilo.jsonc).
+    kl = OUT / "kilo"
+    (kl / ".kilo" / "rules").mkdir(parents=True, exist_ok=True)
+    (kl / ".kilo" / "agents").mkdir(parents=True, exist_ok=True)
+    for slug in ORDRE:
+        (kl / ".kilo" / "rules" / f"{slug}.md").write_text(
+            AVERTISSEMENT + corps_avec_portee(slug) + "\n", encoding="utf-8"
+        )
+    (kl / "kilo.jsonc").write_text(
+        "// Généré par scripts/generer-versions.py, ne pas éditer à la main.\n"
+        "// Fusionnez la clé \"instructions\" si le projet a déjà un kilo.jsonc.\n"
+        "// Commentez une ligne pour retirer un langage que le projet n'utilise pas.\n"
+        "{\n"
+        '  "instructions": [\n'
+        + "".join(f'    ".kilo/rules/{slug}.md",\n' for slug in ORDRE)
+        + "  ],\n}\n",
+        encoding="utf-8",
+    )
+
+    def agent_kilo(description: str, corps: str) -> str:
+        # Frontmatter en tête de fichier, l'avertissement ensuite : Kilo n'analyse le
+        # bloc YAML que s'il ouvre le fichier.
+        return (
+            f"---\ndescription: {description}\nmode: subagent\n---\n\n"
+            + AVERTISSEMENT + corps + "\n"
+        )
+
+    (kl / ".kilo" / "agents" / "eco-check.md").write_text(
+        agent_kilo("Revue écoconception d'un diff selon le RGESN, le GR491 et Opquast", eco),
+        encoding="utf-8",
+    )
+    (kl / ".kilo" / "agents" / "accessibilite-check.md").write_text(
+        agent_kilo("Revue accessibilité RGAA 4 / WCAG 2.1 AA d'un diff", a11y),
+        encoding="utf-8",
+    )
 
     # ---- Cursor : une règle .mdc par fichier source, ciblée par globs ----
     # Comme Continue, Cursor charge une règle seulement si un fichier correspondant est

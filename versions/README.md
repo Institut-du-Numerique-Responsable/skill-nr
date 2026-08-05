@@ -27,6 +27,7 @@ racine de votre projet.
 | **OpenCode** | `opencode/AGENTS.md` + `opencode/.opencode/agent/` | mentionner l'agent `eco-check` (mode subagent) |
 | **Mistral Vibe** | `mistral-vibe/AGENTS.md` + `mistral-vibe/.vibe/` | `vibe --agent eco-check` (ajustez `active_model` dans les `.toml`) |
 | **Kimi CLI** (Moonshot AI) | `kimi-cli/AGENTS.md` + `kimi-cli/.kimi/agents/` | `kimi --agent-file .kimi/agents/eco-check.yaml` |
+| **Kilo Code** | `kilo/.kilo/rules/` + `kilo/kilo.jsonc` + `kilo/.kilo/agents/` | `@eco-check` dans le chat (sous-agents) |
 | **ChatGPT** | voir ci-dessous (GPT personnalisé) | demander une revue du diff collé, méthode `revue-ecoconception.md` |
 
 `AGENTS.md` étant un standard partagé, la version OpenCode/Mistral Vibe/Kimi CLI est
@@ -64,6 +65,11 @@ Partagez ensuite le GPT à l'organisation (lien interne). Nécessite ChatGPT Plu
 Enterprise pour la création.
 
 ## Différence avec la version Continue
+
+Kilo Code est un cas intermédiaire : les règles y sont **découpées en fichiers** comme
+chez Continue, mais Kilo ne les cible pas par type de fichier, il charge tout ce que
+`kilo.jsonc` liste dans `instructions`. Le découpage sert donc à retirer un langage
+(commenter une ligne) plutôt qu'à économiser du contexte automatiquement.
 
 Trois outils activent chaque règle **par type de fichier** : Continue (`globs`), Cursor
 (`globs` dans le frontmatter `.mdc`) et GitHub Copilot (`applyTo`). Un fichier Java n'y

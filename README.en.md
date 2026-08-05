@@ -26,7 +26,7 @@ This repository turns four French digital sustainability frameworks, **RGESN**,
 directly: no PDF to read, the assistant applies the rule while it writes, and an
 automated diff review checks what came out.
 
-Written once, these rules are **generated automatically for 10 assistants**: there is no
+Written once, these rules are **generated automatically for 11 assistants**: there is no
 "official" version with shaky ports alongside it. Each tool gets the format it expects
 natively, produced from a single source.
 
@@ -48,6 +48,7 @@ natively, produced from a single source.
 | [Gemini CLI](https://github.com/google-gemini/gemini-cli) | `GEMINI.md` + `/eco-check` commands | [↓](#gemini-cli) |
 | [OpenCode](https://opencode.ai) | `AGENTS.md` + `.opencode/agent/` | [↓](#opencode) |
 | [Mistral Vibe](https://docs.mistral.ai/vibe) | `AGENTS.md` + `.vibe/agents/` | [↓](#mistral-vibe) |
+| [Kilo Code](https://kilo.ai) | `.kilo/rules/` + `kilo.jsonc` + `.kilo/agents/` | [↓](#kilo-code) |
 | [OpenAI Codex](https://developers.openai.com/codex) | `AGENTS.md` (shared standard) | [↓](#openai-codex-and-zcode-glm) |
 | [Kimi CLI](https://github.com/MoonshotAI/kimi-cli) (Moonshot AI) | `AGENTS.md` + `.kimi/agents/` | [↓](#kimi-cli-moonshot-ai) |
 | [ChatGPT](https://chatgpt.com) (custom GPT) | condensed instructions + knowledge files | [↓](#chatgpt-custom-gpt) |
@@ -249,6 +250,25 @@ neighbouring `.md` through `system_prompt_path`: keep both together in `.kimi/ag
 cd "$PROJET" && kimi --agent-file .kimi/agents/eco-check.yaml
 ```
 
+### Kilo Code
+
+```bash
+cp -r "$REGLES/versions/kilo/.kilo" "$PROJET/"
+cp "$REGLES/versions/kilo/kilo.jsonc" "$PROJET/"
+```
+
+If the project already has a `kilo.jsonc`, do not overwrite it: open it and add the
+`.kilo/rules/*.md` entries to its `instructions` key (a rule that is not listed is never
+loaded). Kilo does not target rules by file type: everything listed in `instructions` is
+loaded in every session, so comment out the languages your project does not use.
+
+Start Kilo in `$PROJET`, then call the review with `@eco-check` or
+`@accessibilite-check` in the chat (both are declared as `mode: subagent`).
+
+Older versions of the extension read `.kilocode/rules/` without a `kilo.jsonc`; that
+folder is still supported for backward compatibility, in which case `mv .kilo .kilocode`
+is enough.
+
 ### OpenAI Codex and ZCode (GLM)
 
 Both tools read `AGENTS.md` natively, so the OpenCode file suits them as is. No dedicated
@@ -319,7 +339,7 @@ bash "$REGLES/scripts/verifier-installation.sh" auto "$PROJET"
 The script detects which tools are present and checks every expected file, content
 included: an `AGENTS.md` that exists but does not contain the rules is reported as such.
 Target a specific tool if needed: `claude-code`, `opencode`, `gemini-cli`, `mistral-vibe`,
-`kimi-cli`, `continue`, `codex`, `chatgpt`.
+`kimi-cli`, `kilo`, `cursor`, `copilot`, `continue`, `codex`, `chatgpt`.
 
 **2. Does the assistant really apply the rules?**
 
@@ -367,7 +387,7 @@ your home directory or to the tool's configuration.
 | --- | --- |
 | The assistant never cites a criterion | Files in the wrong place: they must sit at the **root** of the open project, not in a subfolder. Run `verifier-installation.sh`. |
 | The rules worked, now they don't | The project's own `AGENTS.md` or `CLAUDE.md` overwrote the copy during a merge. Copy again, concatenating this time. |
-| Very heavy context per session | Expected outside Continue: single-file formats load every rule each session (34 KB today, exact size with `wc -c versions/opencode/AGENTS.md`). Delete from your copy the sections for languages the project does not use. |
+| Very heavy context per session | Expected outside Continue: single-file formats load every rule each session (34 KB today, exact size with `wc -c versions/opencode/AGENTS.md`). Delete from your copy the sections for languages the project does not use (under Kilo Code, comment out the matching line in `kilo.jsonc`). |
 | `Agent file must contain YAML frontmatter with a 'name' field` | An agent `.md` lost its frontmatter during the copy. Copy the whole file again. |
 | `Cannot start TUI in TTY-less environment` (Continue) | Non-interactive context: use `cn -p "prompt"` or run from a real terminal. |
 | Review with no visible output (Continue) | The fixes may already be applied in your files: check `git diff`. |
