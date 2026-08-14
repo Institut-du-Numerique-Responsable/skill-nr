@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eco-design rules for AI coding assistants | RGESN, GR491, Opquast, RGAA</title>
+<meta name="description" content="Open source eco-design rules (RGESN, GR491, Opquast, RGAA) generated for 11 AI coding assistants: Continue, Claude Code, Cursor, GitHub Copilot, Gemini CLI, OpenCode, Mistral Vibe, Codex, Kimi CLI, Kilo Code, ChatGPT.">
+<link rel="canonical" href="https://institut-du-numerique-responsable.github.io/skill-nr/en/">
+<link rel="alternate" hreflang="fr" href="https://institut-du-numerique-responsable.github.io/skill-nr/">
+<link rel="alternate" hreflang="en" href="https://institut-du-numerique-responsable.github.io/skill-nr/en/">
+<link rel="alternate" hreflang="x-default" href="https://institut-du-numerique-responsable.github.io/skill-nr/">
+<meta property="og:title" content="Eco-design rules for AI coding assistants">
+<meta property="og:description" content="RGESN, GR491, Opquast and RGAA turned into rules for 11 AI coding assistants, across 13 languages. One source, eleven declinations.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://institut-du-numerique-responsable.github.io/skill-nr/en/">
+<meta property="og:locale" content="en_GB">
+<meta property="og:locale:alternate" content="fr_FR">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Eco-design rules for AI coding assistants">
+<meta name="twitter:description" content="RGESN, GR491, Opquast and RGAA turned into rules for 11 AI coding assistants, across 13 languages.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareSourceCode",
+  "name": "Eco-design rules for AI coding assistants",
+  "description": "Eco-design rules (RGESN, GR491, Opquast, RGAA) generated for 11 AI coding assistants and 13 languages.",
+  "license": "https://creativecommons.org/licenses/by-sa/4.0/",
+  "codeRepository": "https://github.com/Institut-du-Numerique-Responsable/skill-nr",
+  "url": "https://institut-du-numerique-responsable.github.io/skill-nr/en/",
+  "inLanguage": "en",
+  "author": { "@type": "Organization", "name": "Institut du Numérique Responsable" },
+  "programmingLanguage": ["SQL", "HTML", "CSS", "JavaScript", "TypeScript", "Java", "C#", "Python", "PHP", "Ruby", "Rust", "C", "C++"]
+}
+</script>
+<style>
+/* Eco-designed page: system fonts, zero JavaScript, zero external request,
+   native dark mode. It applies the rules it promotes. */
+:root {
+  --bg: #fdfcf8; --fg: #1e2529; --muted: #5a6570;
+  --accent: #0a7190; --accent-soft: #dceef2; --card: #f1f0e8; --border: #ddd9cc;
+  --sev-high: #a8432b; --sev-med: #a4741f;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #10171a; --fg: #e6e9ea; --muted: #9aacb0;
+          --accent: #5ecbe0; --accent-soft: #16323a; --card: #1a2226; --border: #29343a;
+          --sev-high: #d97456; --sev-med: #d9a24a; }
+}
+:root[data-theme="dark"] {
+  --bg: #10171a; --fg: #e6e9ea; --muted: #9aacb0;
+  --accent: #5ecbe0; --accent-soft: #16323a; --card: #1a2226; --border: #29343a;
+  --sev-high: #d97456; --sev-med: #d9a24a;
+}
+:root[data-theme="light"] {
+  --bg: #fdfcf8; --fg: #1e2529; --muted: #5a6570;
+  --accent: #0a7190; --accent-soft: #dceef2; --card: #f1f0e8; --border: #ddd9cc;
+  --sev-high: #a8432b; --sev-med: #a4741f;
+}
+* { box-sizing: border-box; margin: 0; }
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: var(--bg); color: var(--fg);
+  line-height: 1.65; padding: 0 1.25rem;
+}
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+main { max-width: 46rem; margin: 0 auto; padding: 3rem 0 4rem; }
+h1 { font-size: 2rem; line-height: 1.2; margin-bottom: .75rem; text-wrap: balance; }
+h2 { font-size: 1.35rem; margin: 2.75rem 0 .9rem; color: var(--accent); }
+p  { margin-bottom: 1rem; }
+a  { color: var(--accent); }
+.langswitch { max-width: 46rem; margin: 0 auto; padding-top: 1.25rem;
+              font-size: .85rem; text-align: right; }
+.tagline { font-size: 1.15rem; color: var(--muted); margin-bottom: 1.5rem; }
+.stats { display: flex; flex-wrap: wrap; gap: .4rem 1.5rem; padding: 1rem 0 1.5rem;
+         border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 1.75rem; }
+.stats div { display: flex; align-items: baseline; gap: .4rem; }
+.stats b { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 1.15rem; }
+.stats span { font-size: .85rem; color: var(--muted); }
+.cta {
+  display: inline-block; background: var(--accent); color: var(--bg);
+  padding: .65rem 1.3rem; border-radius: .4rem; text-decoration: none;
+  font-weight: 600; margin: .25rem .5rem .25rem 0;
+}
+.cta.secondary { background: transparent; color: var(--accent);
+                 border: 1.5px solid var(--accent); }
+.duo { display: grid; gap: 1rem; grid-template-columns: 1fr; margin: 1.25rem 0; }
+@media (min-width: 40rem) { .duo { grid-template-columns: 1fr 1fr; } }
+.card { background: var(--card); border: 1px solid var(--border);
+        border-radius: .6rem; padding: 1.1rem 1.2rem; }
+.card h3 { font-size: 1.05rem; margin-bottom: .35rem; }
+.card .when { font-size: .8rem; color: var(--muted); margin-bottom: .6rem; }
+.card p { font-size: .95rem; margin-bottom: .8rem; color: var(--muted); }
+.tag { display: inline-block; font-family: ui-monospace, "SF Mono", Menlo, monospace;
+       font-size: .74rem; padding: .2rem .55rem; border-radius: .3rem;
+       background: var(--accent-soft); color: var(--accent); }
+ul { padding-left: 1.2rem; margin-bottom: 1rem; }
+li { margin-bottom: .45rem; }
+pre { background: var(--card); border: 1px solid var(--border);
+      border-radius: .5rem; padding: 1rem; overflow-x: auto;
+      font-size: .85rem; margin-bottom: 1rem; line-height: 1.6; }
+code { font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+.dim { color: var(--muted); }
+.strike { color: var(--muted); text-decoration: line-through; }
+.tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+             gap: .7rem; margin: 1.25rem 0 1.75rem; }
+.tool-card { background: var(--card); border: 1px solid var(--border); border-radius: .5rem;
+             padding: .85rem 1rem; text-decoration: none; color: var(--fg); display: block; }
+.tool-card:hover { border-color: var(--accent); }
+.tool-card b { font-size: .95rem; }
+.tool-card .f { display: block; font-family: ui-monospace, monospace; font-size: .76rem;
+                color: var(--muted); margin-top: .2rem; }
+.ref-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: .9rem; margin: 1.25rem 0 .5rem; }
+.ref-card h3 { font-size: 1rem; margin-bottom: .2rem; color: var(--fg); }
+.ref-card .scope { font-size: .82rem; color: var(--muted); margin-bottom: .5rem; }
+.ref-card p { font-size: .9rem; margin-bottom: .5rem; }
+.lang-row { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0 1.5rem; }
+.lang-chip { font-family: ui-monospace, monospace; font-size: .82rem; padding: .35rem .7rem;
+             border: 1px solid var(--border); border-radius: 999px; color: var(--muted); }
+footer { border-top: 1px solid var(--border); margin-top: 3rem;
+         padding-top: 1.25rem; font-size: .88rem; color: var(--muted); }
+footer p + p { margin-top: .5rem; }
+</style>
+</head>
+<body>
+<p class="langswitch"><a href="../" hreflang="fr" lang="fr">🇫🇷 Version française</a></p>
+<main>
+  <h1>🌱 Eco-design for any AI coding assistant</h1>
+  <p class="tagline">RGESN, GR491, Opquast and RGAA turned into rules an assistant applies as it writes code, and an agent checks on the diff. One source, eleven assistants.</p>
+
+  <p>
+    <a class="cta" href="https://github.com/Institut-du-Numerique-Responsable/skill-nr">View on GitHub</a>
+    <a class="cta secondary" href="https://github.com/Institut-du-Numerique-Responsable/skill-nr/blob/main/versions/README.md">Install for your assistant</a>
+  </p>
+
+  <div class="stats">
+    <div><b>11</b><span>AI assistants</span></div>
+    <div><b>13</b><span>languages</span></div>
+    <div><b>4</b><span>frameworks</span></div>
+    <div><b>MIT/CC BY-SA</b><span>open source</span></div>
+  </div>
+
+  <p>An assistant writing a query, an image tag or a loop has no default knowledge of your organisation's eco-design framework. Once the code ships, every run repeats that initial choice, for every user, for as long as the service lives. This repository closes that gap: it turns RGESN, GR491, Opquast and RGAA into instructions the assistant loads automatically, in its own native format.</p>
+
+  <h2>Two moments, one set of rules</h2>
+  <div class="duo">
+    <div class="card">
+      <h3>The rule</h3>
+      <div class="when">While the code is being written</div>
+      <p>Injected into the assistant's context, it steers what gets produced before you even read it back.</p>
+      <pre><code><span class="dim">-- prompt: "the operations report for a client"</span>
+<span class="strike">SELECT * FROM operations;</span>
+SELECT id, client_id, date_operation, montant
+FROM operations
+WHERE client_id = :id
+ORDER BY date_operation DESC
+LIMIT 50;</code></pre>
+      <span class="tag">GR491_Backend_1</span>
+    </div>
+    <div class="card">
+      <h3>The agent</h3>
+      <div class="when">Afterwards, on the diff</div>
+      <p>Reads back what was committed and cites the source criterion on every finding, for the review and for the team's own learning.</p>
+      <pre><code><span class="dim">$ cn review --review-agents eco-check.md</span>
+
+[<span style="color:var(--sev-med)">Medium</span>] client-report.sql:9
+  SELECT * on an unfiltered table, GR491_Backend_3
+  → explicit columns + pagination
+
+<span class="dim">1 finding, 0 regressions</span></code></pre>
+      <span class="tag">GR491_Backend_3</span>
+    </div>
+  </div>
+
+  <h2>One source, eleven assistants</h2>
+  <p>Rules are written once, scoped by language. A script (<code>scripts/generer-versions.py</code>) generates them in each assistant's native format. No manual copies, no version quietly falling behind the others.</p>
+  <div class="tool-grid">
+    <a class="tool-card" href="https://continue.dev"><b>Continue</b><span class="f">.continue/rules/ + agents/</span></a>
+    <a class="tool-card" href="https://claude.com/claude-code"><b>Claude Code</b><span class="f">CLAUDE.md + .claude/agents/</span></a>
+    <a class="tool-card" href="https://cursor.com"><b>Cursor</b><span class="f">.cursor/rules/ scoped by globs</span></a>
+    <a class="tool-card" href="https://github.com/features/copilot"><b>GitHub Copilot</b><span class="f">.github/instructions/ (applyTo)</span></a>
+    <a class="tool-card" href="https://github.com/google-gemini/gemini-cli"><b>Gemini CLI</b><span class="f">GEMINI.md + /eco-check</span></a>
+    <a class="tool-card" href="https://opencode.ai"><b>OpenCode</b><span class="f">AGENTS.md + .opencode/agent/</span></a>
+    <a class="tool-card" href="https://docs.mistral.ai/vibe"><b>Mistral Vibe</b><span class="f">AGENTS.md + .vibe/agents/</span></a>
+    <a class="tool-card" href="https://developers.openai.com/codex"><b>OpenAI Codex</b><span class="f">AGENTS.md (shared standard)</span></a>
+    <a class="tool-card" href="https://github.com/MoonshotAI/kimi-cli"><b>Kimi CLI</b><span class="f">AGENTS.md + .kimi/agents/</span></a>
+    <a class="tool-card" href="https://kilo.ai"><b>Kilo Code</b><span class="f">.kilo/rules/ + kilo.jsonc</span></a>
+    <a class="tool-card" href="https://chatgpt.com"><b>ChatGPT</b><span class="f">custom GPT + knowledge files</span></a>
+  </div>
+
+  <h2>Four frameworks, brought down to something actionable</h2>
+  <div class="ref-grid">
+    <div class="ref-card">
+      <h3>RGESN v2</h3>
+      <div class="scope">78 criteria · 9 themes</div>
+      <p>French general eco-design framework (ARCEP, ARCOM, ADEME). <a href="https://ecoresponsable.numerique.gouv.fr/publications/referentiel-general-ecoconception/">Official framework →</a></p>
+    </div>
+    <div class="ref-card">
+      <h3>GR491</h3>
+      <div class="scope">61 recommendations · 516 criteria</div>
+      <p>Institut du Numérique Responsable. <a href="https://gr491.isit-europe.org/">Official framework →</a></p>
+    </div>
+    <div class="ref-card">
+      <h3>Opquast</h3>
+      <div class="scope">35 rules kept, tagged eco-design</div>
+      <p>Web quality assurance checklist. <a href="https://checklists.opquast.com/fr/qualite-numerique/">Full checklist →</a></p>
+    </div>
+    <div class="ref-card">
+      <h3>RGAA 4</h3>
+      <div class="scope">Digital accessibility</div>
+      <p>French accessibility framework, carried by the dedicated review agent. <a href="https://accessibilite.numerique.gouv.fr/">Official framework →</a></p>
+    </div>
+  </div>
+
+  <h2>Thirteen languages, each with its own reflexes</h2>
+  <p>An N+1 query does not look the same in JPA, in Entity Framework or in ActiveRecord. Each rule names the patterns specific to its language rather than generic principles, which makes it checkable and fixable.</p>
+  <div class="lang-row">
+    <span class="lang-chip">SQL / PL-SQL</span>
+    <span class="lang-chip">HTML</span>
+    <span class="lang-chip">CSS</span>
+    <span class="lang-chip">JavaScript</span>
+    <span class="lang-chip">TypeScript</span>
+    <span class="lang-chip">Java</span>
+    <span class="lang-chip">C#</span>
+    <span class="lang-chip">Python</span>
+    <span class="lang-chip">PHP</span>
+    <span class="lang-chip">Ruby</span>
+    <span class="lang-chip">Rust</span>
+    <span class="lang-chip">C</span>
+    <span class="lang-chip">C++</span>
+  </div>
+
+  <h2>What about green-claude?</h2>
+  <p><a href="https://github.com/Institut-du-Numerique-Responsable/green-claude">green-claude</a>, another INR project, answers the same question: getting an AI coding assistant to respect RGESN and GR491. The design choices differ on three points.</p>
+  <p>green-claude is a Claude Code skill: it installs once into <code>~/.claude/skills/</code> and targets that harness only, with hooks specific to that product (local cache, peak-hours warning). This repository starts from a single source and generates eleven declinations. A team working in Gemini CLI or Continue has no access to green-claude's rules; it does have access to these.</p>
+  <p>On detection, both projects now share the same deterministic layer. green-claude's <code>eco-audit.sh</code> inspired ours, which reuses its patterns, adds the HTML/CSS coverage green-claude does not have, then ties every finding back to a criterion verified in <code>referentiels/</code>. That layer matters: measured on our verification corpus, a local model catches 16 gaps out of 18 but attributes them correctly only once out of eighteen, and invents criterion identifiers. Grep finds fewer (12 out of 18) and traces every one. Neither is enough on its own.</p>
+  <p>On coverage, the roles reverse. green-claude keeps 35 rules out of the 78 RGESN criteria, with a strong anchor on the Algorithms/AI family and on the frugal use of Claude Code itself (14 practices inspired by Boris Cherny). This repository covers that last point in the <code>usage-sobre-assistant.md</code> rule, and adds thirteen languages with anti-patterns specific to each, plus a framework green-claude does not use, Opquast.</p>
+  <p>A team running both would get the best of the two mechanisms: green-claude's script for a fast first pass over known patterns, this repository's rules for what grep cannot see.</p>
+
+  <h2>Going further</h2>
+  <ul>
+    <li><a href="https://github.com/Institut-du-Numerique-Responsable/skill-nr/blob/main/docs/guide-developpeur.md">Developer guide</a> (in French): install, use day to day, run a review, troubleshoot.</li>
+    <li><a href="https://github.com/Institut-du-Numerique-Responsable/skill-nr/blob/main/docs/guide-deploiement.md">Deployment guide</a> (in French): roll the rules out to teams (git, Hub, CI).</li>
+    <li><a href="https://github.com/Institut-du-Numerique-Responsable/skill-nr/blob/main/docs/developper-un-skill.md">Writing a skill</a> (in French): author and test a rule or an agent.</li>
+    <li><a href="https://github.com/Institut-du-Numerique-Responsable/skill-nr/blob/main/README.en.md">Full README in English</a>: per-assistant install instructions, verification, troubleshooting.</li>
+  </ul>
+
+  <footer>
+    <p>A <strong>CC BY-SA 4.0</strong> project by the <strong>Institut du Numérique Responsable</strong>, <a href="https://github.com/Institut-du-Numerique-Responsable">see all our projects</a>. <a href="https://github.com/Institut-du-Numerique-Responsable/skill-nr/blob/main/CONTRIBUTING.md">Contribute</a> · <a href="https://github.com/Institut-du-Numerique-Responsable/skill-nr/blob/main/LICENSE.md">Licence</a></p>
+    <p>In the same spirit: <a href="https://github.com/Institut-du-Numerique-Responsable/green-claude">green-claude</a>, a digital sustainability skill dedicated to Claude Code.</p>
+    <p>This page applies the rules it promotes: zero JavaScript, zero external request, system fonts, native dark mode.</p>
+  </footer>
+</main>
+</body>
+</html>
