@@ -1,0 +1,45 @@
+# skill-nr — Eco-design rules for AI coding assistants
+
+> Open source rules that make an AI coding assistant apply four French digital
+> sustainability and accessibility frameworks — RGESN v2 (78 criteria), GR491
+> (61 recommendations), Opquast and RGAA 4 — while it writes code. Written once,
+> generated for 11 assistants and 13 programming languages. Published by the
+> Institut du Numérique Responsable under CC BY-SA 4.0.
+
+Two mechanisms: rules injected into the assistant's context steer the code as it
+is generated (pagination, `loading="lazy"`, `AsNoTracking()`, avoiding N+1); review
+agents (`eco-check`, `accessibilite-check`) read the diff afterwards and cite the
+source criterion (`GR491_Backend_1`, `Opquast n°124`, `RGESN 4.2`) on every finding.
+A deterministic grep layer (`scripts/eco-audit.sh`) backs the model up, because on
+our verification corpus a local model catches 16 gaps out of 18 but attributes them
+correctly only once out of eighteen.
+
+Assistants covered: Continue, Claude Code, Cursor, GitHub Copilot, Gemini CLI,
+OpenCode, Mistral Vibe, Kilo Code, OpenAI Codex, Kimi CLI, ChatGPT.
+
+Languages covered: SQL/PL-SQL, HTML, CSS, JavaScript, TypeScript, Java, C#,
+Python, PHP, Ruby, Rust, C, C++.
+
+## Docs
+
+- [README (English)](https://github.com/Institut-du-Numerique-Responsable/skill-nr/blob/main/README.en.md): full documentation, per-assistant install instructions, verification, troubleshooting.
+- [README (français)](https://github.com/Institut-du-Numerique-Responsable/skill-nr/blob/main/README.md): the same, in French.
+- [Project site (English)](https://institut-du-numerique-responsable.github.io/skill-nr/en/): overview of the approach.
+- [Project site (français)](https://institut-du-numerique-responsable.github.io/skill-nr/): the same, in French.
+- [Generated formats](https://github.com/Institut-du-Numerique-Responsable/skill-nr/blob/main/versions/README.md): what each assistant receives and how the formats differ.
+- [Developer guide](https://github.com/Institut-du-Numerique-Responsable/skill-nr/blob/main/docs/guide-developpeur.md): day-to-day use, running a review, troubleshooting.
+- [Deployment guide](https://github.com/Institut-du-Numerique-Responsable/skill-nr/blob/main/docs/guide-deploiement.md): rolling the rules out to teams via git, Hub or CI.
+- [Writing a skill](https://github.com/Institut-du-Numerique-Responsable/skill-nr/blob/main/docs/developper-un-skill.md): authoring and testing a rule or an agent.
+
+## Rules and frameworks
+
+- [Rule sources](https://github.com/Institut-du-Numerique-Responsable/skill-nr/tree/main/.continue/rules): the reference rules, one file per language plus cross-cutting ones.
+- [Framework mappings](https://github.com/Institut-du-Numerique-Responsable/skill-nr/tree/main/referentiels): each rule tied back to RGESN, GR491 and Opquast criteria.
+- [Verification corpus](https://github.com/Institut-du-Numerique-Responsable/skill-nr/tree/main/verification): sample files with known defects and expected results, to check an assistant really loaded the rules.
+
+## Optional
+
+- [Contributing](https://github.com/Institut-du-Numerique-Responsable/skill-nr/blob/main/CONTRIBUTING.md): how to propose a rule or report a false positive.
+- [Licence CC BY-SA 4.0](https://github.com/Institut-du-Numerique-Responsable/skill-nr/blob/main/LICENSE.md): reuse allowed with attribution and share-alike.
+- [green-claude](https://github.com/Institut-du-Numerique-Responsable/green-claude): sibling INR project, a Claude Code skill covering the same frameworks for that harness only.
+- [Institut du Numérique Responsable](https://institutnr.org): the non-profit behind the project.
