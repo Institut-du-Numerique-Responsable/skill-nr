@@ -14,7 +14,7 @@ des formats à fichier unique.
 Continue (extension IDE **et** CLI) charge automatiquement `.continue/rules/*.md` du
 dépôt ouvert. Déployer = committer :
 
-1. Ce dépôt (`regles-ecoconception-ia`) fait autorité sur les règles.
+1. Ce dépôt (`skill-nr`) fait autorité sur les règles.
 2. Copiez le dossier `.continue/` dans chaque dépôt de projet via une merge request
    (revue par l'équipe = adhésion + traçabilité).
 3. À chaque évolution des règles ici, resynchronisez les projets (script de copie,

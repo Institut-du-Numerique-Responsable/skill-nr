@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://institut-du-numerique-responsable.github.io/regles-ecoconception-ia/sitemap.xml
+Sitemap: https://institut-du-numerique-responsable.github.io/skill-nr/sitemap.xml

@@ -1,4 +1,4 @@
-# CODEMAP : regles-ecoconception-ia
+# CODEMAP : skill-nr
 
 Skills Continue (continue.dev) pour l'écoconception / numérique responsable. Tout est en français.
 

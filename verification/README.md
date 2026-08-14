@@ -12,7 +12,7 @@ l'assistant s'en sert-il (comportement).
 Depuis la racine du projet où vous avez installé les règles :
 
 ```bash
-bash /chemin/vers/regles-ecoconception-ia/scripts/verifier-installation.sh
+bash /chemin/vers/skill-nr/scripts/verifier-installation.sh
 ```
 
 Le script détecte les outils présents et contrôle chaque fichier attendu. Pour cibler un
@@ -35,7 +35,7 @@ projet avait déjà son propre `AGENTS.md` et que la copie l'a écrasé ou l'inv
 Copiez les deux fichiers de test dans le projet à tester, puis demandez une relecture.
 
 ```bash
-cp /chemin/vers/regles-ecoconception-ia/verification/exemple-a-corriger.* .
+cp /chemin/vers/skill-nr/verification/exemple-a-corriger.* .
 ```
 
 Ouvrez votre assistant dans ce projet et demandez :

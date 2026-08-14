@@ -5,10 +5,10 @@
 **RGESN · GR491 · Opquast · RGAA** applied automatically by your coding assistant,
 whichever one you use.
 
-[![Site](https://img.shields.io/badge/site-regles--ecoconception--ia-0a7190)](https://institut-du-numerique-responsable.github.io/regles-ecoconception-ia/)
+[![Site](https://img.shields.io/badge/site-skill--nr-0a7190)](https://institut-du-numerique-responsable.github.io/skill-nr/)
 [![Licence](https://img.shields.io/badge/licence-CC%20BY--SA%204.0-2ea44f)](LICENSE.md)
 [![Languages covered](https://img.shields.io/badge/languages-13-1b7a4a)](#languages-covered)
-[![AI assistants](https://img.shields.io/badge/AI%20assistants-10-1b7a4a)](#supported-assistants)
+[![AI assistants](https://img.shields.io/badge/AI%20assistants-11-1b7a4a)](#supported-assistants)
 [![RGESN](https://img.shields.io/badge/RGESN-v2%20(78%20criteria)-0b6e4f)](https://ecoresponsable.numerique.gouv.fr/publications/referentiel-general-ecoconception/)
 [![GR491](https://img.shields.io/badge/GR491-61%20recommendations-0b6e4f)](https://gr491.isit-europe.org/)
 [![Opquast](https://img.shields.io/badge/Opquast-CC%20BY--SA-0b6e4f)](https://checklists.opquast.com/fr/qualite-numerique/)
@@ -92,8 +92,8 @@ to reach. The assistant reads them when it opens the project.
 One prerequisite, whichever tool you use: get this repository once, somewhere.
 
 ```bash
-git clone https://github.com/Institut-du-Numerique-Responsable/regles-ecoconception-ia.git
-cd regles-ecoconception-ia
+git clone https://github.com/Institut-du-Numerique-Responsable/skill-nr.git
+cd skill-nr
 ```
 
 In everything below, `$REGLES` is that folder and `$PROJET` is your application's
