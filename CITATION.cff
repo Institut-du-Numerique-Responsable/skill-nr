@@ -6,14 +6,20 @@ type: software
 title: "skill-nr — Règles d'écoconception RGESN, GR491, Opquast et RGAA pour assistants IA de code"
 abstract: "Eco-design rules (RGESN, GR491, Opquast, RGAA) for 11 AI coding assistants — Continue, Claude Code, Cursor, Copilot, Gemini CLI, OpenCode, Mistral Vibe, Kilo, Codex, Kimi, ChatGPT — across 13 languages / Règles d'écoconception pour assistants IA de code"
 authors:
-  - name: "Institut du Numérique Responsable"
-    alias: "INR"
-    website: "https://institutnr.org"
+  - given-names: "Guillaume"
+    family-names: "Gallon"
+    alias: "gridboy"
+    affiliation: "Institut du Numérique Responsable"
+contact:
   - given-names: "Guillaume"
     family-names: "Gallon"
     alias: "gridboy"
     affiliation: "Institut du Numérique Responsable"
 repository-code: "https://github.com/Institut-du-Numerique-Responsable/skill-nr"
+publisher:
+  name: "Institut du Numérique Responsable"
+  alias: "INR"
+  website: "https://institutnr.org"
 url: "https://institut-du-numerique-responsable.github.io/skill-nr/"
 license: CC-BY-SA-4.0
 date-released: 2026-07-21
