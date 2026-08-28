@@ -1,7 +1,5 @@
-# Relecteurs sollicités automatiquement selon les fichiers touchés.
-# Note : sur un dépôt privé en plan gratuit, GitHub ne peut pas *imposer* cette
-# relecture (la protection de branche est indisponible). C'est une sollicitation,
-# pas un verrou.
+# Relecteur responsable de l'ensemble du dépôt et des sources sensibles.
+# La protection de main exige une approbation avant fusion.
 
 *                       @gridboy
 .continue/rules/        @gridboy

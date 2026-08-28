@@ -38,7 +38,7 @@ for f in .continue/rules/*.md; do
   slug=$(basename "$f" .md)
   grep -q "\"$slug\"" scripts/generer-versions.py || { ko "règle absente de ORDRE : $slug"; MANQUANTES=1; }
 done
-[ "$MANQUANTES" -eq 0 ] && ok "les $(ls .continue/rules/*.md | wc -l | tr -d ' ') règles sont dans ORDRE"
+[ "$MANQUANTES" -eq 0 ] && ok "les $(printf '%s\n' .continue/rules/*.md | wc -l | tr -d ' ') règles sont dans ORDRE"
 
 # --- 3. Frontmatter des règles et des agents ------------------------------------
 titre "Frontmatter valide"
@@ -105,6 +105,12 @@ for s in scripts/*.py; do python3 -m py_compile "$s" 2>/dev/null || { ko "$s"; S
 rm -rf scripts/__pycache__
 [ "$SYN" -eq 0 ] && ok "bash -n et py_compile passent"
 
+if bash scripts/test-eco-audit.sh; then
+  ok "eco-audit gère les noms de fichiers atypiques"
+else
+  ko "tests de robustesse de scripts/eco-audit.sh en échec"
+fi
+
 # --- 7. Corpus de vérification cohérent ------------------------------------------
 titre "Corpus de vérification"
 N_JSON=$(python3 -c "import json;print(len(json.load(open('verification/attendus.json'))['ecarts']))")
@@ -122,7 +128,21 @@ else
   ko "le pré-filtre ne détecte que $SCORE/$N_JSON écarts : régression des motifs"
 fi
 
-# --- 8. Pré-filtre sur le dépôt lui-même -----------------------------------------
+# --- 8. Version publiée cohérente -------------------------------------------------
+titre "Version publiée cohérente"
+VERSION=$(tr -d '[:space:]' < VERSION)
+if ! printf '%s' "$VERSION" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+  ko "VERSION n'utilise pas le format MAJEUR.MINEUR.CORRECTIF"
+elif grep -q "^version: $VERSION$" CITATION.cff \
+  && grep -q "\"softwareVersion\": \"$VERSION\"" docs/index.html \
+  && grep -q "\"softwareVersion\": \"$VERSION\"" docs/en/index.html \
+  && grep -q "^## \[$VERSION\]" CHANGELOG.md; then
+  ok "VERSION, CITATION.cff, site et journal annoncent $VERSION"
+else
+  ko "la version $VERSION n'est pas alignée dans les métadonnées et le journal"
+fi
+
+# --- 9. Pré-filtre sur le dépôt lui-même -----------------------------------------
 # Le dépôt applique les règles qu'il promeut (les pièges de verification/ exclus).
 titre "Pré-filtre écoconception sur le dépôt"
 if bash scripts/eco-audit.sh >/tmp/nr-audit.txt 2>&1; then

@@ -44,7 +44,11 @@ verifier_continue() {
   fichier ".continue/rules/numerique-responsable.md" "alwaysApply"
   fichier ".continue/agents/eco-check.md" "name: eco-check"
   fichier ".continue/agents/accessibilite-check.md" "name: accessibilite-check"
-  command -v cn >/dev/null 2>&1 && vert "CLI cn installée" || rouge "CLI cn absente (npm i -g @continuedev/cli)"
+  if command -v cn >/dev/null 2>&1; then
+    vert "CLI cn installée"
+  else
+    rouge "CLI cn absente (npm i -g @continuedev/cli)"
+  fi
 }
 
 verifier_claude_code() {
