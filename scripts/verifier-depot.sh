@@ -111,6 +111,12 @@ else
   ko "tests de robustesse de scripts/eco-audit.sh en échec"
 fi
 
+if bash scripts/test-release-version.sh; then
+  ok "les tags de release sont validés contre VERSION"
+else
+  ko "tests de scripts/verifier-version-release.sh en échec"
+fi
+
 # --- 7. Corpus de vérification cohérent ------------------------------------------
 titre "Corpus de vérification"
 N_JSON=$(python3 -c "import json;print(len(json.load(open('verification/attendus.json'))['ecarts']))")
