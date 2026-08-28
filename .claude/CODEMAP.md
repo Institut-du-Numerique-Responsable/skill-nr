@@ -35,7 +35,9 @@ Skills Continue (continue.dev) pour l'écoconception / numérique responsable. T
 - `scripts/scorer-detection.py` : score un rapport (fichier ou stdin) contre `verification/attendus.json`. Rapprochement textuel par motifs, donc généreux : sert à comparer deux états des règles, pas à noter dans l'absolu. `--seuil N` pour la CI. Un critère ne compte que si l'écart est aussi détecté.
 - `verification/attendus.json` : source machine des 18 écarts (motifs de rapprochement + critères). `resultats-attendus.md` reste la version lisible ; le scorer avertit si les comptes divergent.
 - `scripts/verifier-installation.sh` : contrôle présence + contenu des fichiers de règles dans un projet cible (`bash scripts/verifier-installation.sh [outil] [chemin]`, `auto` par défaut). Détecte le cas fréquent d'un `AGENTS.md`/`CLAUDE.md` du projet ayant écrasé la copie. Codes : 0 ok, 1 fichier manquant, 2 outil inconnu.
+- `scripts/verifier-version-release.sh` : refuse un tag hors format `vX.Y.Z` ou différent de `VERSION` ; appelé par le hook pre-push et la CI. `scripts/test-release-version.sh` couvre les cas valide, divergent et mal formé.
 - `README.md` (français, canonique) : porte la procédure d'installation complète par outil (section `## Installation`) ; `versions/README.md` n'en garde que le résumé et les spécificités de format. `README.en.md` = traduction anglaise à maintenir en parallèle (ancres anglaises propres, switcher 🇬🇧/🇫🇷 dans les deux). Les règles elles-mêmes restent en français, c'est assumé et expliqué dans README.en.md.
+- `docs/guide-release.md` : procédure mainteneur pour aligner les métadonnées, faire valider la PR, pousser le tag puis publier la release.
 - `docs/index.html` (+ robots.txt, sitemap.xml) : page vitrine GitHub Pages, thème repris de green-claude (bleu #0a7190/#5ecbe0), déployée sur docs/ de main
 
 ## Points durs (ne pas redécouvrir)

@@ -414,6 +414,7 @@ dans votre home ni dans la configuration de l'outil.
 
 - 📘 [Guide développeur](docs/guide-developpeur.md) : installer, utiliser au quotidien, lancer une revue, dépanner.
 - 📗 [Guide de déploiement](docs/guide-deploiement.md) : diffuser les règles aux équipes (git, Hub, CI), choix des modèles, licences.
+- 🚀 [Guide de release](docs/guide-release.md) : préparer, vérifier et publier une version.
 - 📙 [Développer un skill](docs/developper-un-skill.md) : écrire une règle ou un agent, les tester, pièges connus.
 - ✅ [verification/README.md](verification/README.md) : contrôler qu'un assistant a bien chargé les règles.
 - 🔧 [versions/README.md](versions/README.md) : formats générés, différences entre outils, cas non retenus.

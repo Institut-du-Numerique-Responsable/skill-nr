@@ -400,6 +400,7 @@ The guides below are in French.
 
 - 📘 [Developer guide](docs/guide-developpeur.md): install, use day to day, run a review, troubleshoot.
 - 📗 [Deployment guide](docs/guide-deploiement.md): roll the rules out to teams (git, Hub, CI), model choices, licences.
+- 🚀 [Release guide](docs/guide-release.md): prepare, verify and publish a version.
 - 📙 [Writing a skill](docs/developper-un-skill.md): write a rule or an agent, test them, known pitfalls.
 - ✅ [verification/README.md](verification/README.md): check that an assistant really loaded the rules.
 - 🔧 [versions/README.md](versions/README.md): generated formats, differences between tools, cases not covered.

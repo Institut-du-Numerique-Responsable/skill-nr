@@ -2,7 +2,7 @@
 # Installe les garde-fous git locaux :
 #
 #   pre-commit : pré-filtre écoconception sur les fichiers indexés
-#   pre-push   : refuse un push direct sur main et lance les contrôles d'intégrité
+#   pre-push   : refuse un push direct sur main, valide les tags et lance les contrôles
 #
 #   bash scripts/installer-hooks.sh
 #
@@ -37,17 +37,26 @@ lire_pre_push() {
 #!/usr/bin/env bash
 # Posé par scripts/installer-hooks.sh
 RACINE=$(git rev-parse --show-toplevel)
-BRANCHE=$(git rev-parse --abbrev-ref HEAD)
 
-if [ "$BRANCHE" = "main" ]; then
-  echo "Push direct sur main."
-  echo "Le flux du depot passe par une branche et une pull request :"
-  echo "    git switch -c regle/mon-sujet"
-  echo "    git push -u origin regle/mon-sujet"
-  echo "    gh pr create"
-  echo "Pour outrepasser : git push --no-verify"
-  exit 1
-fi
+while read -r local_ref local_sha remote_ref remote_sha; do
+  case "$remote_ref" in
+    refs/heads/main)
+      echo "Push direct sur main."
+      echo "Le flux du depot passe par une branche et une pull request :"
+      echo "    git switch -c regle/mon-sujet"
+      echo "    git push -u origin regle/mon-sujet"
+      echo "    gh pr create"
+      echo "Pour outrepasser : git push --no-verify"
+      exit 1
+      ;;
+    refs/tags/v*)
+      if ! bash "$RACINE/scripts/verifier-version-release.sh" "${remote_ref#refs/tags/}"; then
+        echo "Publication du tag refusee."
+        exit 1
+      fi
+      ;;
+  esac
+done
 
 if ! bash "$RACINE/scripts/verifier-depot.sh"; then
   echo

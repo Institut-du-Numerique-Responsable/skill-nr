@@ -1,7 +1,7 @@
 # Relecteur responsable de l'ensemble du dépôt et des sources sensibles.
 # La protection de main exige une approbation avant fusion.
 
-*                       @gridboy
-.continue/rules/        @gridboy
-.continue/agents/       @gridboy
-referentiels/           @gridboy
+*                       @gridboy @Guillaume-INR @vcourbou @vincentcourboulay
+.continue/rules/        @gridboy @Guillaume-INR @vcourbou @vincentcourboulay
+.continue/agents/       @gridboy @Guillaume-INR @vcourbou @vincentcourboulay
+referentiels/           @gridboy @Guillaume-INR @vcourbou @vincentcourboulay
