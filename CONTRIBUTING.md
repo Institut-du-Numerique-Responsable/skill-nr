@@ -18,12 +18,15 @@ gh pr create
 ```
 
 Les hooks installés refusent un push direct sur `main` et lancent le pré-filtre
-écoconception avant chaque commit. Ils sont locaux à votre clone : la protection de
-branche côté GitHub n'est pas disponible sur ce dépôt (privé, plan gratuit), donc
-rien ne l'impose techniquement. C'est une convention outillée, pas un verrou.
+écoconception avant chaque commit. Ils donnent un retour rapide en local ; la branche
+`main` est également protégée sur GitHub et exige une pull request approuvée ainsi que
+la réussite du contrôle d'intégrité.
 
 La CI rejoue les mêmes contrôles sur chaque PR (`.github/workflows/verification.yml`)
 et commente le résultat du pré-filtre sur les fichiers modifiés.
+
+Les échanges de revue doivent être résolus avant fusion. Les mainteneurs privilégient
+le squash merge et suppriment la branche une fois la PR fusionnée.
 
 ## Proposer une règle ou un agent
 

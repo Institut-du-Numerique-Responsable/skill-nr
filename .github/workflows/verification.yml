@@ -18,9 +18,9 @@ jobs:
     name: Intégrité du dépôt
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: '3.12'
 
@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
 
@@ -41,21 +41,24 @@ jobs:
         run: |
           # Seuls les fichiers touchés par la PR sont audités : une PR n'a pas à
           # répondre des motifs préexistants du dépôt.
-          git diff --name-only --diff-filter=ACM \
-            "origin/${{ github.base_ref }}...HEAD" > fichiers.txt
+          mapfile -d '' -t fichiers < <(git diff --name-only --diff-filter=ACM -z \
+            "origin/${{ github.base_ref }}...HEAD")
           # Les pièges de verification/ sont volontairement non conformes.
-          grep -v '^verification/exemple-a-corriger\.' fichiers.txt > audites.txt || true
-          if [ ! -s audites.txt ]; then
+          audites=()
+          for fichier in "${fichiers[@]}"; do
+            [[ "$fichier" == verification/exemple-a-corriger.* ]] || audites+=("$fichier")
+          done
+          if [ "${#audites[@]}" -eq 0 ]; then
             echo "Aucun fichier à auditer." | tee rapport.txt
             exit 0
           fi
           # --avertir : informatif au démarrage. Retirer l'option pour rendre
           # bloquants les constats « Élevé » quand l'équipe a pris ses marques.
-          bash scripts/eco-audit.sh --avertir $(cat audites.txt) | tee rapport.txt
+          bash scripts/eco-audit.sh --avertir -- "${audites[@]}" | tee rapport.txt
 
       - name: Commenter la PR
         if: always()
-        uses: actions/github-script@v7
+        uses: actions/github-script@f28e40c7f34bde8b3046d885e986cb6290c5673b # v7
         with:
           script: |
             const fs = require('fs');

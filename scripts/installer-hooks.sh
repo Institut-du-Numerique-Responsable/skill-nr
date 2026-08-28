@@ -6,11 +6,9 @@
 #
 #   bash scripts/installer-hooks.sh
 #
-# Pourquoi côté client : la protection de branche GitHub n'est pas disponible sur ce
-# dépôt (privé, plan gratuit). Ces hooks ne sont donc pas un verrou, seulement un
-# rappel : ils s'installent poste par poste et se contournent avec --no-verify.
-# Si le dépôt devient public, la protection de branche côté serveur les remplacera
-# avantageusement.
+# Pourquoi côté client : ces hooks donnent un retour immédiat avant la CI. Ils
+# complètent la protection de branche côté GitHub, mais restent locaux à chaque clone
+# et peuvent être contournés avec --no-verify.
 
 set -u
 cd "$(dirname "$0")/.." || exit 2

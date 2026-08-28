@@ -6,6 +6,7 @@
 whichever one you use.
 
 [![Site](https://img.shields.io/badge/site-skill--nr-0a7190)](https://institut-du-numerique-responsable.github.io/skill-nr/)
+[![Version](https://img.shields.io/github/v/release/Institut-du-Numerique-Responsable/skill-nr?display_name=tag&sort=semver)](https://github.com/Institut-du-Numerique-Responsable/skill-nr/releases/latest)
 [![Licence](https://img.shields.io/badge/licence-CC%20BY--SA%204.0-2ea44f)](LICENSE.md)
 [![Languages covered](https://img.shields.io/badge/languages-13-1b7a4a)](#languages-covered)
 [![AI assistants](https://img.shields.io/badge/AI%20assistants-11-1b7a4a)](#supported-assistants)

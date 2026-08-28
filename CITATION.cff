@@ -4,6 +4,7 @@ cff-version: 1.2.0
 message: "Si vous utilisez ce travail, merci de le citer comme ci-dessous."
 type: software
 title: "skill-nr — Règles d'écoconception RGESN, GR491, Opquast et RGAA pour assistants IA de code"
+version: 1.0.0
 abstract: "Eco-design rules (RGESN, GR491, Opquast, RGAA) for 11 AI coding assistants — Continue, Claude Code, Cursor, Copilot, Gemini CLI, OpenCode, Mistral Vibe, Kilo, Codex, Kimi, ChatGPT — across 13 languages / Règles d'écoconception pour assistants IA de code"
 authors:
   - given-names: "Guillaume"
@@ -22,7 +23,7 @@ publisher:
   website: "https://institutnr.org"
 url: "https://institut-du-numerique-responsable.github.io/skill-nr/"
 license: CC-BY-SA-4.0
-date-released: 2026-07-21
+date-released: 2026-08-28
 keywords:
   - "ai-coding-assistant"
   - "claude-code"

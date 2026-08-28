@@ -106,6 +106,10 @@ HOOKEOF
       echo "Hook installé : $HOOK"
       echo "Il bloque le commit sur un constat « Élevé ». Contourner : git commit --no-verify"
       exit 0 ;;
+    --)
+      shift
+      while [ $# -gt 0 ]; do FICHIERS+=("$1"); EXPLICITE=1; shift; done
+      break ;;
     -h|--aide|--help) usage; exit 0 ;;
     -*) echo "Option inconnue : $1"; usage; exit 2 ;;
     *) FICHIERS+=("$1"); EXPLICITE=1 ;;
