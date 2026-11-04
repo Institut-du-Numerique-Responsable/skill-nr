@@ -1,0 +1,21 @@
+# CODEMAP — skill-nr
+
+- `.continue/rules/` — source canonique des 15 règles de numérique responsable, transverses et par langage.
+- `.continue/agents/eco-check.md` — méthode de revue d’écoconception.
+- `.continue/agents/accessibilite-check.md` — méthode de revue RGAA/accessibilité.
+- `scripts/generer-versions.py` — génère les déclinaisons pour les assistants depuis `.continue/`.
+- `versions/` — sorties générées pour Claude Code, Cursor, Copilot, Gemini, OpenCode, Mistral Vibe, Kimi, Kilo et ChatGPT; `versions/README.md` reste manuel.
+- `scripts/eco-audit.sh` — pré-filtre déterministe par motifs, utilisé localement et en CI.
+- `scripts/scorer-detection.py` — compare un rapport aux 18 écarts du corpus de validation.
+- `scripts/verifier-depot.sh` — contrôle dérive des sorties, frontmatters, identifiants, liens, syntaxe, corpus et auto-audit.
+- `scripts/verifier-installation.sh` — vérifie qu’une déclinaison est correctement installée dans un projet cible.
+- `scripts/verifier-version-release.sh` — vérifie le format d’un tag `vX.Y.Z` et sa concordance avec `VERSION`.
+- `scripts/installer-hooks.sh` — installe les hooks locaux pre-commit et pre-push.
+- `verification/` — corpus intentionnellement fautif, résultats attendus et protocole de mesure.
+- `referentiels/` — extractions RGESN, GR491 et Opquast servant à vérifier les citations.
+- `.github/workflows/verification.yml` — CI d’intégrité et commentaire écoconception sur les PR.
+- `.github/CODEOWNERS` — propriété des règles, agents et référentiels.
+- `README.md` / `README.en.md` — documentation d’installation canonique FR et traduction EN.
+- `docs/` — site GitHub Pages et guides de développement/déploiement.
+- `docs/guide-release.md` — procédure de préparation, validation et publication des versions.
+- `LICENSE.md` / `CITATION.cff` — licence CC BY-SA 4.0, attributions et métadonnées de citation.
