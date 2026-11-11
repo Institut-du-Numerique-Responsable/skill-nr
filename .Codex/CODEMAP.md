@@ -3,8 +3,11 @@
 - `.continue/rules/` — source canonique des 15 règles de numérique responsable, transverses et par langage.
 - `.continue/agents/eco-check.md` — méthode de revue d’écoconception.
 - `.continue/agents/accessibilite-check.md` — méthode de revue RGAA/accessibilité.
-- `scripts/generer-versions.py` — génère les déclinaisons pour les assistants depuis `.continue/`.
-- `versions/` — sorties générées pour Claude Code, Cursor, Copilot, Gemini, OpenCode, Mistral Vibe, Kimi, Kilo et ChatGPT; `versions/README.md` reste manuel.
+- `scripts/generer-versions.py` — génère les déclinaisons depuis `.continue/`, avec références `.nr/regles/` et mode `--check` non mutant.
+- `versions/` — sorties générées pour Claude Code, Cursor, Copilot, Gemini, OpenCode, Mistral Vibe, Kimi, Kilo (skills `.kilo/skills/<nom>/SKILL.md`) et ChatGPT; `versions/README.md` reste manuel.
+- `scripts/masquer-commentaires.py` — filtre lexical SQL et parseurs standard HTML/Python, conserve les lignes.
+- `scripts/test-eco-audit.py` / `verification/eco-audit-cases.json` — régressions index, chemins et commentaires, paires positives/négatives par famille.
+- `scripts/test-generer-versions.py` — vérifie les paquets ciblés et les références d’installation.
 - `scripts/eco-audit.sh` — pré-filtre déterministe par motifs, utilisé localement et en CI.
 - `scripts/scorer-detection.py` — compare un rapport aux 18 écarts du corpus de validation.
 - `scripts/verifier-depot.sh` — contrôle dérive des sorties, frontmatters, identifiants, liens, syntaxe, corpus et auto-audit.

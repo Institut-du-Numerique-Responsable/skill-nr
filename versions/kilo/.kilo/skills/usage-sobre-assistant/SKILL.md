@@ -1,3 +1,9 @@
+---
+name: usage-sobre-assistant
+description: "À utiliser pendant une session de développement : sobriété du contexte, qualité et mesure."
+license: CC-BY-SA-4.0
+---
+
 <!-- Fichier généré par scripts/generer-versions.py, ne pas éditer à la main.
      Source : .continue/rules/ -->
 
@@ -41,22 +47,24 @@ conduite de session, pas seulement au code que tu écris.
 ## Proportionner la puissance à la tâche
 
 - N'utilise pas systématiquement le modèle ou le niveau de raisonnement le plus élevé
-  disponible : proportionne l'effort à la complexité réelle de la tâche. Un modèle plus
-  petit bien choisi consomme un ordre de grandeur de moins pour un résultat équivalent
-  sur une tâche simple.
+  disponible : proportionne l'effort à la complexité réelle de la tâche. Compare les modèles sur une même tâche et un niveau de qualité explicite ;
+  aucun ratio de consommation ne peut être déduit de leur taille seule.
 - Pour l'automatisation récurrente (CI, scripts), démarre sans contexte projet superflu
   et mets en cache les réponses à des requêtes identiques quand c'est possible.
 
-## Repères par outil
+## Qualité et mesure
 
-Les mécanismes exacts diffèrent selon l'assistant utilisé ; le principe (contexte propre,
-pas de correction empilée, effort proportionné) reste le même partout.
+- Arrête les vérifications quand les critères d’acceptation sont satisfaits, sauf nouveau
+  risque ou changement. Compte aussi les essais échoués et les corrections.
+- Ne sacrifie ni exactitude, sécurité, accessibilité, maintenabilité ni clarté pour
+  économiser du contexte ou du calcul.
+- Si le client expose les métriques, relève les tokens d’entrée, de sortie et de cache,
+  le coût et les appels sur une tâche comparable. Sinon indique « indisponible ».
+  Ne convertis pas des tokens en énergie ou en carbone sans mesure adaptée.
+- Après une tâche outillée, rapporte brièvement les optimisations appliquées, les tests,
+  leurs résultats et les limites ; aucun pourcentage d’économie sans référence comparable.
 
-- **Continue (`cn`)** : `--resume` reprend la dernière session, `--fork <id>` repart
-  d'un point antérieur sans réembarquer les tours suivants ; `ls` liste les sessions.
-- **Claude Code** : rembobiner avec un double appui sur Échap, `/clear` pour une tâche
-  sans lien, `/compact <consigne>` pour résumer une tâche liée, `/effort` pour ajuster
-  le niveau de raisonnement.
-- **Gemini CLI, OpenCode, Mistral Vibe, ChatGPT** : vérifie la commande équivalente de
-  gestion de session/contexte dans la documentation de l'outil ; le principe ci-dessus
-  s'applique quel que soit son nom exact.
+## Repères Kilo Code
+
+Les skills sont découverts au démarrage, puis lus à la demande selon leur description. Pour une tâche sans lien, ouvre une nouvelle session. Demande explicitement l’utilisation du skill utile si nécessaire.
+

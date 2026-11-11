@@ -5,9 +5,11 @@
 #
 #   sans fichier            audite les fichiers indexés (git diff --cached), sinon
 #                           tous les fichiers suivis
+#   --index                 audite uniquement les blobs préparés pour le commit
+#   --depot                 audite tous les fichiers suivis sur disque
 #   --tout                  ajoute les motifs à faible précision (bruyants, réservés à
 #                           un audit ponctuel, pas à un hook)
-#   --avertir               n'échoue jamais (code 0), pour un premier déploiement
+#   --avertir               constats informatifs ; erreurs techniques : code 2
 #   --installer-hook        installe .git/hooks/pre-commit qui appelle ce script
 #   --motifs                affiche la table des motifs et sort
 #
@@ -22,6 +24,8 @@ set -u
 
 TOUT=0
 AVERTIR=0
+MODE=auto
+SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 
 # Table des motifs, champs séparés par « § » (le caractère ne doit apparaître ni dans
 # une regex ni dans un message) :
@@ -89,6 +93,8 @@ FICHIERS=()
 EXPLICITE=0
 while [ $# -gt 0 ]; do
   case "$1" in
+    --index) MODE=index ;;
+    --depot) MODE=depot ;;
     --tout) TOUT=1 ;;
     --avertir) AVERTIR=1 ;;
     --motifs)
@@ -100,7 +106,7 @@ while [ $# -gt 0 ]; do
       cat > "$HOOK" <<'HOOKEOF'
 #!/usr/bin/env bash
 # Installé par scripts/eco-audit.sh --installer-hook
-exec bash "$(git rev-parse --show-toplevel)/scripts/eco-audit.sh"
+exec bash "$(git rev-parse --show-toplevel)/scripts/eco-audit.sh" --index
 HOOKEOF
       chmod +x "$HOOK"
       echo "Hook installé : $HOOK"
@@ -117,31 +123,51 @@ HOOKEOF
   shift
 done
 
-# Sélection automatique : index git, sinon fichiers suivis. Les fichiers pièges de
-# verification/ sont volontairement non conformes : ils ne sont audités que si on les
-# passe explicitement en argument.
+# Les sorties NUL préservent accents, espaces, tabulations et sauts de ligne.
+INDEX=0
+if [ "$EXPLICITE" -eq 1 ] && [ "$MODE" != auto ]; then
+  echo "--index/--depot ne prennent pas de fichiers explicites." >&2; exit 2
+fi
 if [ "$EXPLICITE" -eq 0 ]; then
-  if git rev-parse --git-dir >/dev/null 2>&1; then
-    while IFS= read -r f; do
+  git rev-parse --git-dir >/dev/null 2>&1 || { echo "Pas dans un dépôt git." >&2; exit 2; }
+  cd "$(git rev-parse --show-toplevel)" || exit 2
+  if [ "$MODE" != depot ]; then
+    INDEX=1
+    while IFS= read -r -d '' f; do
       case "$f" in verification/exemple-a-corriger.*) continue ;; esac
-      [ -n "$f" ] && [ -f "$f" ] && FICHIERS+=("$f")
-    done < <(git diff --cached --name-only --diff-filter=ACM)
-    if [ ${#FICHIERS[@]} -eq 0 ]; then
-      while IFS= read -r f; do
-        case "$f" in verification/exemple-a-corriger.*) continue ;; esac
-        [ -f "$f" ] && FICHIERS+=("$f")
-      done < <(git ls-files)
-    fi
+      FICHIERS+=("$f")
+    done < <(git diff --cached --name-only --diff-filter=ACM -z)
+  fi
+  if [ "$MODE" = depot ] || { [ "$MODE" = auto ] && [ ${#FICHIERS[@]} -eq 0 ]; }; then
+    INDEX=0
+    while IFS= read -r -d '' f; do
+      case "$f" in verification/exemple-a-corriger.*) continue ;; esac
+      [ -f "$f" ] && FICHIERS+=("$f")
+    done < <(git ls-files -z)
   fi
   if [ ${#FICHIERS[@]} -eq 0 ]; then echo "Aucun fichier à auditer."; exit 0; fi
 fi
 
+TMP_AUDIT=$(mktemp -d) || exit 2
+trap 'rm -rf "$TMP_AUDIT"' EXIT
+
 ELEVES=0
 MOYENS=0
+EXTENSIONS=$(lire_motifs | awk -F '§' '{printf ",%s", $1}')
 
 for fichier in "${FICHIERS[@]}"; do
+  if [ "$INDEX" -eq 0 ] && [ ! -f "$fichier" ]; then
+    echo "Fichier illisible : $fichier" >&2; exit 2
+  fi
   ext="${fichier##*.}"
   [ "$ext" = "$fichier" ] && continue
+  case "$EXTENSIONS," in *",$ext,"*) ;; *) continue ;; esac
+  if [ "$INDEX" -eq 1 ]; then
+    git show ":$fichier" > "$TMP_AUDIT/source" || exit 2
+  else
+    cat -- "$fichier" > "$TMP_AUDIT/source" || { echo "Fichier illisible : $fichier" >&2; exit 2; }
+  fi
+  python3 "$SCRIPT_DIR/masquer-commentaires.py" "$ext" < "$TMP_AUDIT/source" > "$TMP_AUDIT/clean" || exit 2
   while IFS='§' read -r exts niveau precision regex exclusion message critere; do
     [ -z "${exts:-}" ] && continue
     [ "$precision" = "basse" ] && [ "$TOUT" -eq 0 ] && continue
@@ -155,7 +181,7 @@ for fichier in "${FICHIERS[@]}"; do
       fi
       printf '%s:%s [%s] %s\n    → %s\n' "$fichier" "$num" "$niveau" "$message" "$critere"
       if [ "$niveau" = "Élevé" ]; then ELEVES=$((ELEVES + 1)); else MOYENS=$((MOYENS + 1)); fi
-    done < <(grep -nEi -- "$regex" "$fichier" 2>/dev/null)
+    done < <(grep -nEi -- "$regex" "$TMP_AUDIT/clean" 2>/dev/null)
   done < <(lire_motifs)
 done
 

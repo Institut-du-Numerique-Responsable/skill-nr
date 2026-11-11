@@ -10,6 +10,10 @@ on:
     tags: ['v*']
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
   pull-requests: write
@@ -17,6 +21,7 @@ permissions:
 jobs:
   integrite:
     name: Intégrité du dépôt
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -34,6 +39,7 @@ jobs:
 
   ecoconception:
     name: Pré-filtre écoconception du diff
+    timeout-minutes: 10
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:

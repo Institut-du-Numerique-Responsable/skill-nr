@@ -27,11 +27,21 @@ Points de contrôle spécifiques par langage :
 - **C/C++** : copie évitable (passage par valeur d'objets lourds, absence de `const&`/`string_view`), `strlen`/`strcat` en boucle, recherche linéaire répétée, attente active (busy-wait), I/O non bufferisées, fuite de ressources en chemin d'erreur.
 - **HTML/CSS** : tableau de mise en page ou tableau simulé en `div`, élément natif reconstruit en `div`+JS, iframe tierce chargée d'office, framework CSS entier pour quelques composants, animation de propriétés de layout, absence de `width`/`height` sur les images.
 
-Pour chaque problème trouvé :
+Pour chaque candidat, lis le code autour du motif et donne un verdict :
 
-- Corrige directement le fichier quand la correction est sûre et locale (ex. ajouter `loading="lazy"`, remplacer un import global, ajouter une pagination par défaut).
-- Sinon, décris le problème, cite le critère RGESN ou GR491 concerné, et propose la correction dans ta réponse.
+- **FAIL** : défaut confirmé ; indique fichier, ligne, preuve, critère et vérification du correctif.
+- **REVIEW** : contexte insuffisant ; indique la mesure ou l’information qui permettrait de conclure.
+- **PASS** : point demandé et effectivement vérifié ; précise la portée du contrôle.
 
-Si les changements respectent les règles d'écoconception, dis-le explicitement et termine.
+Une demande de revue produit un diagnostic. Corrige seulement si la demande autorise
+les modifications, puis vérifie le comportement. Le lazy loading ne convient pas à une
+image critique au premier affichage ; une pagination peut modifier un contrat d’API.
+Ne déduis pas la conformité générale de l’absence de motifs détectés.
+
+Consulte `.nr/decisions.md` s’il existe. Propose d’y documenter un compromis validé par
+l’équipe avec règle, fichier, justification et date de réexamen ; ne crée pas d’exemption
+au nom de l’utilisateur. Ce registre guide la revue, il ne désactive pas le préfiltre.
+
+Termine par les contrôles exécutés, les limites et les éventuels points restant à vérifier.
 
 Applique cette revue aux changements en cours.

@@ -27,13 +27,13 @@ racine de votre projet.
 | **OpenCode** | `opencode/AGENTS.md` + `opencode/.opencode/agent/` | mentionner l'agent `eco-check` (mode subagent) |
 | **Mistral Vibe** | `mistral-vibe/AGENTS.md` + `mistral-vibe/.vibe/` | `vibe --agent eco-check` (ajustez `active_model` dans les `.toml`) |
 | **Kimi CLI** (Moonshot AI) | `kimi-cli/AGENTS.md` + `kimi-cli/.kimi/agents/` | `kimi --agent-file .kimi/agents/eco-check.yaml` |
-| **Kilo Code** | `kilo/.kilo/rules/` + `kilo/kilo.jsonc` + `kilo/.kilo/agents/` | `@eco-check` dans le chat (sous-agents) |
+| **Kilo Code** | `kilo/.kilo/skills/<nom>/SKILL.md` + `kilo/.kilo/agents/` | `@eco-check` dans le chat (sous-agents) |
 | **ChatGPT** | voir ci-dessous (GPT personnalisé) | demander une revue du diff collé, méthode `revue-ecoconception.md` |
 
 `AGENTS.md` étant un standard partagé, la version OpenCode/Mistral Vibe/Kimi CLI est
 aussi lisible par les autres outils qui l'adoptent, y compris **OpenAI Codex** (CLI/IDE)
 et **ZCode** (harnais officiel de Z.ai pour GLM), qui lisent tous les deux `AGENTS.md`
-nativement : copiez simplement `opencode/AGENTS.md` à la racine pour l'un ou l'autre.
+nativement : copiez `opencode/AGENTS.md` et `opencode/.nr/` à la racine pour l’un ou l’autre.
 
 ## Cas non retenus : DeepSeek, GLM via un autre harnais
 
@@ -66,17 +66,15 @@ Enterprise pour la création.
 
 ## Différence avec la version Continue
 
-Kilo Code est un cas intermédiaire : les règles y sont **découpées en fichiers** comme
-chez Continue, mais Kilo ne les cible pas par type de fichier, il charge tout ce que
-`kilo.jsonc` liste dans `instructions`. Le découpage sert donc à retirer un langage
-(commenter une ligne) plutôt qu'à économiser du contexte automatiquement.
+Kilo Code utilise des skills : les métadonnées sont découvertes au démarrage et
+le modèle lit le contenu selon la description. Les 15 règles sont disponibles dans
+`.kilo/skills/`, sans liste `instructions` à maintenir dans `kilo.jsonc`.
 
 Trois outils activent chaque règle **par type de fichier** : Continue (`globs`), Cursor
 (`globs` dans le frontmatter `.mdc`) et GitHub Copilot (`applyTo`). Un fichier Java n'y
 charge que les règles Java. Les fichiers de contexte uniques (`CLAUDE.md`, `GEMINI.md`,
-`AGENTS.md`) n'ont pas ce mécanisme : **toutes les règles (34 Ko à ce jour, voir
-`wc -c opencode/AGENTS.md`) sont chargées à chaque
-session**, avec une mention « S'applique aux fichiers : … » par section pour guider le
-modèle. C'est le compromis de ces formats ; si votre projet n'utilise que certains
-langages, supprimez les sections inutiles de votre copie (ou générez une variante) pour
-économiser du contexte.
+`AGENTS.md`) contiennent désormais un socle commun et un index de références locales
+`.nr/regles/`. Le modèle doit lire les références adaptées au langage et à la couche
+technique, à la demande. Copiez le dossier `.nr/` avec le fichier d’entrée ;
+`verifier-installation.sh` signale les références manquantes. Ce routage reste une
+instruction au modèle, à valider en situation dans chaque client.

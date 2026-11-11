@@ -49,7 +49,7 @@ natively, produced from a single source.
 | [Gemini CLI](https://github.com/google-gemini/gemini-cli) | `GEMINI.md` + `/eco-check` commands | [↓](#gemini-cli) |
 | [OpenCode](https://opencode.ai) | `AGENTS.md` + `.opencode/agent/` | [↓](#opencode) |
 | [Mistral Vibe](https://docs.mistral.ai/vibe) | `AGENTS.md` + `.vibe/agents/` | [↓](#mistral-vibe) |
-| [Kilo Code](https://kilo.ai) | `.kilo/rules/` + `kilo.jsonc` + `.kilo/agents/` | [↓](#kilo-code) |
+| [Kilo Code](https://kilo.ai) | `.kilo/skills/` + `.kilo/agents/` | [↓](#kilo-code) |
 | [OpenAI Codex](https://developers.openai.com/codex) | `AGENTS.md` (shared standard) | [↓](#openai-codex-and-zcode-glm) |
 | [Kimi CLI](https://github.com/MoonshotAI/kimi-cli) (Moonshot AI) | `AGENTS.md` + `.kimi/agents/` | [↓](#kimi-cli-moonshot-ai) |
 | [ChatGPT](https://chatgpt.com) (custom GPT) | condensed instructions + knowledge files | [↓](#chatgpt-custom-gpt) |
@@ -142,14 +142,20 @@ cn review --review-agents .continue/agents/eco-check.md
 cn review --review-agents .continue/agents/accessibilite-check.md
 ```
 
-Two things to know before you run it: the agent **edits your files directly** when it
-fixes something, and the detailed report only shows in a real interactive terminal. Work
-from a committed state, and read the patches like any other merge request.
+The ecodesign review produces FAIL/REVIEW/PASS findings. Request corrections
+explicitly and review the resulting patches. Continue’s detailed report requires
+an interactive terminal.
+
+Single-entry versions use a shared core and `.nr/regles/` for specialized references.
+Copy both, including for Codex/ZCode. Instructions ask the model to read relevant
+references; file presence alone does not prove that it does. Check this behavior
+with the corpus in each client.
 
 ### Claude Code
 
 ```bash
 cp "$REGLES/versions/claude-code/CLAUDE.md" "$PROJET/"
+cp -r "$REGLES/versions/claude-code/.nr" "$PROJET/"
 cp -r "$REGLES/versions/claude-code/.claude" "$PROJET/"
 ```
 
@@ -197,6 +203,7 @@ cp "$REGLES"/versions/copilot/.github/prompts/*      "$PROJET/.github/prompts/"
 
 ```bash
 cp "$REGLES/versions/gemini-cli/GEMINI.md" "$PROJET/"
+cp -r "$REGLES/versions/gemini-cli/.nr" "$PROJET/"
 cp -r "$REGLES/versions/gemini-cli/.gemini" "$PROJET/"
 ```
 
@@ -208,6 +215,7 @@ have nothing to paste. Run `gemini` in `$PROJET` and type `/eco-check`.
 
 ```bash
 cp "$REGLES/versions/opencode/AGENTS.md" "$PROJET/"
+cp -r "$REGLES/versions/opencode/.nr" "$PROJET/"
 cp -r "$REGLES/versions/opencode/.opencode" "$PROJET/"
 ```
 
@@ -216,6 +224,7 @@ format): concatenate rather than overwrite.
 
 ```bash
 cat "$REGLES/versions/opencode/AGENTS.md" >> "$PROJET/AGENTS.md"
+cp -r "$REGLES/versions/opencode/.nr" "$PROJET/"
 ```
 
 Run `opencode` in `$PROJET`, then mention the `eco-check` agent (declared as
@@ -225,6 +234,7 @@ Run `opencode` in `$PROJET`, then mention the `eco-check` agent (declared as
 
 ```bash
 cp "$REGLES/versions/mistral-vibe/AGENTS.md" "$PROJET/"
+cp -r "$REGLES/versions/mistral-vibe/.nr" "$PROJET/"
 cp -r "$REGLES/versions/mistral-vibe/.vibe" "$PROJET/"
 ```
 
@@ -241,6 +251,7 @@ cd "$PROJET" && vibe --agent eco-check
 
 ```bash
 cp "$REGLES/versions/kimi-cli/AGENTS.md" "$PROJET/"
+cp -r "$REGLES/versions/kimi-cli/.nr" "$PROJET/"
 cp -r "$REGLES/versions/kimi-cli/.kimi" "$PROJET/"
 ```
 
@@ -253,22 +264,31 @@ cd "$PROJET" && kimi --agent-file .kimi/agents/eco-check.yaml
 
 ### Kilo Code
 
+The 15 rules are skills at `.kilo/skills/<name>/SKILL.md`. Each frontmatter uses
+a matching `name` and a description stating when the skill applies.
+
 ```bash
-cp -r "$REGLES/versions/kilo/.kilo" "$PROJET/"
-cp "$REGLES/versions/kilo/kilo.jsonc" "$PROJET/"
+mkdir -p "$PROJET/.kilo"
+cp -r "$REGLES/versions/kilo/.kilo/skills" "$PROJET/.kilo/"
+cp -r "$REGLES/versions/kilo/.kilo/agents" "$PROJET/.kilo/"
 ```
 
-If the project already has a `kilo.jsonc`, do not overwrite it: open it and add the
-`.kilo/rules/*.md` entries to its `instructions` key (a rule that is not listed is never
-loaded). Kilo does not target rules by file type: everything listed in `instructions` is
-loaded in every session, so comment out the languages your project does not use.
+Merge with existing skills. No `kilo.jsonc` entry is required for project skills.
+Kilo discovers metadata at startup; the model loads relevant content on demand.
+Start a new session and ask, for example, “use ecoconception-sql to review this query”.
+Skill discovery does not guarantee that every rule is applied on every turn.
 
-Start Kilo in `$PROJET`, then call the review with `@eco-check` or
-`@accessibilite-check` in the chat (both are declared as `mode: subagent`).
+Review subagents remain available as `@eco-check` and `@accessibilite-check`.
+Run `bash scripts/verifier-installation.sh kilo /path/to/project` to verify the package.
 
-Older versions of the extension read `.kilocode/rules/` without a `kilo.jsonc`; that
-folder is still supported for backward compatibility, in which case `mv .kilo .kilocode`
-is enough.
+Migration: remove only this package’s old `.kilo/rules/*.md` entries from the
+`instructions` array in `kilo.jsonc`, then remove those 15 old rule copies after
+verification. Keep unrelated instructions and configuration. Do not simply rename
+`.kilo` to `.kilocode`; check the documentation for your extension version.
+
+The supplied archive informs the format; INR content still comes from `.continue/`,
+including the recent sobriety fixes. BPCE/TEMPO customizations are excluded from this
+generic package. See the [official Kilo skills documentation](https://kilo.ai/docs/customize/skills).
 
 ### OpenAI Codex and ZCode (GLM)
 
@@ -277,6 +297,7 @@ folder to copy, no declared review agent: you ask for the review in plain langua
 
 ```bash
 cp "$REGLES/versions/opencode/AGENTS.md" "$PROJET/"
+cp -r "$REGLES/versions/opencode/.nr" "$PROJET/"
 ```
 
 Related case: **GLM used as a model provider** inside Claude Code, OpenCode or Cline.
@@ -304,16 +325,20 @@ Enterprise account. A ChatGPT *Project* works too, with the same two layers.
 
 Rules steer generation and agents review on demand: neither fires by itself at commit
 time. `scripts/eco-audit.sh` fills that gap. It greps for known patterns, calling no
-model at all: no cost, no wait, no invented fix.
+model. Python 3 (standard library) masks SQL, HTML and Python comments through
+`scripts/masquer-commentaires.py`; keep this helper beside the shell script.
 
 ```bash
-bash scripts/eco-audit.sh                    # staged files, otherwise the whole repo
+bash scripts/eco-audit.sh --index            # staged content only
+bash scripts/eco-audit.sh --depot            # tracked files on disk
 bash scripts/eco-audit.sh src/api.sql        # specific files
 bash scripts/eco-audit.sh --installer-hook   # blocks the commit on a high finding
 ```
 
 Every finding comes out with its file, line and source criterion. Only "Élevé" findings
-fail the command; `--avertir` never fails, for a first rollout across a team.
+fail the command; `--avertir` makes findings informational. Read or execution errors
+still fail (exit 2). Without a mode, staged files are audited first, otherwise tracked
+files on disk. Hooks use `--index`, with no fallback when the index is empty.
 
 Calibration was done against real third-party code: on 600 files of an open source
 project, 3 blocking findings, all genuine. Patterns too noisy for a hook (`import * as`,
@@ -388,7 +413,7 @@ your home directory or to the tool's configuration.
 | --- | --- |
 | The assistant never cites a criterion | Files in the wrong place: they must sit at the **root** of the open project, not in a subfolder. Run `verifier-installation.sh`. |
 | The rules worked, now they don't | The project's own `AGENTS.md` or `CLAUDE.md` overwrote the copy during a merge. Copy again, concatenating this time. |
-| Very heavy context per session | Expected outside Continue: single-file formats load every rule each session (34 KB today, exact size with `wc -c versions/opencode/AGENTS.md`). Delete from your copy the sections for languages the project does not use (under Kilo Code, comment out the matching line in `kilo.jsonc`). |
+| Very heavy context per session | Update the entry file and `.nr/` together: entry files now point to specialized rules to read on demand. In Kilo, migrate to on-demand skills. |
 | `Agent file must contain YAML frontmatter with a 'name' field` | An agent `.md` lost its frontmatter during the copy. Copy the whole file again. |
 | `Cannot start TUI in TTY-less environment` (Continue) | Non-interactive context: use `cn -p "prompt"` or run from a real terminal. |
 | Review with no visible output (Continue) | The fixes may already be applied in your files: check `git diff`. |

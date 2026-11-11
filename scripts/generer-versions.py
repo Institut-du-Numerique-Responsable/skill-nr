@@ -7,7 +7,10 @@ Ne pas éditer les fichiers générés dans versions/ : modifier la source puis 
     python3 scripts/generer-versions.py
 """
 
+import argparse
+import json
 import re
+import tempfile
 from pathlib import Path
 
 RACINE = Path(__file__).resolve().parent.parent
@@ -110,6 +113,32 @@ Référentiels : RGESN v2 (ARCEP/ARCOM/ADEME), GR491 (INR), Opquast (CC BY-SA), 
 """
 
 
+
+def contexte_cible(destination: Path) -> str:
+    """Socle permanent et références locales, sans import automatique implicite."""
+    socle = {"numerique-responsable", "usage-sobre-assistant"}
+    references = destination / ".nr" / "regles"
+    references.mkdir(parents=True, exist_ok=True)
+    index = []
+    for slug in ORDRE:
+        if slug in socle:
+            continue
+        (references / f"{slug}.md").write_text(
+            AVERTISSEMENT + corps_avec_portee(slug) + "\n", encoding="utf-8")
+        globs, _ = lire_regle(slug)
+        portee = globs or "architecture et traitements backend"
+        index.append(f"- `{portee}` : `.nr/regles/{slug}.md`")
+    return (
+        AVERTISSEMENT + PREAMBULE
+        + "\n\n".join(lire_regle(slug)[1] for slug in ORDRE if slug in socle)
+        + "\n\n## Règles spécialisées à lire à la demande\n\n"
+        + "Avant de modifier ou relire un fichier, lis les références correspondant "
+        "à son langage et à sa couche technique, depuis la racine du projet. "
+        "Ne charge pas les autres références. Si un fichier manque, signale "
+        "l’installation incomplète. Ces chemins ne sont pas des imports automatiques.\n\n"
+        + "\n".join(index) + "\n"
+    )
+
 def generer():
     regles = bloc_regles()
     eco = corps_agent("eco-check")
@@ -118,7 +147,7 @@ def generer():
     # ---- Claude Code : CLAUDE.md + sous-agents ----
     cc = OUT / "claude-code"
     (cc / ".claude" / "agents").mkdir(parents=True, exist_ok=True)
-    (cc / "CLAUDE.md").write_text(AVERTISSEMENT + PREAMBULE + regles + "\n", encoding="utf-8")
+    (cc / "CLAUDE.md").write_text(contexte_cible(cc), encoding="utf-8")
     (cc / ".claude" / "agents" / "eco-check.md").write_text(
         "---\nname: eco-check\ndescription: Revue écoconception d'un diff selon le RGESN, "
         "le GR491 et Opquast. À utiliser après toute modification de code significative.\n---\n\n"
@@ -135,7 +164,7 @@ def generer():
     # ---- Gemini CLI : GEMINI.md + commandes ----
     gm = OUT / "gemini-cli"
     (gm / ".gemini" / "commands").mkdir(parents=True, exist_ok=True)
-    (gm / "GEMINI.md").write_text(AVERTISSEMENT + PREAMBULE + regles + "\n", encoding="utf-8")
+    (gm / "GEMINI.md").write_text(contexte_cible(gm), encoding="utf-8")
 
     def commande_toml(nom: str, description: str, corps: str) -> str:
         corps_toml = corps.replace("\\", "\\\\").replace('"""', '\\"\\"\\"')
@@ -160,7 +189,7 @@ def generer():
     # ---- OpenCode : AGENTS.md + agents ----
     oc = OUT / "opencode"
     (oc / ".opencode" / "agent").mkdir(parents=True, exist_ok=True)
-    (oc / "AGENTS.md").write_text(AVERTISSEMENT + PREAMBULE + regles + "\n", encoding="utf-8")
+    (oc / "AGENTS.md").write_text(contexte_cible(oc), encoding="utf-8")
     (oc / ".opencode" / "agent" / "eco-check.md").write_text(
         "---\ndescription: Revue écoconception d'un diff selon le RGESN, le GR491 et Opquast\n"
         "mode: subagent\n---\n\n" + AVERTISSEMENT + eco + "\n",
@@ -176,7 +205,7 @@ def generer():
     mv = OUT / "mistral-vibe"
     (mv / ".vibe" / "agents").mkdir(parents=True, exist_ok=True)
     (mv / ".vibe" / "prompts").mkdir(parents=True, exist_ok=True)
-    (mv / "AGENTS.md").write_text(AVERTISSEMENT + PREAMBULE + regles + "\n", encoding="utf-8")
+    (mv / "AGENTS.md").write_text(contexte_cible(mv), encoding="utf-8")
 
     def agent_vibe(nom: str, display: str, description: str) -> str:
         return (
@@ -206,7 +235,7 @@ def generer():
     # ---- Kimi CLI : AGENTS.md + agents YAML + prompts ----
     ki = OUT / "kimi-cli"
     (ki / ".kimi" / "agents").mkdir(parents=True, exist_ok=True)
-    (ki / "AGENTS.md").write_text(AVERTISSEMENT + PREAMBULE + regles + "\n", encoding="utf-8")
+    (ki / "AGENTS.md").write_text(contexte_cible(ki), encoding="utf-8")
 
     def agent_kimi_yaml(nom: str) -> str:
         return (
@@ -224,27 +253,29 @@ def generer():
     (ki / ".kimi" / "agents" / "eco-check.md").write_text(AVERTISSEMENT + eco + "\n", encoding="utf-8")
     (ki / ".kimi" / "agents" / "accessibilite-check.md").write_text(AVERTISSEMENT + a11y + "\n", encoding="utf-8")
 
-    # ---- Kilo Code : .kilo/rules/ (un fichier par règle) + sous-agents ----
-    # Kilo ne cible pas les règles par type de fichier : tout ce que liste `instructions`
-    # est chargé à chaque session. Le découpage en fichiers reste utile pour retirer les
-    # langages inutiles du projet (une ligne à commenter dans kilo.jsonc).
+    # ---- Kilo Code : skills découverts à la demande + sous-agents ----
+    # Format vérifié contre l’archive fournie et la documentation Kilo.
     kl = OUT / "kilo"
-    (kl / ".kilo" / "rules").mkdir(parents=True, exist_ok=True)
     (kl / ".kilo" / "agents").mkdir(parents=True, exist_ok=True)
     for slug in ORDRE:
-        (kl / ".kilo" / "rules" / f"{slug}.md").write_text(
-            AVERTISSEMENT + corps_avec_portee(slug) + "\n", encoding="utf-8"
+        destination = kl / ".kilo" / "skills" / slug
+        destination.mkdir(parents=True, exist_ok=True)
+        description = "À utiliser pour écrire ou relire du code. " + description_regle(slug)
+        if slug == "usage-sobre-assistant":
+            description = "À utiliser pendant une session de développement : sobriété du contexte, qualité et mesure."
+        corps = corps_avec_portee(slug)
+        if slug == "usage-sobre-assistant":
+            corps = corps.split("## Repères par outil", 1)[0].rstrip() + (
+                "\n\n## Repères Kilo Code\n\n"
+                "Les skills sont découverts au démarrage, puis lus à la demande selon leur description. "
+                "Pour une tâche sans lien, ouvre une nouvelle session. Demande explicitement "
+                "l’utilisation du skill utile si nécessaire.\n"
+            )
+        (destination / "SKILL.md").write_text(
+            f"---\nname: {slug}\ndescription: {json.dumps(description, ensure_ascii=False)}\n"
+            "license: CC-BY-SA-4.0\n---\n\n" + AVERTISSEMENT + corps + "\n",
+            encoding="utf-8",
         )
-    (kl / "kilo.jsonc").write_text(
-        "// Généré par scripts/generer-versions.py, ne pas éditer à la main.\n"
-        "// Fusionnez la clé \"instructions\" si le projet a déjà un kilo.jsonc.\n"
-        "// Commentez une ligne pour retirer un langage que le projet n'utilise pas.\n"
-        "{\n"
-        '  "instructions": [\n'
-        + "".join(f'    ".kilo/rules/{slug}.md",\n' for slug in ORDRE)
-        + "  ],\n}\n",
-        encoding="utf-8",
-    )
 
     def agent_kilo(description: str, corps: str) -> str:
         # Frontmatter en tête de fichier, l'avertissement ensuite : Kilo n'analyse le
@@ -368,10 +399,27 @@ et rends un verdict par point de contrôle avec le critère cité.
             (RACINE / "referentiels" / ref).read_text(encoding="utf-8"), encoding="utf-8"
         )
 
-    for f in sorted(OUT.rglob("*")):
-        if f.is_file():
-            print(f"  {f.relative_to(RACINE)}  ({f.stat().st_size} o)")
+
 
 
 if __name__ == "__main__":
-    generer()
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--check", action="store_true", help="vérifier sans modifier les sorties")
+    args = parser.parse_args()
+    if args.check:
+        original = OUT
+        with tempfile.TemporaryDirectory(prefix="nr-generation-") as dossier:
+            OUT = Path(dossier)
+            generer()
+            attendus = {p.relative_to(OUT): p.read_bytes() for p in OUT.rglob("*") if p.is_file()}
+            actuels = {p.relative_to(original): p.read_bytes() for p in original.rglob("*")
+                       if p.is_file() and p.relative_to(original) != Path("README.md")}
+            ecarts = sorted(str(p) for p in attendus.keys() | actuels.keys()
+                            if attendus.get(p) != actuels.get(p))
+            if ecarts:
+                print("Sorties divergentes :\n" + "\n".join(ecarts))
+                raise SystemExit(1)
+            print("Versions générées à jour.")
+    else:
+        generer()
+        print("Versions générées.")

@@ -23,7 +23,7 @@ lire_pre_commit() {
 #!/usr/bin/env bash
 # Posé par scripts/installer-hooks.sh
 RACINE=$(git rev-parse --show-toplevel)
-if ! bash "$RACINE/scripts/eco-audit.sh"; then
+if ! bash "$RACINE/scripts/eco-audit.sh" --index; then
   echo
   echo "Constats élevés du pré-filtre écoconception."
   echo "Corrigez, ou committez avec --no-verify."

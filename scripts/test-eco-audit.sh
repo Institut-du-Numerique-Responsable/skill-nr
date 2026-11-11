@@ -18,3 +18,5 @@ printf '%s\n' "$RAPPORT" | grep -Fq -- 'fichier avec espaces.sql:1 [Élevé]'
 printf '%s\n' "$RAPPORT" | grep -Fq -- '[motif].sql:1 [Élevé]'
 
 echo "Test eco-audit : noms de fichiers sûrs."
+
+python3 "$RACINE/scripts/test-eco-audit.py"

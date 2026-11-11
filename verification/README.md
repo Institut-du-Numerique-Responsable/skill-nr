@@ -117,3 +117,29 @@ et les agents en mode écriture appliquent leurs correctifs directement) :
 ```bash
 git checkout -- verification/
 ```
+
+## Régressions déterministes du préfiltre
+
+`bash scripts/test-eco-audit.sh` vérifie l’index Git dans les deux sens, les chemins
+accentués et contenant des séparateurs, les commentaires SQL/HTML/Python et les
+numéros de ligne. `eco-audit-cases.json` ajoute douze paires fautif/conforme par
+famille de langage. Une paire ne garantit pas tous les motifs de la famille ; étendre
+ces cas lors de toute modification d’un détecteur. Le masquage des commentaires
+reste limité aux trois langages cités ; les autres alertes nécessitent une revue.
+
+`python3 scripts/test-generer-versions.py` vérifie que les cinq paquets à contexte
+ciblé conservent les règles, respectent un budget de 12 000 octets pour leur entrée
+et signalent une référence manquante. `python3 scripts/generer-versions.py --check`
+compare les fichiers générés sans réécrire les sorties.
+
+Pour valider le routage par un modèle, utiliser le protocole isolé ci-dessus dans
+chaque client : relever les références réellement lues, la qualité, les tokens et
+les éventuelles reprises sur les mêmes tâches. Les tests de fichiers ne remplacent
+pas cette mesure. Aucune économie énergétique n’est déduite du poids des consignes.
+
+
+Le test de génération couvre aussi les 15 skills Kilo : nom identique au dossier,
+description citée et non vide, licence, conservation des corrections de sobriété,
+absence de chargement global via `kilo.jsonc`. Le vérificateur d’installation doit
+refuser un nom divergent ou un skill attendu manquant. La sélection du skill par le
+modèle reste à vérifier dans une session Kilo réelle.
