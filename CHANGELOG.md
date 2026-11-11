@@ -3,7 +3,7 @@
 Les changements notables de skill-nr sont documentés ici. Le projet suit le
 [versionnement sémantique](https://semver.org/lang/fr/).
 
-## À publier
+## [1.1.0] — 2026-11-11
 
 - Kilo Code : migration des 15 règles vers `.kilo/skills/<nom>/SKILL.md`, descriptions
   YAML citées et chargement à la demande ; retrait de la configuration de chargement intégral.
@@ -29,3 +29,5 @@ Première version stable :
 - pré-filtre déterministe et corpus de vérification reproductible.
 
 [1.0.0]: https://github.com/Institut-du-Numerique-Responsable/skill-nr/releases/tag/v1.0.0
+
+[1.1.0]: https://github.com/Institut-du-Numerique-Responsable/skill-nr/releases/tag/v1.1.0
