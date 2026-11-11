@@ -38,6 +38,15 @@ dossier() {
   if [ -d "$PROJET/$1" ]; then vert "$1/"; else rouge "$1/ absent"; fi
 }
 
+references_ciblees() {
+  local entree="$1" chemin
+  if grep -q '.nr/regles/' "$PROJET/$entree" 2>/dev/null; then
+    while IFS= read -r chemin; do
+      fichier "$chemin" "Fichier généré"
+    done < <(grep -oE '\.nr/regles/[a-z-]+\.md' "$PROJET/$entree" | sort -u)
+  fi
+}
+
 verifier_continue() {
   info "Continue"
   dossier ".continue/rules"
@@ -54,6 +63,7 @@ verifier_continue() {
 verifier_claude_code() {
   info "Claude Code"
   fichier "CLAUDE.md" "$MARQUEUR"
+  references_ciblees "CLAUDE.md"
   fichier ".claude/agents/eco-check.md" "name: eco-check"
   fichier ".claude/agents/accessibilite-check.md" "name: accessibilite-check"
 }
@@ -61,6 +71,7 @@ verifier_claude_code() {
 verifier_gemini() {
   info "Gemini CLI"
   fichier "GEMINI.md" "$MARQUEUR"
+  references_ciblees "GEMINI.md"
   fichier ".gemini/commands/eco-check.toml" "prompt"
   fichier ".gemini/commands/accessibilite-check.toml" "prompt"
 }
@@ -68,6 +79,7 @@ verifier_gemini() {
 verifier_opencode() {
   info "OpenCode"
   fichier "AGENTS.md" "$MARQUEUR"
+  references_ciblees "AGENTS.md"
   fichier ".opencode/agent/eco-check.md" "mode: subagent"
   fichier ".opencode/agent/accessibilite-check.md" "mode: subagent"
 }
@@ -75,6 +87,7 @@ verifier_opencode() {
 verifier_vibe() {
   info "Mistral Vibe"
   fichier "AGENTS.md" "$MARQUEUR"
+  references_ciblees "AGENTS.md"
   fichier ".vibe/agents/eco-check.toml" "system_prompt_id"
   fichier ".vibe/prompts/eco-check.md" "écoconception"
 }
@@ -82,18 +95,27 @@ verifier_vibe() {
 verifier_kimi() {
   info "Kimi CLI"
   fichier "AGENTS.md" "$MARQUEUR"
+  references_ciblees "AGENTS.md"
   fichier ".kimi/agents/eco-check.yaml" "system_prompt_path"
   fichier ".kimi/agents/eco-check.md" "écoconception"
 }
 
 verifier_kilo() {
   info "Kilo Code"
-  dossier ".kilo/rules"
-  fichier ".kilo/rules/numerique-responsable.md" "numérique responsable"
-  fichier ".kilo/rules/ecoconception-sql.md" "S'applique aux fichiers"
-  # Une règle non listée dans instructions n'est jamais chargée par Kilo.
-  fichier "kilo.jsonc" "ecoconception-sql.md"
+  dossier ".kilo/skills"
+  local slug
+  for slug in numerique-responsable usage-sobre-assistant ecoconception-backend \
+    ecoconception-frontend qualite-web-opquast ecoconception-sql ecoconception-javascript \
+    ecoconception-java ecoconception-csharp ecoconception-python ecoconception-php \
+    ecoconception-ruby ecoconception-rust ecoconception-c ecoconception-cpp; do
+    fichier ".kilo/skills/$slug/SKILL.md" "^name: $slug$"
+    if [ -f "$PROJET/.kilo/skills/$slug/SKILL.md" ]; then
+      head -1 "$PROJET/.kilo/skills/$slug/SKILL.md" | grep -qx -- '---' || rouge "$slug : frontmatter absent"
+      grep -q '^description: ".*"$' "$PROJET/.kilo/skills/$slug/SKILL.md" || rouge "$slug : description absente ou non citée"
+    fi
+  done
   fichier ".kilo/agents/eco-check.md" "mode: subagent"
+  fichier ".kilo/agents/accessibilite-check.md" "mode: subagent"
 }
 
 verifier_cursor() {
@@ -115,6 +137,7 @@ verifier_copilot() {
 verifier_codex() {
   info "OpenAI Codex / ZCode (AGENTS.md seul)"
   fichier "AGENTS.md" "$MARQUEUR"
+  references_ciblees "AGENTS.md"
 }
 
 verifier_chatgpt() {
@@ -146,7 +169,7 @@ case "$OUTIL" in
     [ -d "$PROJET/.opencode" ]       && { verifier_opencode; TROUVE=1; }
     [ -d "$PROJET/.vibe" ]           && { verifier_vibe; TROUVE=1; }
     [ -d "$PROJET/.kimi" ]           && { verifier_kimi; TROUVE=1; }
-    [ -d "$PROJET/.kilo/rules" ]     && { verifier_kilo; TROUVE=1; }
+    [ -d "$PROJET/.kilo" ]     && { verifier_kilo; TROUVE=1; }
     [ -d "$PROJET/.cursor/rules" ]   && { verifier_cursor; TROUVE=1; }
     [ -d "$PROJET/.github/instructions" ] && { verifier_copilot; TROUVE=1; }
     if [ "$TROUVE" -eq 0 ] && [ -f "$PROJET/AGENTS.md" ]; then verifier_codex; TROUVE=1; fi

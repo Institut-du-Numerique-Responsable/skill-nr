@@ -74,7 +74,7 @@ cn review --review-agents .continue/agents/accessibilite-check.md
 
 ### À savoir absolument
 
-- **L'agent modifie directement vos fichiers** quand il corrige (pas d'option à activer).
+- **La revue écoconception produit un diagnostic** ; demandez les corrections explicitement.
   Travaillez sur un état commité ou stashé pour pouvoir comparer : `git diff` après la
   revue montre exactement ce que l'agent a changé.
 - **Relisez les patchs comme n'importe quelle MR.** Le modèle détecte bien les écarts,
@@ -90,7 +90,7 @@ l'autre ne se déclenche au moment du commit. `scripts/eco-audit.sh` comble ce t
 cherchant des motifs connus par `grep`, sans appeler aucun modèle.
 
 ```bash
-bash scripts/eco-audit.sh                    # fichiers indexés
+bash scripts/eco-audit.sh --index            # contenu de l’index, pas le fichier de travail
 bash scripts/installer-hooks.sh              # le pose en pre-commit, une fois par clone
 ```
 

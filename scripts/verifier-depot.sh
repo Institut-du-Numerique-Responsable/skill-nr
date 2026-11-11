@@ -10,6 +10,9 @@
 set -u
 cd "$(dirname "$0")/.." || exit 2
 
+TMP_VERIF=$(mktemp -d) || exit 2
+trap 'rm -rf "$TMP_VERIF"' EXIT
+SECONDS=0
 ECHECS=0
 titre() { printf '\n\033[1m== %s\033[0m\n' "$1"; }
 ok()    { printf '  \033[32m✓\033[0m %s\n' "$1"; }
@@ -19,15 +22,10 @@ ko()    { printf '  \033[31m✗\033[0m %s\n' "$1"; ECHECS=$((ECHECS + 1)); }
 # Le piège numéro un du dépôt : modifier .continue/ sans relancer le générateur.
 titre "Versions générées à jour"
 # versions/README.md est rédigé à la main, pas généré : il est exclu de la comparaison.
-if python3 scripts/generer-versions.py >/dev/null 2>&1; then
-  if git diff --quiet -- versions/ ':(exclude)versions/README.md'; then
-    ok "versions/ correspond à .continue/"
-  else
-    ko "versions/ diverge de .continue/ : lancez python3 scripts/generer-versions.py et committez"
-    git --no-pager diff --stat -- versions/ ':(exclude)versions/README.md' | sed 's/^/      /'
-  fi
+if python3 scripts/generer-versions.py --check; then
+  ok "versions/ correspond à .continue/"
 else
-  ko "scripts/generer-versions.py a échoué"
+  ko "versions/ diverge : lancez python3 scripts/generer-versions.py"
 fi
 
 # --- 2. Toutes les règles sont-elles prises par le générateur ? -----------------
@@ -53,31 +51,31 @@ done
 # --- 4. Les critères cités existent-ils vraiment ? ------------------------------
 # C'est la promesse centrale du dépôt : un identifiant inventé la casse.
 titre "Identifiants de critères vérifiables"
-grep -rhoE 'GR491_[A-Za-z]+_[0-9]+' .continue/ versions/ verification/ scripts/ README.md README.en.md docs/ 2>/dev/null | sort -u > /tmp/nr-cites.txt
-grep -oE 'GR491_[A-Za-z]+_[0-9]+' referentiels/gr491.md | sort -u > /tmp/nr-reels.txt
-INEXISTANTS=$(comm -23 /tmp/nr-cites.txt /tmp/nr-reels.txt)
+grep -rhoE 'GR491_[A-Za-z]+_[0-9]+' .continue/ versions/ verification/ scripts/ README.md README.en.md docs/ 2>/dev/null | sort -u > "$TMP_VERIF/nr-cites.txt"
+grep -oE 'GR491_[A-Za-z]+_[0-9]+' referentiels/gr491.md | sort -u > "$TMP_VERIF/nr-reels.txt"
+INEXISTANTS=$(comm -23 "$TMP_VERIF/nr-cites.txt" "$TMP_VERIF/nr-reels.txt")
 if [ -n "$INEXISTANTS" ]; then
   echo "$INEXISTANTS" | while read -r i; do ko "GR491 inexistant dans referentiels/ : $i"; done
   ECHECS=$((ECHECS + 1))
 else
-  ok "$(wc -l < /tmp/nr-cites.txt | tr -d ' ') identifiants GR491 cités, tous présents dans referentiels/"
+  ok "$(wc -l < "$TMP_VERIF/nr-cites.txt" | tr -d ' ') identifiants GR491 cités, tous présents dans referentiels/"
 fi
 # Les lignes qui présentent un identifiant comme inexistant sont des contre-exemples
 # assumés (la doc s'en sert pour illustrer l'hallucination de références) : on les écarte.
 grep -rhE 'RGESN [0-9]+\.[0-9]+' .continue/ versions/ verification/ scripts/ README.md README.en.md docs/ 2>/dev/null \
   | grep -viE "inexistant|n'existe pas|does not exist|invent" \
-  | grep -oE 'RGESN [0-9]+\.[0-9]+' | sed 's/RGESN //' | sort -u > /tmp/nr-rgesn-cites.txt
-grep -oE '^- \*\*RGESN [0-9]+\.[0-9]+' referentiels/rgesn.md | sed 's/^- \*\*RGESN //' | sort -u > /tmp/nr-rgesn-reels.txt
-RGESN_KO=$(comm -23 /tmp/nr-rgesn-cites.txt /tmp/nr-rgesn-reels.txt)
+  | grep -oE 'RGESN [0-9]+\.[0-9]+' | sed 's/RGESN //' | sort -u > "$TMP_VERIF/nr-rgesn-cites.txt"
+grep -oE '^- \*\*RGESN [0-9]+\.[0-9]+' referentiels/rgesn.md | sed 's/^- \*\*RGESN //' | sort -u > "$TMP_VERIF/nr-rgesn-reels.txt"
+RGESN_KO=$(comm -23 "$TMP_VERIF/nr-rgesn-cites.txt" "$TMP_VERIF/nr-rgesn-reels.txt")
 if [ -n "$RGESN_KO" ]; then
   echo "$RGESN_KO" | while read -r i; do ko "RGESN $i inexistant dans referentiels/rgesn.md"; done
   ECHECS=$((ECHECS + 1))
 else
-  ok "$(wc -l < /tmp/nr-rgesn-cites.txt | tr -d ' ') identifiants RGESN cités, tous présents (référentiel : $(wc -l < /tmp/nr-rgesn-reels.txt | tr -d ' ') critères)"
+  ok "$(wc -l < "$TMP_VERIF/nr-rgesn-cites.txt" | tr -d ' ') identifiants RGESN cités, tous présents (référentiel : $(wc -l < "$TMP_VERIF/nr-rgesn-reels.txt" | tr -d ' ') critères)"
 fi
-grep -rhoE 'Opquast n°[0-9]+' .continue/ verification/ scripts/ README.md 2>/dev/null | grep -oE '[0-9]+' | sort -u > /tmp/nr-opq-cites.txt
-grep -oE '^- [0-9]+ :' referentiels/opquast-ecoconception.md | grep -oE '[0-9]+' | sort -u > /tmp/nr-opq-reels.txt
-OPQ=$(comm -23 /tmp/nr-opq-cites.txt /tmp/nr-opq-reels.txt)
+grep -rhoE 'Opquast n°[0-9]+' .continue/ verification/ scripts/ README.md 2>/dev/null | grep -oE '[0-9]+' | sort -u > "$TMP_VERIF/nr-opq-cites.txt"
+grep -oE '^- [0-9]+ :' referentiels/opquast-ecoconception.md | grep -oE '[0-9]+' | sort -u > "$TMP_VERIF/nr-opq-reels.txt"
+OPQ=$(comm -23 "$TMP_VERIF/nr-opq-cites.txt" "$TMP_VERIF/nr-opq-reels.txt")
 if [ -n "$OPQ" ]; then
   echo "$OPQ" | while read -r i; do ko "Opquast n°$i absent de l'extraction"; done
   ECHECS=$((ECHECS + 1))
@@ -88,27 +86,33 @@ fi
 # --- 5. Liens relatifs -----------------------------------------------------------
 titre "Liens relatifs"
 CASSES=0
-for f in $(git ls-files '*.md' | grep -v '^continue/'); do
-  d=$(dirname "$f")
+while IFS= read -r -d '' f; do
+  case "$f" in continue/*) continue ;; esac
+  d="${f%/*}"; [ "$d" = "$f" ] && d=.
   while read -r l; do
     p="${l%%#*}"; [ -z "$p" ] && continue
     [ -e "$d/$p" ] || { ko "$f → $l"; CASSES=1; }
   done < <(grep -o '](\([^)#h][^)]*\))' "$f" | sed 's/](//;s/)$//')
-done
+done < <(git ls-files -z '*.md')
 [ "$CASSES" -eq 0 ] && ok "aucun lien relatif cassé"
 
 # --- 6. Syntaxe des scripts ------------------------------------------------------
 titre "Syntaxe des scripts"
 SYN=0
 for s in scripts/*.sh; do bash -n "$s" || { ko "$s"; SYN=1; }; done
-for s in scripts/*.py; do python3 -m py_compile "$s" 2>/dev/null || { ko "$s"; SYN=1; }; done
-rm -rf scripts/__pycache__
+for s in scripts/*.py; do PYTHONPYCACHEPREFIX="$TMP_VERIF/pycache" python3 -m py_compile "$s" 2>/dev/null || { ko "$s"; SYN=1; }; done
 [ "$SYN" -eq 0 ] && ok "bash -n et py_compile passent"
 
 if bash scripts/test-eco-audit.sh; then
-  ok "eco-audit gère les noms de fichiers atypiques"
+  ok "eco-audit : index, chemins, commentaires et familles de langages"
 else
   ko "tests de robustesse de scripts/eco-audit.sh en échec"
+fi
+
+if python3 scripts/test-generer-versions.py; then
+  ok "contexte ciblé et installations vérifiés"
+else
+  ko "tests de génération/installation en échec"
 fi
 
 if bash scripts/test-release-version.sh; then
@@ -151,14 +155,14 @@ fi
 # --- 9. Pré-filtre sur le dépôt lui-même -----------------------------------------
 # Le dépôt applique les règles qu'il promeut (les pièges de verification/ exclus).
 titre "Pré-filtre écoconception sur le dépôt"
-if bash scripts/eco-audit.sh >/tmp/nr-audit.txt 2>&1; then
-  ok "$(tail -2 /tmp/nr-audit.txt | head -1)"
+if bash scripts/eco-audit.sh --depot >"$TMP_VERIF/nr-audit.txt" 2>&1; then
+  ok "$(tail -2 "$TMP_VERIF/nr-audit.txt" | head -1)"
 else
   ko "constats élevés sur le dépôt lui-même"
-  cat /tmp/nr-audit.txt | sed 's/^/      /'
+  sed 's/^/      /' "$TMP_VERIF/nr-audit.txt"
 fi
 
-printf '\n'
+printf '\nDurée des contrôles : %s s\n' "$SECONDS"
 if [ "$ECHECS" -eq 0 ]; then
   echo "Tous les contrôles passent."
   exit 0

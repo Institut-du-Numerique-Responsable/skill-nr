@@ -1,3 +1,9 @@
+---
+name: numerique-responsable
+description: "À utiliser pour écrire ou relire du code. Principes transverses de numérique responsable, accessibilité, inclusion, durabilité, protection des données"
+license: CC-BY-SA-4.0
+---
+
 <!-- Fichier généré par scripts/generer-versions.py, ne pas éditer à la main.
      Source : .continue/rules/ -->
 

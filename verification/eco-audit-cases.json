@@ -1,0 +1,50 @@
+{
+  "html": [
+    "<video autoplay src=\"a.mp4\"></video>",
+    "<video controls src=\"a.mp4\"></video>"
+  ],
+  "css": [
+    "@import \"other.css\";",
+    "body { color: black; }"
+  ],
+  "sql": [
+    "SELECT * FROM t;",
+    "SELECT id FROM t;"
+  ],
+  "js": [
+    "setInterval(tick, 1000);",
+    "button.onclick = tick;"
+  ],
+  "java": [
+    "items.parallelStream();",
+    "items.stream();"
+  ],
+  "cs": [
+    "new HttpClient();",
+    "factory.CreateClient();"
+  ],
+  "py": [
+    "df.iterrows()",
+    "df.sum()"
+  ],
+  "php": [
+    "file_get_contents(\"data\");",
+    "fopen(\"data\", \"r\");"
+  ],
+  "rb": [
+    "User.all.each",
+    "User.find_each"
+  ],
+  "rs": [
+    "std::thread::sleep(delay);",
+    "tokio::time::sleep(delay).await;"
+  ],
+  "c": [
+    "while (1) {}",
+    "while (ready) {}"
+  ],
+  "cpp": [
+    "while (true) {}",
+    "while (ready) {}"
+  ]
+}

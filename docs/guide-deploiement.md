@@ -6,8 +6,8 @@ Trois canaux complémentaires, à activer dans cet ordre. Il détaille le cas Co
 canal 1 (dépôts de projet) et le canal 3 (CI) s'appliquent à l'identique en pointant
 sur le dossier de [versions/](../versions/README.md) correspondant plutôt que
 sur `.continue/`. Cursor et GitHub Copilot méritent une mention particulière : comme
-Continue, ils ciblent les règles par type de fichier, donc sans le coût de contexte
-des formats à fichier unique.
+Continue, ils ciblent les règles par type de fichier, avec un ciblage automatique. Les formats à fichier unique demandent au modèle
+de lire les références de `.nr/regles/` à la demande : copiez aussi ce dossier.
 
 ## 1. Par les dépôts de projet (démarrage, zéro friction)
 
@@ -53,11 +53,17 @@ sécurité ; Continue propose des options entreprise/on-premise. Note : la CLI p
 Les règles orientent la génération ; la CI garantit l'application même sans assistant.
 Deux étages, à activer dans cet ordre.
 
-**Le pré-filtre déterministe, d'abord.** Il ne demande aucun modèle, ne coûte rien et
-ne produit aucun correctif inventé :
+**Le pré-filtre déterministe, d'abord.** Il utilise Bash et Python 3, sans appel modèle.
+Conservez `scripts/masquer-commentaires.py` avec le script shell :
 
 ```bash
-bash scripts/eco-audit.sh --avertir $(git diff --name-only origin/main...HEAD)
+fichiers=()
+while IFS= read -r -d '' fichier; do
+  fichiers+=("$fichier")
+done < <(git diff --name-only --diff-filter=ACM -z origin/main...HEAD)
+if [ "${#fichiers[@]}" -gt 0 ]; then
+  bash scripts/eco-audit.sh --avertir -- "${fichiers[@]}"
+fi
 ```
 
 C'est le seul étage réellement systématique. Ce dépôt l'utilise sur ses propres PR,
